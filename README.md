@@ -2,9 +2,7 @@
 
 * 采用前后端分离的模式，微服务版本前端(基于 [RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue))。
 * 后端采用Spring Boot、Spring Cloud & Alibaba、OAuth2。
-* 注册中心、配置中心选型Nacos，为工程瘦身的同时加强各模块之间的联动。
-* 权限认证使用OAuth2，实现了多终端认证系统，可控制业务模块权限。
-* 项目分包明确，规范微服务的开发模式，使包与包之间的分工清晰。
+* 注册中心、配置中心选型Nacos，为权限认证使用OAuth2。
 * 如需不分离应用，请移步 [RuoYi](https://gitee.com/y_project/RuoYi)，如需分离应用，请移步 [RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue)
 * 阿里云优惠券：[点我进入](https://www.aliyun.com/minisite/goods?userCode=brki8iof&share_source=copy_link)，腾讯云优惠券：[点我领取](https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console)&nbsp;&nbsp;
 

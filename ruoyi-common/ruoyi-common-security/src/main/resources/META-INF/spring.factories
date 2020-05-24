@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.ruoyi.common.security.service.UserDetailsServiceImpl,\
+  com.ruoyi.common.security.handler.CustomAccessDeniedHandler,\
+  com.ruoyi.common.security.config.ResourceServerConfig
+
+  

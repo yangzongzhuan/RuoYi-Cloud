@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.ruoyi.common.datascope.service.AwaitUserService,\
+  com.ruoyi.common.datascope.aspect.DataScopeAspect
+
+  
