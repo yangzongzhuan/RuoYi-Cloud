@@ -43,6 +43,14 @@ export function delType(dictId) {
   })
 }
 
+// 清理参数缓存
+export function clearCache() {
+  return request({
+    url: '/system/dict/type/clearCache',
+    method: 'delete'
+  })
+}
+
 // 获取字典选择框列表
 export function optionselect() {
   return request({
