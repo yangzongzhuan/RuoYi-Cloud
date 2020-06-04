@@ -48,7 +48,7 @@ public class SysConfigController extends BaseController
         List<SysConfig> list = configService.selectConfigList(config);
         return getDataTable(list);
     }
-    
+
     @Log(title = "参数管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:config:export')")
     @PostMapping("/export")
@@ -119,5 +119,17 @@ public class SysConfigController extends BaseController
     public AjaxResult remove(@PathVariable Long[] configIds)
     {
         return toAjax(configService.deleteConfigByIds(configIds));
+    }
+
+    /**
+     * 清空缓存
+     */
+    @PreAuthorize("@ss.hasPermi('system:config:remove')")
+    @Log(title = "参数管理", businessType = BusinessType.CLEAN)
+    @DeleteMapping("/clearCache")
+    public AjaxResult clearCache()
+    {
+        configService.clearCache();
+        return AjaxResult.success();
     }
 }

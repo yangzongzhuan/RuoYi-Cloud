@@ -1,5 +1,6 @@
 package com.ruoyi.common.redis.configure;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class RedisConfig extends CachingConfigurerSupport
 {
     @Bean
+    @ConditionalOnMissingBean(name = "redisTemplate")
     @SuppressWarnings(value = { "unchecked", "rawtypes", "deprecation" })
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory connectionFactory)
     {

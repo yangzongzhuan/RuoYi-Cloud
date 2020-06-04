@@ -72,26 +72,6 @@ public class Constants
     public static final String IS_ASC = "isAsc";
 
     /**
-     * 参数管理 cache name
-     */
-    public static final String SYS_CONFIG_CACHE = "sys-config";
-
-    /**
-     * 参数管理 cache key
-     */
-    public static final String SYS_CONFIG_KEY = "sys_config:";
-
-    /**
-     * 字典管理 cache name
-     */
-    public static final String SYS_DICT_CACHE = "sys-dict";
-
-    /**
-     * 字典管理 cache key
-     */
-    public static final String SYS_DICT_KEY = "sys_dict:";
-
-    /**
      * 验证码 redis key
      */
     public static final String CAPTCHA_CODE_KEY = "captcha_codes:";
@@ -100,6 +80,11 @@ public class Constants
      * 验证码有效期（分钟）
      */
     public static final Integer CAPTCHA_EXPIRATION = 2;
+
+    /**
+     * 参数管理 cache key
+     */
+    public static final String SYS_CONFIG_KEY = "sys_config:";
 
     /**
      * 资源映射路径 前缀
