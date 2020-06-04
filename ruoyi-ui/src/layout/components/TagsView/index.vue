@@ -1,6 +1,6 @@
 <template>
   <div id="tags-view-container" class="tags-view-container">
-    <scroll-pane ref="scrollPane" class="tags-view-wrapper">
+    <scroll-pane ref="scrollPane" class="tags-view-wrapper" @scroll="handleScroll">
       <router-link
         v-for="tag in visitedViews"
         ref="tag"
@@ -9,6 +9,7 @@
         :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
         tag="span"
         class="tags-view-item"
+        :style="activeStyle(tag)"
         @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
         @contextmenu.prevent.native="openMenu(tag,$event)"
       >
@@ -46,6 +47,9 @@ export default {
     },
     routes() {
       return this.$store.state.permission.routes
+    },
+    theme() {
+      return this.$store.state.settings.theme;
     }
   },
   watch: {
@@ -68,6 +72,13 @@ export default {
   methods: {
     isActive(route) {
       return route.path === this.$route.path
+    },
+    activeStyle(tag) {
+      if (!this.isActive(tag)) return {};
+      return {
+        "background-color": this.theme,
+        "border-color": this.theme
+      };
     },
     isAffix(tag) {
       return tag.meta && tag.meta.affix
@@ -189,6 +200,9 @@ export default {
     },
     closeMenu() {
       this.visible = false
+    },
+    handleScroll() {
+      this.closeMenu()
     }
   }
 }
