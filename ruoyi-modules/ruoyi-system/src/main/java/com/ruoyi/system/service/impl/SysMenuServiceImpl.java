@@ -8,12 +8,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.domain.SysMenu;
 import com.ruoyi.system.domain.vo.MetaVo;
@@ -105,7 +104,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     public List<SysMenu> selectMenuTreeByUserId(Long userId)
     {
         List<SysMenu> menus = null;
-        if (SysUser.isAdmin(userId))
+        if (SecurityUtils.isAdmin(userId))
         {
             menus = menuMapper.selectMenuTreeAll();
         }
@@ -141,16 +140,27 @@ public class SysMenuServiceImpl implements ISysMenuService
         {
             RouterVo router = new RouterVo();
             router.setHidden("1".equals(menu.getVisible()));
-            router.setName(StringUtils.capitalize(menu.getPath()));
+            router.setName(getRouteName(menu));
             router.setPath(getRouterPath(menu));
-            router.setComponent(StringUtils.isEmpty(menu.getComponent()) ? "Layout" : menu.getComponent());
+            router.setComponent(getComponent(menu));
             router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon()));
             List<SysMenu> cMenus = menu.getChildren();
-            if (!cMenus.isEmpty() && cMenus.size() > 0 && "M".equals(menu.getMenuType()))
+            if (!cMenus.isEmpty() && cMenus.size() > 0 && UserConstants.TYPE_DIR.equals(menu.getMenuType()))
             {
                 router.setAlwaysShow(true);
                 router.setRedirect("noRedirect");
                 router.setChildren(buildMenus(cMenus));
+            }
+            else if (isMeunFrame(menu))
+            {
+                List<RouterVo> childrenList = new ArrayList<RouterVo>();
+                RouterVo children = new RouterVo();
+                children.setPath(menu.getPath());
+                children.setComponent(menu.getComponent());
+                children.setName(StringUtils.capitalize(menu.getPath()));
+                children.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon()));
+                childrenList.add(children);
+                router.setChildren(childrenList);
             }
             routers.add(router);
         }
@@ -290,6 +300,23 @@ public class SysMenuServiceImpl implements ISysMenuService
     }
 
     /**
+     * 获取路由名称
+     * 
+     * @param menu 菜单信息
+     * @return 路由名称
+     */
+    public String getRouteName(SysMenu menu)
+    {
+        String routerName = StringUtils.capitalize(menu.getPath());
+        // 非外链并且是一级目录（类型为目录）
+        if (isMeunFrame(menu))
+        {
+            routerName = StringUtils.EMPTY;
+        }
+        return routerName;
+    }
+
+    /**
      * 获取路由地址
      * 
      * @param menu 菜单信息
@@ -298,12 +325,46 @@ public class SysMenuServiceImpl implements ISysMenuService
     public String getRouterPath(SysMenu menu)
     {
         String routerPath = menu.getPath();
-        // 非外链并且是一级目录
-        if (0 == menu.getParentId() && "1".equals(menu.getIsFrame()))
+        // 非外链并且是一级目录（类型为目录）
+        if (0 == menu.getParentId().intValue() && UserConstants.TYPE_DIR.equals(menu.getMenuType())
+                && UserConstants.NO_FRAME.equals(menu.getIsFrame()))
         {
             routerPath = "/" + menu.getPath();
         }
+        // 非外链并且是一级目录（类型为菜单）
+        else if (isMeunFrame(menu))
+        {
+            routerPath = "/";
+        }
         return routerPath;
+    }
+
+    /**
+     * 获取组件信息
+     * 
+     * @param menu 菜单信息
+     * @return 组件信息
+     */
+    public String getComponent(SysMenu menu)
+    {
+        String component = UserConstants.LAYOUT;
+        if (StringUtils.isNotEmpty(menu.getComponent()) && !isMeunFrame(menu))
+        {
+            component = menu.getComponent();
+        }
+        return component;
+    }
+
+    /**
+     * 是否为菜单内部跳转
+     * 
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    public boolean isMeunFrame(SysMenu menu)
+    {
+        return menu.getParentId().intValue() == 0 && UserConstants.TYPE_MENU.equals(menu.getMenuType())
+                && menu.getIsFrame().equals(UserConstants.NO_FRAME);
     }
 
     /**
