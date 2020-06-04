@@ -36,6 +36,12 @@ public class UserConstants
     /** 是否为系统默认（是） */
     public static final String YES = "Y";
 
+    /** 是否菜单外链（是） */
+    public static final String YES_FRAME = "0";
+
+    /** 是否菜单外链（否） */
+    public static final String NO_FRAME = "1";
+
     /** 校验返回结果码 */
     public final static String UNIQUE = "0";
     public final static String NOT_UNIQUE = "1";
