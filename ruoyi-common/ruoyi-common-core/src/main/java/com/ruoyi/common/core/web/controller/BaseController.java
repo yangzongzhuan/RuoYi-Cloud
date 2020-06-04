@@ -70,6 +70,7 @@ public class BaseController
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(HttpStatus.SUCCESS);
         rspData.setRows(list);
+        rspData.setMsg("查询成功");
         rspData.setTotal(new PageInfo(list).getTotal());
         return rspData;
     }

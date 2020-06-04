@@ -1,7 +1,5 @@
 package com.ruoyi.gateway.filter;
 
-import com.ruoyi.common.core.utils.web.WebUtils;
-import com.ruoyi.gateway.config.properties.IgnoreClientProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -27,9 +25,6 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
     @Autowired
     private ValidateCodeService validateCodeService;
 
-    @Autowired
-    private IgnoreClientProperties ignoreClient;
-
     @Override
     public GatewayFilter apply(Object config)
     {
@@ -43,13 +38,6 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
             }
             try
             {
-                // swagger的oauth2.0验证码放行操作
-                String[] clientInfos = WebUtils.getClientId(request);
-                if (ignoreClient.getClients().contains(clientInfos[0]))
-                {
-                    return chain.filter(exchange);
-                }
-
                 validateCodeService.checkCapcha(request.getQueryParams().getFirst("code"),
                         request.getQueryParams().getFirst("uuid"));
             }
