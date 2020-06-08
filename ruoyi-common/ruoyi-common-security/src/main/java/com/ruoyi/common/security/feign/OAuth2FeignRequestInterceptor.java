@@ -1,10 +1,12 @@
 package com.ruoyi.common.security.feign;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Component;
+import com.ruoyi.common.core.constant.SecurityConstants;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
@@ -16,10 +18,6 @@ import feign.RequestTemplate;
 @Component
 public class OAuth2FeignRequestInterceptor implements RequestInterceptor
 {
-    private final String AUTHORIZATION_HEADER = "Authorization";
-
-    private final String BEARER_TOKEN_TYPE = "Bearer";
-
     @Override
     public void apply(RequestTemplate requestTemplate)
     {
@@ -28,8 +26,8 @@ public class OAuth2FeignRequestInterceptor implements RequestInterceptor
         if (authentication != null && authentication.getDetails() instanceof OAuth2AuthenticationDetails)
         {
             OAuth2AuthenticationDetails dateils = (OAuth2AuthenticationDetails) authentication.getDetails();
-            requestTemplate.header(AUTHORIZATION_HEADER,
-                    String.format("%s %s", BEARER_TOKEN_TYPE, dateils.getTokenValue()));
+            requestTemplate.header(HttpHeaders.AUTHORIZATION,
+                    String.format("%s %s", SecurityConstants.BEARER_TOKEN_TYPE, dateils.getTokenValue()));
         }
     }
 }

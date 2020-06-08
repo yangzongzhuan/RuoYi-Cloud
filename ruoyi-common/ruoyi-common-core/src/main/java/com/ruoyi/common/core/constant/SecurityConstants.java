@@ -8,6 +8,11 @@ package com.ruoyi.common.core.constant;
 public class SecurityConstants
 {
     /**
+     * 令牌类型
+     */
+    public static final String BEARER_TOKEN_TYPE = "Bearer";
+
+    /**
      * 授权token url
      */
     public static final String AUTH_TOKEN = "/oauth/token";
