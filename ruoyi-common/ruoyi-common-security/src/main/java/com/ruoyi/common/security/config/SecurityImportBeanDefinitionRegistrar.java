@@ -20,6 +20,5 @@ public class SecurityImportBeanDefinitionRegistrar implements ImportBeanDefiniti
         String beanName = StringUtils.uncapitalize(aClass.getSimpleName());
         BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(ResourceServerConfig.class);
         registry.registerBeanDefinition(beanName, beanDefinitionBuilder.getBeanDefinition());
-
     }
 }

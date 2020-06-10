@@ -7,7 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
-import com.ruoyi.gateway.handler.HystrixFallbackHandler;
 import com.ruoyi.gateway.handler.ValidateCodeHandler;
 
 /**
@@ -19,20 +18,14 @@ import com.ruoyi.gateway.handler.ValidateCodeHandler;
 public class RouterFunctionConfiguration
 {
     @Autowired
-    private HystrixFallbackHandler hystrixFallbackHandler;
-
-    @Autowired
-    private ValidateCodeHandler imageCodeHandler;
+    private ValidateCodeHandler validateCodeHandler;
 
     @SuppressWarnings("rawtypes")
     @Bean
     public RouterFunction routerFunction()
     {
-        return RouterFunctions
-                .route(RequestPredicates.path("/fallback").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
-                        hystrixFallbackHandler)
-                .andRoute(RequestPredicates.GET("/code").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
-                        imageCodeHandler);
+        return RouterFunctions.route(
+                RequestPredicates.GET("/code").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
+                validateCodeHandler);
     }
-
 }

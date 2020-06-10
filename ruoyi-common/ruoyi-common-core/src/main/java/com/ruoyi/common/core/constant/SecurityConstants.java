@@ -16,6 +16,7 @@ public class SecurityConstants
      * 授权token url
      */
     public static final String AUTH_TOKEN = "/oauth/token";
+
     /**
      * 注销token url
      */

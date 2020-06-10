@@ -22,7 +22,7 @@ public class VelocityUtils
     private static final String PROJECT_PATH = "main/java";
 
     /** mybatis空间路径 */
-    private static final String MYBATIS_PATH = "main/resources/mybatis";
+    private static final String MYBATIS_PATH = "main/resources/mapper";
 
     /**
      * 设置模板变量信息

@@ -58,10 +58,6 @@ public class SysOperLog extends BaseEntity
     @Excel(name = "操作地址")
     private String operIp;
 
-    /** 操作地点 */
-    @Excel(name = "操作地点")
-    private String operLocation;
-
     /** 请求参数 */
     @Excel(name = "请求参数")
     private String operParam;
@@ -191,16 +187,6 @@ public class SysOperLog extends BaseEntity
     public void setOperIp(String operIp)
     {
         this.operIp = operIp;
-    }
-
-    public String getOperLocation()
-    {
-        return operLocation;
-    }
-
-    public void setOperLocation(String operLocation)
-    {
-        this.operLocation = operLocation;
     }
 
     public String getOperParam()

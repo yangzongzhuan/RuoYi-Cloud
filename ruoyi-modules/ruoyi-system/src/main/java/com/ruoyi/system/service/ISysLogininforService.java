@@ -15,7 +15,7 @@ public interface ISysLogininforService
      * 
      * @param logininfor 访问日志对象
      */
-    public void insertLogininfor(SysLogininfor logininfor);
+    public int insertLogininfor(SysLogininfor logininfor);
 
     /**
      * 查询系统登录日志集合

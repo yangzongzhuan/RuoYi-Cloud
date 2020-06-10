@@ -23,34 +23,22 @@ public class SysLogininfor extends BaseEntity
     @Excel(name = "用户账号")
     private String userName;
 
-    /** 登录状态 0成功 1失败 */
-    @Excel(name = "登录状态", readConverterExp = "0=成功,1=失败")
+    /** 状态 0成功 1失败 */
+    @Excel(name = "状态", readConverterExp = "0=成功,1=失败")
     private String status;
 
-    /** 登录IP地址 */
-    @Excel(name = "登录地址")
+    /** 地址 */
+    @Excel(name = "地址")
     private String ipaddr;
 
-    /** 登录地点 */
-    @Excel(name = "登录地点")
-    private String loginLocation;
-
-    /** 浏览器类型 */
-    @Excel(name = "浏览器")
-    private String browser;
-
-    /** 操作系统 */
-    @Excel(name = "操作系统")
-    private String os;
-
-    /** 提示消息 */
-    @Excel(name = "提示消息")
+    /** 描述 */
+    @Excel(name = "描述")
     private String msg;
 
     /** 访问时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Excel(name = "访问时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
-    private Date loginTime;
+    private Date accessTime;
 
     public Long getInfoId()
     {
@@ -92,36 +80,6 @@ public class SysLogininfor extends BaseEntity
         this.ipaddr = ipaddr;
     }
 
-    public String getLoginLocation()
-    {
-        return loginLocation;
-    }
-
-    public void setLoginLocation(String loginLocation)
-    {
-        this.loginLocation = loginLocation;
-    }
-
-    public String getBrowser()
-    {
-        return browser;
-    }
-
-    public void setBrowser(String browser)
-    {
-        this.browser = browser;
-    }
-
-    public String getOs()
-    {
-        return os;
-    }
-
-    public void setOs(String os)
-    {
-        this.os = os;
-    }
-
     public String getMsg()
     {
         return msg;
@@ -132,13 +90,13 @@ public class SysLogininfor extends BaseEntity
         this.msg = msg;
     }
 
-    public Date getLoginTime()
+    public Date getAccessTime()
     {
-        return loginTime;
+        return accessTime;
     }
 
-    public void setLoginTime(Date loginTime)
+    public void setAccessTime(Date accessTime)
     {
-        this.loginTime = loginTime;
+        this.accessTime = accessTime;
     }
 }
