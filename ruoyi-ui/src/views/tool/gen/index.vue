@@ -241,7 +241,7 @@ export default {
         this.msgError("请选择要生成的数据");
         return;
       }
-      downLoadZip("code/gen/batchGenCode?tables=" + tableNames, "ruoyi");
+      downLoadZip("/code/gen/batchGenCode?tables=" + tableNames, "ruoyi");
     },
     /** 打开导入表弹窗 */
     openImportTable() {
