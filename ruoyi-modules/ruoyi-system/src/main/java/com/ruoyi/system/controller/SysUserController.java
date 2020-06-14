@@ -102,6 +102,10 @@ public class SysUserController extends BaseController
     public R<UserInfo> info(@PathVariable("username") String username)
     {
         SysUser sysUser = userService.selectUserByUserName(username);
+        if (StringUtils.isNull(sysUser))
+        {
+            return R.failed("用户名或密码错误");
+        }
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(sysUser.getUserId());
         // 权限集合
