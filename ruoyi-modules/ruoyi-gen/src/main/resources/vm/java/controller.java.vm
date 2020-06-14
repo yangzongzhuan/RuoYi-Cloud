@@ -63,12 +63,12 @@ public class ${ClassName}Controller extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('${permissionPrefix}:export')")
     @Log(title = "${functionName}", businessType = BusinessType.EXPORT)
-    @GetMapping("/export")
+    @PostMapping("/export")
     public void export(HttpServletResponse response, ${ClassName} ${className}) throws IOException
     {
         List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
         ExcelUtil<${ClassName}> util = new ExcelUtil<${ClassName}>(${ClassName}.class);
-        return util.exportExcel(response, list, "${businessName}");
+        util.exportExcel(response, list, "${businessName}");
     }
 
     /**
