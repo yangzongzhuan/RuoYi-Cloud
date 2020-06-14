@@ -9,7 +9,7 @@ import com.ruoyi.common.core.annotation.Excel;
 #if($table.crud)
 import com.ruoyi.common.core.web.domain.BaseEntity;
 #elseif($table.tree)
-import com.ruoyi.framework.web.domain.TreeEntity;
+import com.ruoyi.common.core.web.domain.TreeEntity;
 #end
 
 /**
