@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * 忽略服务间的认证
  * 
  * @author ruoyi
  **/
+@Component
 @Configurable
 @ConfigurationProperties(prefix = "security.oauth2.ignore")
 public class AuthIgnoreConfig
