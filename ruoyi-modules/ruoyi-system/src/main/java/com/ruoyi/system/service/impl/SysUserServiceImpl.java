@@ -194,6 +194,7 @@ public class SysUserServiceImpl implements ISysUserService
      * 
      * @param user 用户信息
      */
+    @Override
     public void checkUserAllowed(SysUser user)
     {
         if (StringUtils.isNotNull(user.getUserId()) && user.isAdmin())
@@ -270,10 +271,11 @@ public class SysUserServiceImpl implements ISysUserService
     /**
      * 修改用户头像
      * 
-     * @param userId 用户ID
+     * @param userName 用户名
      * @param avatar 头像地址
      * @return 结果
      */
+    @Override
     public boolean updateUserAvatar(String userName, String avatar)
     {
         return userMapper.updateUserAvatar(userName, avatar) > 0;
@@ -378,6 +380,7 @@ public class SysUserServiceImpl implements ISysUserService
      * @param userIds 需要删除的用户ID
      * @return 结果
      */
+    @Override
     public int deleteUserByIds(Long[] userIds)
     {
         for (Long userId : userIds)
