@@ -190,7 +190,7 @@ public class VelocityUtils
     /**
      * 根据列类型获取导入包
      * 
-     * @param column 列集合
+     * @param columns 列集合
      * @return 返回需要导入的包列表
      */
     public static HashSet<String> getImportList(List<GenTableColumn> columns)
@@ -227,7 +227,7 @@ public class VelocityUtils
     /**
      * 获取树编码
      * 
-     * @param options 生成其他选项
+     * @param paramsObj 生成其他选项
      * @return 树编码
      */
     public static String getTreecode(JSONObject paramsObj)
@@ -242,7 +242,7 @@ public class VelocityUtils
     /**
      * 获取树父编码
      * 
-     * @param options 生成其他选项
+     * @param paramsObj 生成其他选项
      * @return 树父编码
      */
     public static String getTreeParentCode(JSONObject paramsObj)
@@ -257,7 +257,7 @@ public class VelocityUtils
     /**
      * 获取树名称
      * 
-     * @param options 生成其他选项
+     * @param paramsObj 生成其他选项
      * @return 树名称
      */
     public static String getTreeName(JSONObject paramsObj)
