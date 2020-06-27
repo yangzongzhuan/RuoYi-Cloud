@@ -1,15 +1,11 @@
 package com.ruoyi.common.security.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
+import com.ruoyi.common.security.feign.OAuth2FeignConfig;
 import com.ruoyi.common.security.config.ApplicationConfig;
 import com.ruoyi.common.security.config.SecurityImportBeanDefinitionRegistrar;
 
@@ -24,7 +20,7 @@ import com.ruoyi.common.security.config.SecurityImportBeanDefinitionRegistrar;
 // 开启线程异步执行
 @EnableAsync
 // 自动加载类
-@Import({ SecurityImportBeanDefinitionRegistrar.class, ApplicationConfig.class })
+@Import({ SecurityImportBeanDefinitionRegistrar.class, OAuth2FeignConfig.class, ApplicationConfig.class })
 public @interface EnableCustomConfig
 {
 
