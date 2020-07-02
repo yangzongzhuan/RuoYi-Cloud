@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" @submit.native.prevent>
       <el-form-item label="终端编号" prop="clientId">
         <el-input
           v-model="queryParams.clientId"
