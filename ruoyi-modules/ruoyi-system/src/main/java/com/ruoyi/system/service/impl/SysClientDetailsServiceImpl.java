@@ -2,9 +2,11 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.SysClientDetailsMapper;
+import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.system.domain.SysClientDetails;
+import com.ruoyi.system.mapper.SysClientDetailsMapper;
 import com.ruoyi.system.service.ISysClientDetailsService;
 
 /**
@@ -61,6 +63,7 @@ public class SysClientDetailsServiceImpl implements ISysClientDetailsService
      * @return 结果
      */
     @Override
+    @CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#sysClientDetails.clientId")
     public int updateSysClientDetails(SysClientDetails sysClientDetails)
     {
         return sysClientDetailsMapper.updateSysClientDetails(sysClientDetails);
@@ -73,20 +76,9 @@ public class SysClientDetailsServiceImpl implements ISysClientDetailsService
      * @return 结果
      */
     @Override
+    @CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, allEntries = true)
     public int deleteSysClientDetailsByIds(String[] clientIds)
     {
         return sysClientDetailsMapper.deleteSysClientDetailsByIds(clientIds);
-    }
-
-    /**
-     * 删除终端配置信息
-     * 
-     * @param clientId 终端配置ID
-     * @return 结果
-     */
-    @Override
-    public int deleteSysClientDetailsById(String clientId)
-    {
-        return sysClientDetailsMapper.deleteSysClientDetailsById(clientId);
     }
 }

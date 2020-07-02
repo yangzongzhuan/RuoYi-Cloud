@@ -49,12 +49,4 @@ public interface ISysClientDetailsService
      * @return 结果
      */
     public int deleteSysClientDetailsByIds(String[] clientIds);
-
-    /**
-     * 删除终端配置信息
-     * 
-     * @param clientId 终端配置ID
-     * @return 结果
-     */
-    public int deleteSysClientDetailsById(String clientId);
 }
