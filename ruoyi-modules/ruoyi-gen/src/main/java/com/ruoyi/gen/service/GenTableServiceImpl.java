@@ -23,6 +23,7 @@ import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.GenConstants;
 import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.gen.domain.GenTable;
 import com.ruoyi.gen.domain.GenTableColumn;
 import com.ruoyi.gen.mapper.GenTableColumnMapper;
@@ -142,10 +143,10 @@ public class GenTableServiceImpl implements IGenTableService
     @Transactional
     public void importGenTable(List<GenTable> tableList)
     {
-        String operName = "";
-        for (GenTable table : tableList)
+        String operName = SecurityUtils.getUsername();
+        try
         {
-            try
+            for (GenTable table : tableList)
             {
                 String tableName = table.getTableName();
                 GenUtils.initTable(table, operName);
@@ -161,10 +162,10 @@ public class GenTableServiceImpl implements IGenTableService
                     }
                 }
             }
-            catch (Exception e)
-            {
-                log.error("表名 " + table.getTableName() + " 导入失败：", e);
-            }
+        }
+        catch (Exception e)
+        {
+            throw new CustomException("导入失败：" + e.getMessage());
         }
     }
 
