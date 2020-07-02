@@ -28,6 +28,6 @@ public class CustomAccessDeniedHandler extends OAuth2AccessDeniedHandler
         logger.info("权限不足，请联系管理员 {}", request.getRequestURI());
 
         String msg = authException.getMessage();
-        ServletUtils.renderString(response, JSON.toJSONString(R.failed(HttpStatus.FORBIDDEN, msg)));
+        ServletUtils.renderString(response, JSON.toJSONString(R.fail(HttpStatus.FORBIDDEN, msg)));
     }
 }
