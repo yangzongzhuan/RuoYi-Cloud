@@ -11,13 +11,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
@@ -118,22 +116,16 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter
     @Bean
     public TokenEnhancer tokenEnhancer()
     {
-        return new TokenEnhancer()
-        {
-            @Override
-            public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication)
+        return (accessToken, authentication) -> {
+            if (authentication.getUserAuthentication() != null)
             {
-                if (accessToken instanceof DefaultOAuth2AccessToken)
-                {
-                    DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
-                    LoginUser user = (LoginUser) authentication.getUserAuthentication().getPrincipal();
-                    Map<String, Object> additionalInformation = new LinkedHashMap<String, Object>();
-                    additionalInformation.put(SecurityConstants.DETAILS_USERNAME, authentication.getName());
-                    additionalInformation.put(SecurityConstants.DETAILS_USER_ID, user.getUserId());
-                    token.setAdditionalInformation(additionalInformation);
-                }
-                return accessToken;
-            };
+                Map<String, Object> additionalInformation = new LinkedHashMap<String, Object>();
+                LoginUser user = (LoginUser) authentication.getUserAuthentication().getPrincipal();
+                additionalInformation.put(SecurityConstants.DETAILS_USER_ID, user.getUserId());
+                additionalInformation.put(SecurityConstants.DETAILS_USERNAME, user.getUsername());
+                ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
+            }
+            return accessToken;
         };
     }
 }
