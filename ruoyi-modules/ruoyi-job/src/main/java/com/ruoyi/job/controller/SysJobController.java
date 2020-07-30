@@ -21,8 +21,10 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.job.domain.SysJob;
 import com.ruoyi.job.service.ISysJobService;
+import com.ruoyi.job.util.CronUtils;
 
 /**
  * 调度任务信息操作处理
@@ -79,6 +81,11 @@ public class SysJobController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody SysJob sysJob) throws SchedulerException, TaskException
     {
+        if (!CronUtils.isValid(sysJob.getCronExpression()))
+        {
+            return AjaxResult.error("cron表达式不正确");
+        }
+        sysJob.setCreateBy(SecurityUtils.getUsername());
         return toAjax(jobService.insertJob(sysJob));
     }
 
@@ -90,6 +97,11 @@ public class SysJobController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SysJob sysJob) throws SchedulerException, TaskException
     {
+        if (!CronUtils.isValid(sysJob.getCronExpression()))
+        {
+            return AjaxResult.error("cron表达式不正确");
+        }
+        sysJob.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(jobService.updateJob(sysJob));
     }
 
