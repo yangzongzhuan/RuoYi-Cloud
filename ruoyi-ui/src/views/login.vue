@@ -201,6 +201,6 @@ export default {
   letter-spacing: 1px;
 }
 .login-code-img {
-  height: 40px;
+  height: 38px;
 }
 </style>
