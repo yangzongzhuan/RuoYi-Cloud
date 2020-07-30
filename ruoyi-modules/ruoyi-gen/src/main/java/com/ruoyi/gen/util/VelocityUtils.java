@@ -238,7 +238,7 @@ public class VelocityUtils
     /**
      * 获取上级菜单ID字段
      * 
-     * @param options 生成其他选项
+     * @param paramsObj 生成其他选项
      * @return 上级菜单ID字段
      */
     public static String getParentMenuId(JSONObject paramsObj)
