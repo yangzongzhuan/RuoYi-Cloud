@@ -265,7 +265,7 @@ public class ExcelUtil<T>
                         }
                         else if (StringUtils.isNotEmpty(attr.readConverterExp()))
                         {
-                            val = reverseByExp(String.valueOf(val), attr.readConverterExp());
+                            val = reverseByExp(Convert.toStr(val), attr.readConverterExp(), attr.separator());
                         }
                         ReflectUtils.invokeSetter(entity, propertyName, val);
                     }
@@ -525,13 +525,14 @@ public class ExcelUtil<T>
                 Object value = getTargetValue(vo, field, attr);
                 String dateFormat = attr.dateFormat();
                 String readConverterExp = attr.readConverterExp();
+                String separator = attr.separator();
                 if (StringUtils.isNotEmpty(dateFormat) && StringUtils.isNotNull(value))
                 {
                     cell.setCellValue(DateUtils.parseDateToStr(dateFormat, (Date) value));
                 }
                 else if (StringUtils.isNotEmpty(readConverterExp) && StringUtils.isNotNull(value))
                 {
-                    cell.setCellValue(convertByExp(String.valueOf(value), readConverterExp));
+                    cell.setCellValue(convertByExp(Convert.toStr(value), readConverterExp, separator));
                 }
                 else
                 {
@@ -609,28 +610,36 @@ public class ExcelUtil<T>
      * 
      * @param propertyValue 参数值
      * @param converterExp 翻译注解
+     * @param separator 分隔符
      * @return 解析后值
-     * @throws Exception
      */
-    public static String convertByExp(String propertyValue, String converterExp) throws Exception
+    public static String convertByExp(String propertyValue, String converterExp, String separator)
     {
-        try
+        StringBuilder propertyString = new StringBuilder();
+        String[] convertSource = converterExp.split(",");
+        for (String item : convertSource)
         {
-            String[] convertSource = converterExp.split(",");
-            for (String item : convertSource)
+            String[] itemArray = item.split("=");
+            if (StringUtils.containsAny(separator, propertyValue))
             {
-                String[] itemArray = item.split("=");
+                for (String value : propertyValue.split(separator))
+                {
+                    if (itemArray[0].equals(value))
+                    {
+                        propertyString.append(itemArray[1] + separator);
+                        break;
+                    }
+                }
+            }
+            else
+            {
                 if (itemArray[0].equals(propertyValue))
                 {
                     return itemArray[1];
                 }
             }
         }
-        catch (Exception e)
-        {
-            throw e;
-        }
-        return propertyValue;
+        return StringUtils.stripEnd(propertyString.toString(), separator);
     }
 
     /**
@@ -638,28 +647,36 @@ public class ExcelUtil<T>
      * 
      * @param propertyValue 参数值
      * @param converterExp 翻译注解
+     * @param separator 分隔符
      * @return 解析后值
-     * @throws Exception
      */
-    public static String reverseByExp(String propertyValue, String converterExp) throws Exception
+    public static String reverseByExp(String propertyValue, String converterExp, String separator)
     {
-        try
+        StringBuilder propertyString = new StringBuilder();
+        String[] convertSource = converterExp.split(",");
+        for (String item : convertSource)
         {
-            String[] convertSource = converterExp.split(",");
-            for (String item : convertSource)
+            String[] itemArray = item.split("=");
+            if (StringUtils.containsAny(separator, propertyValue))
             {
-                String[] itemArray = item.split("=");
+                for (String value : propertyValue.split(separator))
+                {
+                    if (itemArray[1].equals(value))
+                    {
+                        propertyString.append(itemArray[0] + separator);
+                        break;
+                    }
+                }
+            }
+            else
+            {
                 if (itemArray[1].equals(propertyValue))
                 {
                     return itemArray[0];
                 }
             }
         }
-        catch (Exception e)
-        {
-            throw e;
-        }
-        return propertyValue;
+        return StringUtils.stripEnd(propertyString.toString(), separator);
     }
 
     /**
