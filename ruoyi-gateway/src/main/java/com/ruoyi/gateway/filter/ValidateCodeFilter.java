@@ -59,6 +59,7 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
             catch (Exception e)
             {
                 ServerHttpResponse response = exchange.getResponse();
+                response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
                 return exchange.getResponse().writeWith(
                         Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(AjaxResult.error(e.getMessage())))));
             }
