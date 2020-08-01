@@ -31,6 +31,10 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
     private static final String CODE = "code";
 
     private static final String UUID = "uuid";
+    
+    private static final String GRANT_TYPE = "grant_type";
+    
+    private static final String REFRESH_TOKEN = "refresh_token";
 
     @Override
     public GatewayFilter apply(Object config)
@@ -40,6 +44,13 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
 
             // 非登录请求，不处理
             if (!StringUtils.containsIgnoreCase(request.getURI().getPath(), AUTH_URL))
+            {
+                return chain.filter(exchange);
+            }
+            
+            // 刷新token请求，不处理
+            String grantType = request.getQueryParams().getFirst(GRANT_TYPE);
+            if (StringUtils.containsIgnoreCase(request.getURI().getPath(), AUTH_URL) && StringUtils.containsIgnoreCase(grantType, REFRESH_TOKEN))
             {
                 return chain.filter(exchange);
             }

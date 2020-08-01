@@ -35,6 +35,7 @@ import LineChart from './dashboard/LineChart'
 import RaddarChart from './dashboard/RaddarChart'
 import PieChart from './dashboard/PieChart'
 import BarChart from './dashboard/BarChart'
+import { getToken, getExpiresIn, setExpiresIn } from '@/utils/auth'
 
 const lineChartData = {
   newVisitis: {
@@ -66,12 +67,39 @@ export default {
   },
   data() {
     return {
+      //刷新token锁
+      refreshLock: false,
+      //刷新token的时间
+      refreshTime: '',
       lineChartData: lineChartData.newVisitis
     }
+  },
+  created() {
+    this.refreshToken()
   },
   methods: {
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type]
+    },
+    // 实时检测刷新token
+    refreshToken() {
+      this.refreshTime = setInterval(() => {
+        if (null === getToken()) {
+          return;
+        }
+        const expires_in = getExpiresIn();
+        if (expires_in <= 1000 && !this.refreshLock) {
+          this.refreshLock = true
+          this.$store
+            .dispatch('RefreshToken')
+            .catch(() => {
+              clearInterval(this.refreshTime)
+            });
+          this.refreshLock = false
+        }
+        this.$store.commit("SET_EXPIRES_IN", expires_in - 10);
+        setExpiresIn(expires_in - 10);
+      }, 10000);
     }
   }
 }
