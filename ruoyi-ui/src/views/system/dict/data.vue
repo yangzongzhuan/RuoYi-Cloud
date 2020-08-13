@@ -75,14 +75,7 @@
           v-hasPermi="['system:dict:export']"
         >导出</el-button>
       </el-col>
-      <div class="top-right-btn">
-        <el-tooltip class="item" effect="dark" content="刷新" placement="top">
-          <el-button size="mini" circle icon="el-icon-refresh" @click="handleQuery" />
-        </el-tooltip>
-        <el-tooltip class="item" effect="dark" :content="showSearch ? '隐藏搜索' : '显示搜索'" placement="top">
-          <el-button size="mini" circle icon="el-icon-search" @click="showSearch=!showSearch" />
-        </el-tooltip>
-      </div>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="dataList" @selection-change="handleSelectionChange">
