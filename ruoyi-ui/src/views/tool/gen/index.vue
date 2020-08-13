@@ -256,7 +256,7 @@ export default {
           this.msgSuccess("成功生成到自定义路径：" + row.genPath);
         });
       } else {
-        downLoadZip("/tool/gen/batchGenCode?tables=" + tableNames, "ruoyi");
+          downLoadZip("/code/gen/batchGenCode?tables=" + tableNames, "ruoyi");
       }
     },
     /** 打开导入表弹窗 */
