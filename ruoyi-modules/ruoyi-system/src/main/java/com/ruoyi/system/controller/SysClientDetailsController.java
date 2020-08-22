@@ -17,7 +17,6 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.domain.SysClientDetails;
 import com.ruoyi.system.service.ISysClientDetailsService;
 
@@ -68,7 +67,6 @@ public class SysClientDetailsController extends BaseController
         {
             return AjaxResult.error("新增终端'" + clientId + "'失败，编号已存在");
         }
-        sysClientDetails.setClientSecret(SecurityUtils.encryptPassword(sysClientDetails.getClientSecret()));
         return toAjax(sysClientDetailsService.insertSysClientDetails(sysClientDetails));
     }
 
@@ -80,7 +78,6 @@ public class SysClientDetailsController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody SysClientDetails sysClientDetails)
     {
-        sysClientDetails.setClientSecret(SecurityUtils.encryptPassword(sysClientDetails.getClientSecret()));
         return toAjax(sysClientDetailsService.updateSysClientDetails(sysClientDetails));
     }
 

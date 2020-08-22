@@ -696,11 +696,12 @@ create table sys_oauth_client_details (
   refresh_token_validity     int(11)       default null      comment '设定终端的refresh_token的有效时间值（秒）',
   additional_information     varchar(4096) default null      comment '附加信息',
   autoapprove                tinyint(4)    default null      comment '是否登录时跳过授权',
+  origin_secret              varchar(255)  not null          comment '终端明文安全码',
   primary key (client_id)
 ) engine=innodb auto_increment=1 comment = '终端配置表';
 
 -- ----------------------------
 -- 初始化-终端配置表数据
 -- ----------------------------
-insert into sys_oauth_client_details values ('web',    '', '$2a$10$y2hKeELx.z3Sbz.kjQ4wmuiIsv5ZSbUQ1ov4BwFH6ccirP8Knp1uq', 'server', 'password,refresh_token',                    '', NULL, 3600, 7200, NULL, NULL);
-insert into sys_oauth_client_details values ('ruoyi',  '', '$2a$10$y2hKeELx.z3Sbz.kjQ4wmuiIsv5ZSbUQ1ov4BwFH6ccirP8Knp1uq', 'server', 'password,client_credentials,refresh_token', '', NULL, 3600, 7200, NULL, NULL);
+insert into sys_oauth_client_details values ('web',    '', '$2a$10$y2hKeELx.z3Sbz.kjQ4wmuiIsv5ZSbUQ1ov4BwFH6ccirP8Knp1uq', 'server', 'password,refresh_token',                    '', NULL, 3600, 7200, NULL, NULL, '123456');
+insert into sys_oauth_client_details values ('ruoyi',  '', '$2a$10$y2hKeELx.z3Sbz.kjQ4wmuiIsv5ZSbUQ1ov4BwFH6ccirP8Knp1uq', 'server', 'password,client_credentials,refresh_token', '', NULL, 3600, 7200, NULL, NULL, '123456');

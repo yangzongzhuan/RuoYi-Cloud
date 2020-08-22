@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.core.constant.CacheConstants;
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.domain.SysClientDetails;
 import com.ruoyi.system.mapper.SysClientDetailsMapper;
 import com.ruoyi.system.service.ISysClientDetailsService;
@@ -53,6 +54,7 @@ public class SysClientDetailsServiceImpl implements ISysClientDetailsService
     @Override
     public int insertSysClientDetails(SysClientDetails sysClientDetails)
     {
+        sysClientDetails.setClientSecret(SecurityUtils.encryptPassword(sysClientDetails.getOriginSecret()));
         return sysClientDetailsMapper.insertSysClientDetails(sysClientDetails);
     }
 
@@ -66,6 +68,7 @@ public class SysClientDetailsServiceImpl implements ISysClientDetailsService
     @CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#sysClientDetails.clientId")
     public int updateSysClientDetails(SysClientDetails sysClientDetails)
     {
+        sysClientDetails.setClientSecret(SecurityUtils.encryptPassword(sysClientDetails.getOriginSecret()));
         return sysClientDetailsMapper.updateSysClientDetails(sysClientDetails);
     }
 

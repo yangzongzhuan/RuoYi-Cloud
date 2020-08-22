@@ -68,6 +68,11 @@ public class SysClientDetails extends BaseEntity
      */
     private String autoapprove;
 
+    /**
+     * 终端明文安全码
+     */
+    private String originSecret;
+
     public String getClientId()
     {
         return clientId;
@@ -178,6 +183,16 @@ public class SysClientDetails extends BaseEntity
         this.autoapprove = autoapprove;
     }
 
+    public String getOriginSecret()
+    {
+        return originSecret;
+    }
+
+    public void setOriginSecret(String originSecret)
+    {
+        this.originSecret = originSecret;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -192,6 +207,7 @@ public class SysClientDetails extends BaseEntity
             .append("refreshTokenValidity", getRefreshTokenValidity())
             .append("additionalInformation", getAdditionalInformation())
             .append("autoapprove", getAutoapprove())
+            .append("originSecret", getOriginSecret())
             .toString();
     }
 }

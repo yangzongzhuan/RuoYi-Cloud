@@ -52,7 +52,7 @@
     <el-table v-loading="loading" :data="clientList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="编号" align="center" prop="clientId" />
-      <el-table-column label="安全码" align="center" prop="clientSecret" :show-overflow-tooltip="true" />
+      <el-table-column label="安全码" align="center" prop="originSecret" :show-overflow-tooltip="true" />
       <el-table-column label="授权范围" align="center" prop="scope" />
       <el-table-column label="授权类型" align="center" prop="authorizedGrantTypes" :show-overflow-tooltip="true" />
       <el-table-column label="令牌时效" align="center" prop="accessTokenValidity" />
@@ -91,8 +91,8 @@
         <el-form-item label="编号" prop="clientId">
           <el-input v-model="form.clientId" placeholder="请输入编号" :disabled="!isAdd" />
         </el-form-item>
-        <el-form-item label="安全码" prop="clientSecret">
-          <el-input v-model="form.clientSecret" placeholder="请输入安全码" />
+        <el-form-item label="安全码" prop="originSecret">
+          <el-input v-model="form.originSecret" placeholder="请输入安全码" />
         </el-form-item>
         <el-form-item label="授权范围" prop="scope">
           <el-input v-model="form.scope" placeholder="请输入授权范围" />
@@ -155,7 +155,7 @@ export default {
         clientId: [
           { required: true, message: "编号不能为空", trigger: "blur" }
         ],
-        clientSecret: [
+        originSecret: [
           { required: true, message: "安全码不能为空", trigger: "blur" }
         ],
         scope: [

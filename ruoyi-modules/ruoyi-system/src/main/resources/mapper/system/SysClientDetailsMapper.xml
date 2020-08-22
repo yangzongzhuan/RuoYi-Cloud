@@ -16,10 +16,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="refreshTokenValidity"   column="refresh_token_validity"   />
         <result property="additionalInformation"  column="additional_information"   />
         <result property="autoapprove"            column="autoapprove"              />
+        <result property="originSecret"           column="origin_secret"            />
     </resultMap>
 
     <sql id="selectSysClientDetailsVo">
-        select client_id, resource_ids, client_secret, scope, authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, refresh_token_validity, additional_information, autoapprove from sys_oauth_client_details
+        select client_id, resource_ids, client_secret, scope, authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, refresh_token_validity, additional_information, autoapprove, origin_secret from sys_oauth_client_details
     </sql>
 
     <select id="selectSysClientDetailsList" parameterType="SysClientDetails" resultMap="SysClientDetailsResult">
@@ -48,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="refreshTokenValidity != null">refresh_token_validity,</if>
             <if test="additionalInformation != null">additional_information,</if>
             <if test="autoapprove != null">autoapprove,</if>
+            <if test="originSecret != null">origin_secret,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="clientId != null">#{clientId},</if>
@@ -61,6 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="refreshTokenValidity != null">#{refreshTokenValidity},</if>
             <if test="additionalInformation != null">#{additionalInformation},</if>
             <if test="autoapprove != null ">#{autoapprove},</if>
+            <if test="originSecret != null ">#{originSecret},</if>
          </trim>
     </insert>
 
@@ -77,6 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="refreshTokenValidity != null">refresh_token_validity = #{refreshTokenValidity},</if>
             <if test="additionalInformation != null">additional_information = #{additionalInformation},</if>
             <if test="autoapprove != null">autoapprove = #{autoapprove},</if>
+            <if test="originSecret != null">origin_secret = #{originSecret},</if>
         </trim>
         where client_id = #{clientId}
     </update>
