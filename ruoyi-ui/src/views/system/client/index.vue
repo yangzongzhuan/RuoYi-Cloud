@@ -54,7 +54,7 @@
       <el-table-column label="编号" align="center" prop="clientId" />
       <el-table-column label="安全码" align="center" prop="originSecret" :show-overflow-tooltip="true" />
       <el-table-column label="授权范围" align="center" prop="scope" />
-      <el-table-column label="授权类型" align="center" prop="authorizedGrantTypes" :show-overflow-tooltip="true" />
+      <el-table-column label="授权类型" align="center" prop="authorizedGrantTypes" :formatter="authorizedGrantTypesFormat" :show-overflow-tooltip="true"/>
       <el-table-column label="令牌时效" align="center" prop="accessTokenValidity" />
       <el-table-column label="刷新时效" align="center" prop="refreshTokenValidity" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -98,7 +98,14 @@
           <el-input v-model="form.scope" placeholder="请输入授权范围" />
         </el-form-item>
         <el-form-item label="授权类型" prop="authorizedGrantTypes">
-          <el-input v-model="form.authorizedGrantTypes" placeholder="请输入授权类型" />
+          <el-checkbox-group v-model="form.authorizedGrantTypes">
+            <el-checkbox
+              v-for="dict in authorizedGrantTypesOptions"
+              :key="dict.dictValue"
+              :label="dict.dictValue">
+              {{dict.dictLabel}}
+            </el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
         <el-form-item label="令牌时效" prop="accessTokenValidity">
           <el-input-number v-model="form.accessTokenValidity" controls-position="right" :min="0" />
@@ -140,6 +147,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 终端授权类型字典
+      authorizedGrantTypesOptions: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -169,6 +178,9 @@ export default {
   },
   created() {
     this.getList();
+    this.getDicts("sys_grant_type").then(response => {
+      this.authorizedGrantTypesOptions = response.data;
+    });
   },
   methods: {
     /** 查询终端列表 */
@@ -179,6 +191,10 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+    },
+    // 终端授权类型字典翻译
+    authorizedGrantTypesFormat(row, column) {
+      return this.selectDictLabels(this.authorizedGrantTypesOptions, row.authorizedGrantTypes);
     },
     // 取消按钮
     cancel() {
@@ -191,7 +207,7 @@ export default {
         clientId: undefined,
         clientSecret: undefined,
         scope: "server",
-        authorizedGrantTypes: "password,refresh_token",
+        authorizedGrantTypes: [],
         accessTokenValidity: 3600,
         refreshTokenValidity: 7200
       };
@@ -227,6 +243,7 @@ export default {
       const clientId = row.clientId || this.ids;
       getClient(clientId).then(response => {
         this.form = response.data;
+        this.form.authorizedGrantTypes = this.form.authorizedGrantTypes.split(",");
         this.open = true;
         this.title = "修改终端";
       });
@@ -235,6 +252,7 @@ export default {
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.form.authorizedGrantTypes = this.form.authorizedGrantTypes.join(",");
           if (!this.isAdd && this.form.clientId != undefined) {
             updateClient(this.form).then(response => {
               if (response.code === 200) {

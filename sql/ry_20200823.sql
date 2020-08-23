@@ -461,6 +461,7 @@ insert into sys_dict_type values(7,  '通知类型', 'sys_notice_type',     '0',
 insert into sys_dict_type values(8,  '通知状态', 'sys_notice_status',   '0', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '通知状态列表');
 insert into sys_dict_type values(9,  '操作类型', 'sys_oper_type',       '0', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '操作类型列表');
 insert into sys_dict_type values(10, '系统状态', 'sys_common_status',   '0', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '登录状态列表');
+insert into sys_dict_type values(11, '授权类型', 'sys_grant_type',      '0', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '授权类型列表');
 
 
 -- ----------------------------
@@ -514,6 +515,11 @@ insert into sys_dict_data values(25, 8,  '生成代码', '8',       'sys_oper_ty
 insert into sys_dict_data values(26, 9,  '清空数据', '9',       'sys_oper_type',       '',   'danger',  'N', '0', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '清空操作');
 insert into sys_dict_data values(27, 1,  '成功',     '0',       'sys_common_status',   '',   'primary', 'N', '0', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '正常状态');
 insert into sys_dict_data values(28, 2,  '失败',     '1',       'sys_common_status',   '',   'danger',  'N', '0', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '停用状态');
+insert into sys_dict_data values(29, 1,  '授权码模式',  'authorization_code',  'sys_grant_type',   '',   '',  'N', '0', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '授权码模式');
+insert into sys_dict_data values(30, 2,  '密码模式',    'password',            'sys_grant_type',   '',   '',  'N', '0', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '密码模式');
+insert into sys_dict_data values(31, 3,  '客户端模式',  'client_credentials',  'sys_grant_type',   '',   '',  'N', '0', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '客户端模式');
+insert into sys_dict_data values(32, 4,  '简化模式',    'implicit',            'sys_grant_type',   '',   '',  'N', '0', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '简化模式');
+insert into sys_dict_data values(33, 5,  '刷新模式',    'refresh_token',       'sys_grant_type',   '',   '',  'N', '0', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '刷新模式');
 
 
 -- ----------------------------
