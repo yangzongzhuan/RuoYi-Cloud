@@ -110,6 +110,4 @@ export function download(url, params, filename) {
   })
 }
 
- 
-
 export default service
