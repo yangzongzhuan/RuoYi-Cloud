@@ -5,9 +5,9 @@
 * 注册中心、配置中心选型Nacos，权限认证使用OAuth2。
 * 流量控制框架选型Sentinel。
 * 如需不分离应用，请移步 [RuoYi](https://gitee.com/y_project/RuoYi)，如需分离应用，请移步 [RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue)
-* 感谢[ruoyi-cloud-design](https://gitee.com/zhangmrit/ruoyi-cloud)，[pig](https://gitee.com/log4j/pig)。
 * 阿里云优惠券：[点我进入](https://www.aliyun.com/minisite/goods?userCode=brki8iof&share_source=copy_link)，腾讯云优惠券：[点我领取](https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console)&nbsp;&nbsp;
 
+#### 友情链接 [若依/RuoYi-Cloud](https://gitee.com/zhangmrit/ruoyi-cloud) Ant Design版本。
 
 ## 系统模块
 
