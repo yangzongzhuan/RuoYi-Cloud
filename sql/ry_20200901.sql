@@ -219,7 +219,7 @@ insert into sys_menu values('1032', '参数新增', '106', '2', '#', '', 1, 'F',
 insert into sys_menu values('1033', '参数修改', '106', '3', '#', '', 1, 'F', '0', '0', 'system:config:edit',         '#', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '');
 insert into sys_menu values('1034', '参数删除', '106', '4', '#', '', 1, 'F', '0', '0', 'system:config:remove',       '#', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '');
 insert into sys_menu values('1035', '参数导出', '106', '5', '#', '', 1, 'F', '0', '0', 'system:config:export',       '#', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '');
-\-- 通知公告按钮
+-- 通知公告按钮
 insert into sys_menu values('1041', '公告查询', '107', '1', '#', '', 1, 'F', '0', '0', 'system:notice:query',        '#', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '');
 insert into sys_menu values('1042', '公告新增', '107', '2', '#', '', 1, 'F', '0', '0', 'system:notice:add',          '#', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '');
 insert into sys_menu values('1043', '公告修改', '107', '3', '#', '', 1, 'F', '0', '0', 'system:notice:edit',         '#', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '');
