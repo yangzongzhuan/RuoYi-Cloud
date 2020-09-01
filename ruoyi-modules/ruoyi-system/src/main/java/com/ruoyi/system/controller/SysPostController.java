@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +20,7 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.security.annotation.PreAuthorize;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.system.service.ISysPostService;
@@ -40,7 +40,7 @@ public class SysPostController extends BaseController
     /**
      * 获取岗位列表
      */
-    @PreAuthorize("@ss.hasPermi('system:post:list')")
+    @PreAuthorize(hasPermi = "system:post:list")
     @GetMapping("/list")
     public TableDataInfo list(SysPost post)
     {
@@ -50,7 +50,7 @@ public class SysPostController extends BaseController
     }
 
     @Log(title = "岗位管理", businessType = BusinessType.EXPORT)
-    @PreAuthorize("@ss.hasPermi('system:post:export')")
+    @PreAuthorize(hasPermi = "system:post:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysPost post) throws IOException
     {
@@ -62,7 +62,7 @@ public class SysPostController extends BaseController
     /**
      * 根据岗位编号获取详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:post:query')")
+    @PreAuthorize(hasPermi = "system:post:query")
     @GetMapping(value = "/{postId}")
     public AjaxResult getInfo(@PathVariable Long postId)
     {
@@ -72,7 +72,7 @@ public class SysPostController extends BaseController
     /**
      * 新增岗位
      */
-    @PreAuthorize("@ss.hasPermi('system:post:add')")
+    @PreAuthorize(hasPermi = "system:post:add")
     @Log(title = "岗位管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysPost post)
@@ -92,7 +92,7 @@ public class SysPostController extends BaseController
     /**
      * 修改岗位
      */
-    @PreAuthorize("@ss.hasPermi('system:post:edit')")
+    @PreAuthorize(hasPermi = "system:post:edit")
     @Log(title = "岗位管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysPost post)
@@ -112,7 +112,7 @@ public class SysPostController extends BaseController
     /**
      * 删除岗位
      */
-    @PreAuthorize("@ss.hasPermi('system:post:remove')")
+    @PreAuthorize(hasPermi = "system:post:remove")
     @Log(title = "岗位管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{postIds}")
     public AjaxResult remove(@PathVariable Long[] postIds)

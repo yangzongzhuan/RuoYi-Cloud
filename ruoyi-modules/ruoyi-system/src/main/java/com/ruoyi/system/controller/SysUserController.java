@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +25,11 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.security.annotation.PreAuthorize;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
-import com.ruoyi.system.api.model.UserInfo;
+import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.service.ISysPermissionService;
 import com.ruoyi.system.service.ISysPostService;
 import com.ruoyi.system.service.ISysRoleService;
@@ -59,7 +59,7 @@ public class SysUserController extends BaseController
     /**
      * 获取用户列表
      */
-    @PreAuthorize("@ss.hasPermi('system:user:list')")
+    @PreAuthorize(hasPermi = "system:user:list")
     @GetMapping("/list")
     public TableDataInfo list(SysUser user)
     {
@@ -69,7 +69,7 @@ public class SysUserController extends BaseController
     }
 
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
-    @PreAuthorize("@ss.hasPermi('system:user:export')")
+    @PreAuthorize(hasPermi = "system:user:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysUser user) throws IOException
     {
@@ -79,7 +79,7 @@ public class SysUserController extends BaseController
     }
 
     @Log(title = "用户管理", businessType = BusinessType.IMPORT)
-    @PreAuthorize("@ss.hasPermi('system:user:import')")
+    @PreAuthorize(hasPermi = "system:user:import")
     @PostMapping("/importData")
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception
     {
@@ -101,7 +101,7 @@ public class SysUserController extends BaseController
      * 获取当前用户信息
      */
     @GetMapping("/info/{username}")
-    public R<UserInfo> info(@PathVariable("username") String username)
+    public R<LoginUser> info(@PathVariable("username") String username)
     {
         SysUser sysUser = userService.selectUserByUserName(username);
         if (StringUtils.isNull(sysUser))
@@ -112,7 +112,7 @@ public class SysUserController extends BaseController
         Set<String> roles = permissionService.getRolePermission(sysUser.getUserId());
         // 权限集合
         Set<String> permissions = permissionService.getMenuPermission(sysUser.getUserId());
-        UserInfo sysUserVo = new UserInfo();
+        LoginUser sysUserVo = new LoginUser();
         sysUserVo.setSysUser(sysUser);
         sysUserVo.setRoles(roles);
         sysUserVo.setPermissions(permissions);
@@ -127,7 +127,7 @@ public class SysUserController extends BaseController
     @GetMapping("getInfo")
     public AjaxResult getInfo()
     {
-        Long userId = SecurityUtils.getLoginUser().getUserId();
+        Long userId = SecurityUtils.getUserId();
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(userId);
         // 权限集合
@@ -142,7 +142,7 @@ public class SysUserController extends BaseController
     /**
      * 根据用户编号获取详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:user:query')")
+    @PreAuthorize(hasPermi = "system:user:query")
     @GetMapping(value = { "/", "/{userId}" })
     public AjaxResult getInfo(@PathVariable(value = "userId", required = false) Long userId)
     {
@@ -162,7 +162,7 @@ public class SysUserController extends BaseController
     /**
      * 新增用户
      */
-    @PreAuthorize("@ss.hasPermi('system:user:add')")
+    @PreAuthorize(hasPermi = "system:user:add")
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysUser user)
@@ -187,7 +187,7 @@ public class SysUserController extends BaseController
     /**
      * 修改用户
      */
-    @PreAuthorize("@ss.hasPermi('system:user:edit')")
+    @PreAuthorize(hasPermi = "system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysUser user)
@@ -208,7 +208,7 @@ public class SysUserController extends BaseController
     /**
      * 删除用户
      */
-    @PreAuthorize("@ss.hasPermi('system:user:remove')")
+    @PreAuthorize(hasPermi = "system:user:remove")
     @Log(title = "用户管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{userIds}")
     public AjaxResult remove(@PathVariable Long[] userIds)
@@ -219,7 +219,7 @@ public class SysUserController extends BaseController
     /**
      * 重置密码
      */
-    @PreAuthorize("@ss.hasPermi('system:user:edit')")
+    @PreAuthorize(hasPermi = "system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/resetPwd")
     public AjaxResult resetPwd(@RequestBody SysUser user)
@@ -233,7 +233,7 @@ public class SysUserController extends BaseController
     /**
      * 状态修改
      */
-    @PreAuthorize("@ss.hasPermi('system:user:edit')")
+    @PreAuthorize(hasPermi = "system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/changeStatus")
     public AjaxResult changeStatus(@RequestBody SysUser user)

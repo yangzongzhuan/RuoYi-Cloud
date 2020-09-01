@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +20,7 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.security.annotation.PreAuthorize;
 import com.ruoyi.system.domain.SysLogininfor;
 import com.ruoyi.system.service.ISysLogininforService;
 
@@ -36,7 +36,7 @@ public class SysLogininforController extends BaseController
     @Autowired
     private ISysLogininforService logininforService;
 
-    @PreAuthorize("@ss.hasPermi('system:logininfor:list')")
+    @PreAuthorize(hasPermi = "system:logininfor:list")
     @GetMapping("/list")
     public TableDataInfo list(SysLogininfor logininfor)
     {
@@ -46,7 +46,7 @@ public class SysLogininforController extends BaseController
     }
 
     @Log(title = "登陆日志", businessType = BusinessType.EXPORT)
-    @PreAuthorize("@ss.hasPermi('system:logininfor:export')")
+    @PreAuthorize(hasPermi = "system:logininfor:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysLogininfor logininfor) throws IOException
     {
@@ -55,7 +55,7 @@ public class SysLogininforController extends BaseController
         util.exportExcel(response, list, "登陆日志");
     }
 
-    @PreAuthorize("@ss.hasPermi('system:logininfor:remove')")
+    @PreAuthorize(hasPermi = "system:logininfor:remove")
     @Log(title = "登陆日志", businessType = BusinessType.DELETE)
     @DeleteMapping("/{infoIds}")
     public AjaxResult remove(@PathVariable Long[] infoIds)
@@ -63,7 +63,7 @@ public class SysLogininforController extends BaseController
         return toAjax(logininforService.deleteLogininforByIds(infoIds));
     }
 
-    @PreAuthorize("@ss.hasPermi('system:logininfor:remove')")
+    @PreAuthorize(hasPermi = "system:logininfor:remove")
     @Log(title = "登陆日志", businessType = BusinessType.DELETE)
     @DeleteMapping("/clean")
     public AjaxResult clean()

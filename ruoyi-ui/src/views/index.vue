@@ -88,7 +88,7 @@ export default {
           return;
         }
         const expires_in = getExpiresIn();
-        if (expires_in <= 1000 && !this.refreshLock) {
+        if (expires_in <= 1200 && !this.refreshLock) {
           this.refreshLock = true
           this.$store
             .dispatch('RefreshToken')

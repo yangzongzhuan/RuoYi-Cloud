@@ -1,7 +1,6 @@
 package com.ruoyi.common.log.aspect;
 
 import java.lang.reflect.Method;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.aspectj.lang.JoinPoint;
@@ -17,16 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.HandlerMapping;
 import com.alibaba.fastjson.JSON;
+import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.ip.IpUtils;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessStatus;
 import com.ruoyi.common.log.service.AsyncLogService;
-import com.ruoyi.common.security.domain.LoginUser;
-import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysOperLog;
 
 /**
@@ -83,9 +80,6 @@ public class LogAspect
                 return;
             }
 
-            // 获取当前的用户
-            LoginUser loginUser = SecurityUtils.getLoginUser();
-
             // *========数据库日志=========*//
             SysOperLog operLog = new SysOperLog();
             operLog.setStatus(BusinessStatus.SUCCESS.ordinal());
@@ -96,9 +90,11 @@ public class LogAspect
             operLog.setJsonResult(JSON.toJSONString(jsonResult));
 
             operLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
-            if (loginUser != null)
+            HttpServletRequest request = ServletUtils.getRequest();
+            String username = request.getHeader(CacheConstants.DETAILS_USERNAME);
+            if (StringUtils.isNotBlank(username))
             {
-                operLog.setOperName(loginUser.getUsername());
+                operLog.setOperName(username);
             }
 
             if (e != null)
@@ -162,11 +158,6 @@ public class LogAspect
         {
             String params = argsArrayToString(joinPoint.getArgs());
             operLog.setOperParam(StringUtils.substring(params, 0, 2000));
-        }
-        else
-        {
-            Map<?, ?> paramsMap = (Map<?, ?>) ServletUtils.getRequest().getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-            operLog.setOperParam(StringUtils.substring(paramsMap.toString(), 0, 2000));
         }
     }
 

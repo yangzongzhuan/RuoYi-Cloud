@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import com.ruoyi.common.datascope.annotation.DataScope;
-import com.ruoyi.common.datascope.service.AwaitUserService;
+import com.ruoyi.common.security.service.TokenService;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
-import com.ruoyi.system.api.model.UserInfo;
+import com.ruoyi.system.api.model.LoginUser;
 
 /**
  * 数据过滤处理
@@ -57,7 +57,7 @@ public class DataScopeAspect
     public static final String DATA_SCOPE = "dataScope";
 
     @Autowired
-    private AwaitUserService awaitUserService;
+    private TokenService tokenService;
 
     // 配置织入点
     @Pointcut("@annotation(com.ruoyi.common.datascope.annotation.DataScope)")
@@ -80,7 +80,7 @@ public class DataScopeAspect
             return;
         }
         // 获取当前的用户
-        UserInfo loginUser = awaitUserService.info();
+        LoginUser loginUser = tokenService.getLoginUser();
         SysUser currentUser = loginUser.getSysUser();
         if (currentUser != null)
         {

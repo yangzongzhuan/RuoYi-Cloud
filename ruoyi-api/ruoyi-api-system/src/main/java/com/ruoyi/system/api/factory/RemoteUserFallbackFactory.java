@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.system.api.RemoteUserService;
-import com.ruoyi.system.api.model.UserInfo;
+import com.ruoyi.system.api.model.LoginUser;
 import feign.hystrix.FallbackFactory;
 
 /**
@@ -25,7 +25,7 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
         return new RemoteUserService()
         {
             @Override
-            public R<UserInfo> getUserInfo(String username)
+            public R<LoginUser> getUserInfo(String username)
             {
                 return null;
             }

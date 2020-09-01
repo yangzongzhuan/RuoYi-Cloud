@@ -1,16 +1,22 @@
 package com.ruoyi.gateway.filter;
 
+import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.atomic.AtomicReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.http.HttpHeaders;
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.gateway.service.ValidateCodeService;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -21,20 +27,14 @@ import reactor.core.publisher.Mono;
 @Component
 public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
 {
-    private final static String AUTH_URL = "/oauth/token";
+    private final static String AUTH_URL = "/auth/login";
 
     @Autowired
     private ValidateCodeService validateCodeService;
 
-    private static final String BASIC_ = "Basic ";
-
     private static final String CODE = "code";
 
     private static final String UUID = "uuid";
-    
-    private static final String GRANT_TYPE = "grant_type";
-    
-    private static final String REFRESH_TOKEN = "refresh_token";
 
     @Override
     public GatewayFilter apply(Object config)
@@ -47,25 +47,12 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
             {
                 return chain.filter(exchange);
             }
-            
-            // 刷新token请求，不处理
-            String grantType = request.getQueryParams().getFirst(GRANT_TYPE);
-            if (StringUtils.containsIgnoreCase(request.getURI().getPath(), AUTH_URL) && StringUtils.containsIgnoreCase(grantType, REFRESH_TOKEN))
-            {
-                return chain.filter(exchange);
-            }
 
-            // 消息头存在内容，且不存在验证码参数，不处理
-            String header = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-            if (StringUtils.isNotEmpty(header) && StringUtils.startsWith(header, BASIC_)
-                    && !request.getQueryParams().containsKey(CODE) && !request.getQueryParams().containsKey(UUID))
-            {
-                return chain.filter(exchange);
-            }
             try
             {
-                validateCodeService.checkCapcha(request.getQueryParams().getFirst(CODE),
-                        request.getQueryParams().getFirst(UUID));
+                String rspStr = resolveBodyFromRequest(request);
+                JSONObject obj = JSONObject.parseObject(rspStr);
+                validateCodeService.checkCapcha(obj.getString(CODE), obj.getString(UUID));
             }
             catch (Exception e)
             {
@@ -76,5 +63,18 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
             }
             return chain.filter(exchange);
         };
+    }
+
+    private String resolveBodyFromRequest(ServerHttpRequest serverHttpRequest)
+    {
+        // 获取请求体
+        Flux<DataBuffer> body = serverHttpRequest.getBody();
+        AtomicReference<String> bodyRef = new AtomicReference<>();
+        body.subscribe(buffer -> {
+            CharBuffer charBuffer = StandardCharsets.UTF_8.decode(buffer.asByteBuffer());
+            DataBufferUtils.release(buffer);
+            bodyRef.set(charBuffer.toString());
+        });
+        return bodyRef.get();
     }
 }

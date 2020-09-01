@@ -2,10 +2,8 @@ package com.ruoyi.system.controller;
 
 import java.util.Iterator;
 import java.util.List;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +13,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.security.annotation.PreAuthorize;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysDept;
 import com.ruoyi.system.service.ISysDeptService;
@@ -41,7 +39,7 @@ public class SysDeptController extends BaseController
     /**
      * 获取部门列表
      */
-    @PreAuthorize("@ss.hasPermi('system:dept:list')")
+    @PreAuthorize(hasPermi = "system:dept:list")
     @GetMapping("/list")
     public AjaxResult list(SysDept dept)
     {
@@ -52,7 +50,7 @@ public class SysDeptController extends BaseController
     /**
      * 查询部门列表（排除节点）
      */
-    @PreAuthorize("@ss.hasPermi('system:dept:list')")
+    @PreAuthorize(hasPermi = "system:dept:list")
     @GetMapping("/list/exclude/{deptId}")
     public AjaxResult excludeChild(@PathVariable(value = "deptId", required = false) Long deptId)
     {
@@ -73,7 +71,7 @@ public class SysDeptController extends BaseController
     /**
      * 根据部门编号获取详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:dept:query')")
+    @PreAuthorize(hasPermi = "system:dept:query")
     @GetMapping(value = "/{deptId}")
     public AjaxResult getInfo(@PathVariable Long deptId)
     {
@@ -106,7 +104,7 @@ public class SysDeptController extends BaseController
     /**
      * 新增部门
      */
-    @PreAuthorize("@ss.hasPermi('system:dept:add')")
+    @PreAuthorize(hasPermi = "system:dept:add")
     @Log(title = "部门管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysDept dept)
@@ -122,7 +120,7 @@ public class SysDeptController extends BaseController
     /**
      * 修改部门
      */
-    @PreAuthorize("@ss.hasPermi('system:dept:edit')")
+    @PreAuthorize(hasPermi = "system:dept:edit")
     @Log(title = "部门管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysDept dept)
@@ -147,7 +145,7 @@ public class SysDeptController extends BaseController
     /**
      * 删除部门
      */
-    @PreAuthorize("@ss.hasPermi('system:dept:remove')")
+    @PreAuthorize(hasPermi = "system:dept:remove")
     @Log(title = "部门管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{deptId}")
     public AjaxResult remove(@PathVariable Long deptId)

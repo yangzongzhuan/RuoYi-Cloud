@@ -1,10 +1,9 @@
 import { login, logout, getInfo, refreshToken } from '@/api/login'
-import { getToken, getRefreshToken, setToken, setRefreshToken, setExpiresIn, removeToken } from '@/utils/auth'
+import { getToken, setToken, setExpiresIn, removeToken } from '@/utils/auth'
 
 const user = {
   state: {
     token: getToken(),
-    refresh_token: getRefreshToken(),
     name: '',
     avatar: '',
     roles: [],
@@ -17,9 +16,6 @@ const user = {
     },
     SET_EXPIRES_IN: (state, time) => {
       state.expires_in = time
-    },
-    SET_REFRESH_TOKEN: (state, token) => {
-      state.refresh_token = token
     },
     SET_NAME: (state, name) => {
       state.name = name
@@ -44,12 +40,11 @@ const user = {
       const uuid = userInfo.uuid
       return new Promise((resolve, reject) => {
         login(username, password, code, uuid).then(res => {
-          setToken(res.access_token)
-          commit('SET_TOKEN', res.access_token)
-          setRefreshToken(res.refresh_token)
-          commit('SET_REFRESH_TOKEN', res.refresh_token)
-          setExpiresIn(res.expires_in)
-          commit('SET_EXPIRES_IN', res.expires_in)
+          let data = res.data
+          setToken(data.access_token)
+          commit('SET_TOKEN', data.access_token)
+          setExpiresIn(data.expires_in)
+          commit('SET_EXPIRES_IN', data.expires_in)
           resolve()
         }).catch(error => {
           reject(error)
@@ -77,17 +72,13 @@ const user = {
         })
       })
     },
-    
+
     // 刷新token
     RefreshToken({commit, state}) {
       return new Promise((resolve, reject) => {
-        refreshToken(state.refresh_token).then(res => {
-          setToken(res.access_token)
-          commit('SET_TOKEN', res.access_token)
-          setRefreshToken(res.refresh_token)
-          commit('SET_REFRESH_TOKEN', res.refresh_token)
-          setExpiresIn(res.expires_in)
-          commit('SET_EXPIRES_IN', res.expires_in)
+        refreshToken(state.token).then(res => {
+          setExpiresIn(res.data)
+          commit('SET_EXPIRES_IN', res.data)
           resolve()
         }).catch(error => {
           reject(error)

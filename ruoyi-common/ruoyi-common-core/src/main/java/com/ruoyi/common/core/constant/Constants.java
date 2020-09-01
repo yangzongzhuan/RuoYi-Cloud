@@ -85,7 +85,12 @@ public class Constants
     /**
      * 验证码有效期（分钟）
      */
-    public static final Integer CAPTCHA_EXPIRATION = 2;
+    public static final long CAPTCHA_EXPIRATION = 2;
+
+    /**
+     * 令牌有效期（分钟）
+     */
+    public final static long TOKEN_EXPIRE = 30;
 
     /**
      * 参数管理 cache key

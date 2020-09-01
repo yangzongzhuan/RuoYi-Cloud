@@ -2,7 +2,6 @@ package com.ruoyi.system.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,7 @@ import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.security.domain.LoginUser;
+import com.ruoyi.common.security.annotation.PreAuthorize;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.domain.SysMenu;
 import com.ruoyi.system.service.ISysMenuService;
@@ -39,12 +38,11 @@ public class SysMenuController extends BaseController
     /**
      * 获取菜单列表
      */
-    @PreAuthorize("@ss.hasPermi('system:menu:list')")
+    @PreAuthorize(hasPermi = "system:menu:list")
     @GetMapping("/list")
     public AjaxResult list(SysMenu menu)
     {
-        LoginUser loginUser = SecurityUtils.getLoginUser();
-        Long userId = loginUser.getUserId();
+        Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuList(menu, userId);
         return AjaxResult.success(menus);
     }
@@ -52,7 +50,7 @@ public class SysMenuController extends BaseController
     /**
      * 根据菜单编号获取详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:menu:query')")
+    @PreAuthorize(hasPermi = "system:menu:query")
     @GetMapping(value = "/{menuId}")
     public AjaxResult getInfo(@PathVariable Long menuId)
     {
@@ -65,8 +63,7 @@ public class SysMenuController extends BaseController
     @GetMapping("/treeselect")
     public AjaxResult treeselect(SysMenu menu)
     {
-        LoginUser loginUser = SecurityUtils.getLoginUser();
-        Long userId = loginUser.getUserId();
+        Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuList(menu, userId);
         return AjaxResult.success(menuService.buildMenuTreeSelect(menus));
     }
@@ -77,8 +74,7 @@ public class SysMenuController extends BaseController
     @GetMapping(value = "/roleMenuTreeselect/{roleId}")
     public AjaxResult roleMenuTreeselect(@PathVariable("roleId") Long roleId)
     {
-        LoginUser loginUser = SecurityUtils.getLoginUser();
-        Long userId = loginUser.getUserId();
+        Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuList(userId);
         AjaxResult ajax = AjaxResult.success();
         ajax.put("checkedKeys", menuService.selectMenuListByRoleId(roleId));
@@ -89,7 +85,7 @@ public class SysMenuController extends BaseController
     /**
      * 新增菜单
      */
-    @PreAuthorize("@ss.hasPermi('system:menu:add')")
+    @PreAuthorize(hasPermi = "system:menu:add")
     @Log(title = "菜单管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysMenu menu)
@@ -110,7 +106,7 @@ public class SysMenuController extends BaseController
     /**
      * 修改菜单
      */
-    @PreAuthorize("@ss.hasPermi('system:menu:edit')")
+    @PreAuthorize(hasPermi = "system:menu:edit")
     @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysMenu menu)
@@ -135,7 +131,7 @@ public class SysMenuController extends BaseController
     /**
      * 删除菜单
      */
-    @PreAuthorize("@ss.hasPermi('system:menu:remove')")
+    @PreAuthorize(hasPermi = "system:menu:remove")
     @Log(title = "菜单管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{menuId}")
     public AjaxResult remove(@PathVariable("menuId") Long menuId)
@@ -159,7 +155,7 @@ public class SysMenuController extends BaseController
     @GetMapping("getRouters")
     public AjaxResult getRouters()
     {
-        Long userId = SecurityUtils.getLoginUser().getUserId();
+        Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
         return AjaxResult.success(menuService.buildMenus(menus));
     }

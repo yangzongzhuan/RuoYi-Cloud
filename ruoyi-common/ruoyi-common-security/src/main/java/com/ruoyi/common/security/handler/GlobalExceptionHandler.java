@@ -2,18 +2,14 @@ package com.ruoyi.common.security.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AccountExpiredException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.NoHandlerFoundException;
-import com.ruoyi.common.core.constant.HttpStatus;
 import com.ruoyi.common.core.exception.BaseException;
 import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.common.core.exception.DemoModeException;
+import com.ruoyi.common.core.exception.PreAuthorizeException;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 
@@ -49,34 +45,6 @@ public class GlobalExceptionHandler
         return AjaxResult.error(e.getCode(), e.getMessage());
     }
 
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public AjaxResult handlerNoFoundException(Exception e)
-    {
-        log.error(e.getMessage(), e);
-        return AjaxResult.error(HttpStatus.NOT_FOUND, "路径不存在，请检查路径是否正确");
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    public AjaxResult handleAuthorizationException(AccessDeniedException e)
-    {
-        log.error(e.getMessage());
-        return AjaxResult.error(HttpStatus.FORBIDDEN, "没有权限，请联系管理员授权");
-    }
-
-    @ExceptionHandler(AccountExpiredException.class)
-    public AjaxResult handleAccountExpiredException(AccountExpiredException e)
-    {
-        log.error(e.getMessage(), e);
-        return AjaxResult.error(e.getMessage());
-    }
-
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public AjaxResult handleUsernameNotFoundException(UsernameNotFoundException e)
-    {
-        log.error(e.getMessage(), e);
-        return AjaxResult.error(e.getMessage());
-    }
-
     @ExceptionHandler(Exception.class)
     public AjaxResult handleException(Exception e)
     {
@@ -105,7 +73,16 @@ public class GlobalExceptionHandler
         String message = e.getBindingResult().getFieldError().getDefaultMessage();
         return AjaxResult.error(message);
     }
-
+    
+    /**
+     * 权限异常
+     */
+    @ExceptionHandler(PreAuthorizeException.class)
+    public AjaxResult preAuthorizeException(PreAuthorizeException e)
+    {
+        return AjaxResult.error("没有权限，请联系管理员授权");
+    }
+    
     /**
      * 演示模式异常
      */

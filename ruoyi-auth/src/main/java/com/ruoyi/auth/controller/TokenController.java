@@ -1,20 +1,17 @@
 package com.ruoyi.auth.controller;
 
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2RefreshToken;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.ruoyi.common.core.constant.Constants;
-import com.ruoyi.common.core.constant.SecurityConstants;
+import com.ruoyi.auth.form.LoginBody;
+import com.ruoyi.auth.service.SysLoginService;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.system.api.RemoteLogService;
+import com.ruoyi.common.security.service.TokenService;
+import com.ruoyi.system.api.model.LoginUser;
 
 /**
  * token 控制
@@ -22,42 +19,46 @@ import com.ruoyi.system.api.RemoteLogService;
  * @author ruoyi
  */
 @RestController
-@RequestMapping("/token")
 public class TokenController
 {
     @Autowired
-    private TokenStore tokenStore;
+    private TokenService tokenService;
 
     @Autowired
-    private RemoteLogService remoteLogService;
+    private SysLoginService sysLoginService;
 
-    @DeleteMapping("/logout")
-    public R<?> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader)
+    @PostMapping("login")
+    public R<?> login(@RequestBody LoginBody form)
     {
-        if (StringUtils.isEmpty(authHeader))
-        {
-            return R.ok();
-        }
+        // 用户登录
+        LoginUser userInfo = sysLoginService.login(form.getUsername(), form.getPassword());
+        // 获取登录token
+        return R.ok(tokenService.createToken(userInfo));
+    }
 
-        String tokenValue = authHeader.replace(OAuth2AccessToken.BEARER_TYPE, StringUtils.EMPTY).trim();
-        OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
-        if (accessToken == null || StringUtils.isEmpty(accessToken.getValue()))
+    @DeleteMapping("logout")
+    public R<?> logout(HttpServletRequest request)
+    {
+        LoginUser loginUser = tokenService.getLoginUser(request);
+        if (StringUtils.isNotNull(loginUser))
         {
-            return R.ok();
-        }
-
-        // 清空 access token
-        tokenStore.removeAccessToken(accessToken);
-
-        // 清空 refresh token
-        OAuth2RefreshToken refreshToken = accessToken.getRefreshToken();
-        tokenStore.removeRefreshToken(refreshToken);
-        Map<String, ?> map = accessToken.getAdditionalInformation();
-        if (map.containsKey(SecurityConstants.DETAILS_USERNAME))
-        {
-            String username = (String) map.get(SecurityConstants.DETAILS_USERNAME);
+            String username = loginUser.getUsername();
+            // 删除用户缓存记录
+            tokenService.delLoginUser(loginUser.getToken());
             // 记录用户退出日志
-            remoteLogService.saveLogininfor(username, Constants.LOGOUT, "退出成功");
+            sysLoginService.logout(username);
+        }
+        return R.ok();
+    }
+
+    @PostMapping("refresh")
+    public R<?> refresh(HttpServletRequest request)
+    {
+        LoginUser loginUser = tokenService.getLoginUser(request);
+        if (StringUtils.isNotNull(loginUser))
+        {
+            // 刷新令牌有效期
+            return R.ok(tokenService.refreshToken(loginUser));
         }
         return R.ok();
     }

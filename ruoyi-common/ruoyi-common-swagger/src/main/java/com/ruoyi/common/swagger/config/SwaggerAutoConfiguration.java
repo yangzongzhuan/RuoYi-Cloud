@@ -2,7 +2,6 @@ package com.ruoyi.common.swagger.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -15,11 +14,9 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
 import springfox.documentation.service.Contact;
-import springfox.documentation.service.GrantType;
-import springfox.documentation.service.OAuth;
-import springfox.documentation.service.ResourceOwnerPasswordCredentialsGrant;
 import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
@@ -66,54 +63,55 @@ public class SwaggerAutoConfiguration
         List<Predicate<String>> excludePath = new ArrayList<>();
         swaggerProperties.getExcludePath().forEach(path -> excludePath.add(PathSelectors.ant(path)));
 
-         //noinspection Guava
+        //noinspection Guava
         return new Docket(DocumentationType.SWAGGER_2)
                 .host(swaggerProperties.getHost())
                 .apiInfo(apiInfo(swaggerProperties)).select()
                 .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()))
                 .paths(Predicates.and(Predicates.not(Predicates.or(excludePath)), Predicates.or(basePath)))
                 .build()
-                .securitySchemes(Collections.singletonList(securitySchema()))
-                .securityContexts(Collections.singletonList(securityContext()))
+                .securitySchemes(securitySchemes())
+                .securityContexts(securityContexts())
                 .pathMapping("/");
     }
 
-     /**
-      * 配置默认的全局鉴权策略的开关，通过正则表达式进行匹配；默认匹配所有URL
-      *
-      * @return
-      */
-    private SecurityContext securityContext()
+    /**
+     * 安全模式，这里指定token通过Authorization头请求头传递
+     */
+    private List<ApiKey> securitySchemes()
     {
-         return SecurityContext.builder()
-             .securityReferences(defaultAuth())
-             .forPaths(PathSelectors.regex(swaggerProperties().getAuthorization().getAuthRegex()))
-             .build();
+        List<ApiKey> apiKeyList = new ArrayList<ApiKey>();
+        apiKeyList.add(new ApiKey("Authorization", "Authorization", "header"));
+        return apiKeyList;
     }
 
-     /**
-      * 默认的全局鉴权策略
-      *
-      * @return
-      */
+    /**
+     * 安全上下文
+     */
+    private List<SecurityContext> securityContexts()
+    {
+        List<SecurityContext> securityContexts = new ArrayList<>();
+        securityContexts.add(
+                SecurityContext.builder()
+                        .securityReferences(defaultAuth())
+                        .forPaths(PathSelectors.regex("^(?!auth).*$"))
+                        .build());
+        return securityContexts;
+    }
+
+    /**
+     * 默认的全局鉴权策略
+     *
+     * @return
+     */
     private List<SecurityReference> defaultAuth()
     {
-         ArrayList<AuthorizationScope> authorizationScopeList = new ArrayList<>();
-         swaggerProperties().getAuthorization().getAuthorizationScopeList().forEach(authorizationScope -> authorizationScopeList.add(new AuthorizationScope(authorizationScope.getScope(), authorizationScope.getDescription())));
-         AuthorizationScope[] authorizationScopes = new AuthorizationScope[authorizationScopeList.size()];
-         return Collections.singletonList(SecurityReference.builder()
-             .reference(swaggerProperties().getAuthorization().getName())
-             .scopes(authorizationScopeList.toArray(authorizationScopes))
-             .build());
-    }
-
-    private OAuth securitySchema()
-    {
-        ArrayList<AuthorizationScope> authorizationScopeList = new ArrayList<>();
-        swaggerProperties().getAuthorization().getAuthorizationScopeList().forEach(authorizationScope -> authorizationScopeList.add(new AuthorizationScope(authorizationScope.getScope(), authorizationScope.getDescription())));
-        ArrayList<GrantType> grantTypes = new ArrayList<>();
-        swaggerProperties().getAuthorization().getTokenUrlList().forEach(tokenUrl -> grantTypes.add(new ResourceOwnerPasswordCredentialsGrant(tokenUrl)));
-        return new OAuth(swaggerProperties().getAuthorization().getName(), authorizationScopeList, grantTypes);
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        List<SecurityReference> securityReferences = new ArrayList<>();
+        securityReferences.add(new SecurityReference("Authorization", authorizationScopes));
+        return securityReferences;
     }
 
     private ApiInfo apiInfo(SwaggerProperties swaggerProperties)
@@ -128,5 +126,4 @@ public class SwaggerAutoConfiguration
              .version(swaggerProperties.getVersion())
              .build();
     }
- }
-
+}

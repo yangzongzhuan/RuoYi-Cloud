@@ -6,21 +6,18 @@ const scope = 'server'
 
 // 登录方法
 export function login(username, password, code, uuid) {
-  const grant_type = 'password'
   return request({
-    url: '/auth/oauth/token',
+    url: '/auth/login',
     method: 'post',
-    params: { username, password, code, uuid, client_id, client_secret, grant_type, scope }
+    data: { username, password, code, uuid }
   })
 }
 
 // 刷新方法
-export function refreshToken(refresh_token) {
-  const grant_type = 'refresh_token'
+export function refreshToken() {
   return request({
-    url: '/auth/oauth/token',
-    method: 'post',
-    params: { client_id, client_secret, grant_type, scope, refresh_token }
+    url: '/auth/refresh',
+    method: 'post'
   })
 }
 
@@ -35,7 +32,7 @@ export function getInfo() {
 // 退出方法
 export function logout() {
   return request({
-    url: '/auth/token/logout',
+    url: '/auth/logout',
     method: 'delete'
   })
 }

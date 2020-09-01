@@ -1,9 +1,9 @@
 package com.ruoyi.common.security.utils;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import com.ruoyi.common.security.domain.LoginUser;
+import com.ruoyi.common.core.constant.CacheConstants;
+import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.core.utils.ServletUtils;
 
 /**
  * 权限获取工具类
@@ -13,45 +13,30 @@ import com.ruoyi.common.security.domain.LoginUser;
 public class SecurityUtils
 {
     /**
-     * 获取Authentication
-     */
-    public static Authentication getAuthentication()
-    {
-        return SecurityContextHolder.getContext().getAuthentication();
-    }
-
-    /**
      * 获取用户
      */
     public static String getUsername()
     {
-        return getLoginUser().getUsername();
+        return ServletUtils.getRequest().getHeader(CacheConstants.DETAILS_USERNAME);
     }
 
     /**
-     * 获取用户
+     * 获取用户ID
      */
-    public static LoginUser getLoginUser(Authentication authentication)
+    public static Long getUserId()
     {
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof LoginUser)
-        {
-            return (LoginUser) principal;
-        }
-        return null;
+        return Convert.toLong(ServletUtils.getRequest().getHeader(CacheConstants.DETAILS_USER_ID));
     }
 
     /**
-     * 获取用户
+     * 是否为管理员
+     * 
+     * @param userId 用户ID
+     * @return 结果
      */
-    public static LoginUser getLoginUser()
+    public static boolean isAdmin(Long userId)
     {
-        Authentication authentication = getAuthentication();
-        if (authentication == null)
-        {
-            return null;
-        }
-        return getLoginUser(authentication);
+        return userId != null && 1L == userId;
     }
 
     /**
@@ -77,16 +62,5 @@ public class SecurityUtils
     {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(rawPassword, encodedPassword);
-    }
-
-    /**
-     * 是否为管理员
-     * 
-     * @param userId 用户ID
-     * @return 结果
-     */
-    public static boolean isAdmin(Long userId)
-    {
-        return userId != null && 1L == userId;
     }
 }
