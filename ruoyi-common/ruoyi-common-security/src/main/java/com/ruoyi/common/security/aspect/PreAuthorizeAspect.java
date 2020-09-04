@@ -17,6 +17,11 @@ import com.ruoyi.common.security.annotation.PreAuthorize;
 import com.ruoyi.common.security.service.TokenService;
 import com.ruoyi.system.api.model.LoginUser;
 
+/**
+ * 自定义权限实现
+ * 
+ * @author ruoyi
+ */
 @Aspect
 @Component
 public class PreAuthorizeAspect
@@ -42,34 +47,56 @@ public class PreAuthorizeAspect
             return point.proceed();
         }
 
-        if (StringUtils.isEmpty(annotation.hasPermi()) && hasPermi(annotation.hasPermi()))
+        if (!StringUtils.isEmpty(annotation.hasPermi()))
         {
-            return point.proceed();
-        }
-        else if (StringUtils.isEmpty(annotation.lacksPermi()) && hasPermi(annotation.lacksPermi()))
-        {
-            return point.proceed();
-        }
-        else if (StringUtils.isEmpty(annotation.hasAnyPermi()) && hasAnyPermi(annotation.hasAnyPermi()))
-        {
-            return point.proceed();
-        }
-        else if (StringUtils.isEmpty(annotation.hasRole()) && hasRole(annotation.hasRole()))
-        {
-            return point.proceed();
-        }
-        else if (StringUtils.isEmpty(annotation.lacksRole()) && lacksRole(annotation.lacksRole()))
-        {
-            return point.proceed();
-        }
-        else if (StringUtils.isEmpty(annotation.hasAnyRoles()) && hasAnyRoles(annotation.hasAnyRoles()))
-        {
-            return point.proceed();
-        }
-        else
-        {
+            if (hasPermi(annotation.hasPermi()))
+            {
+                return point.proceed();
+            }
             throw new PreAuthorizeException();
         }
+        else if (!StringUtils.isEmpty(annotation.lacksPermi()))
+        {
+            if (lacksPermi(annotation.lacksPermi()))
+            {
+                return point.proceed();
+            }
+            throw new PreAuthorizeException();
+        }
+        else if (!StringUtils.isEmpty(annotation.hasAnyPermi()))
+        {
+            if (hasAnyPermi(annotation.hasAnyPermi()))
+            {
+                return point.proceed();
+            }
+            throw new PreAuthorizeException();
+        }
+        else if (!StringUtils.isEmpty(annotation.hasRole()))
+        {
+            if (hasRole(annotation.hasRole()))
+            {
+                return point.proceed();
+            }
+            throw new PreAuthorizeException();
+        }
+        else if (StringUtils.isEmpty(annotation.lacksRole()))
+        {
+            if (lacksRole(annotation.lacksRole()))
+            {
+                return point.proceed();
+            }
+            throw new PreAuthorizeException();
+        }
+        else if (StringUtils.isEmpty(annotation.hasAnyRoles()))
+        {
+            if (hasAnyRoles(annotation.hasAnyRoles()))
+            {
+                return point.proceed();
+            }
+            throw new PreAuthorizeException();
+        }
+
+        return point.proceed();
     }
 
     /**
