@@ -1,6 +1,7 @@
 package com.ruoyi.common.core.utils;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import com.ruoyi.common.core.text.StrFormatter;
 
@@ -16,6 +17,9 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
 
     /** 下划线 */
     private static final char SEPARATOR = '_';
+
+    /** 星号 */
+    private static final String START = "*";
 
     /**
      * 获取参数不为空值
@@ -394,6 +398,121 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 查找指定字符串是否匹配指定字符串列表中的任意一个字符串
+     * 
+     * @param str 指定字符串
+     * @param strs 需要检查的字符串数组
+     * @return 是否匹配
+     */
+    public static boolean matches(String str, List<String> strs)
+    {
+        if (isEmpty(str) || isEmpty(strs))
+        {
+            return false;
+        }
+        for (String testStr : strs)
+        {
+            if (matches(str, testStr))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 查找指定字符串是否匹配指定字符串数组中的任意一个字符串
+     * 
+     * @param str 指定字符串
+     * @param strs 需要检查的字符串数组
+     * @return 是否匹配
+     */
+    public static boolean matches(String str, String... strs)
+    {
+        if (isEmpty(str) || isEmpty(strs))
+        {
+            return false;
+        }
+        for (String testStr : strs)
+        {
+            if (matches(str, testStr))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 查找指定字符串是否匹配
+     * 
+     * @param str 指定字符串
+     * @param pattern 需要检查的字符串
+     * @return 是否匹配
+     */
+    public static boolean matches(String str, String pattern)
+    {
+        if (isEmpty(pattern) || isEmpty(str))
+        {
+            return false;
+        }
+
+        pattern = pattern.replaceAll("\\s*", ""); // 替换空格
+        int beginOffset = 0; // pattern截取开始位置
+        int formerStarOffset = -1; // 前星号的偏移位置
+        int latterStarOffset = -1; // 后星号的偏移位置
+
+        String remainingURI = str;
+        String prefixPattern = "";
+        String suffixPattern = "";
+
+        boolean result = false;
+        do
+        {
+            formerStarOffset = indexOf(pattern, START, beginOffset);
+            prefixPattern = substring(pattern, beginOffset, formerStarOffset > -1 ? formerStarOffset : pattern.length());
+
+            // 匹配前缀Pattern
+            result = remainingURI.contains(prefixPattern);
+            // 已经没有星号，直接返回
+            if (formerStarOffset == -1)
+            {
+                return result;
+            }
+
+            // 匹配失败，直接返回
+            if (!result)
+                return false;
+
+            if (!isEmpty(prefixPattern))
+            {
+                remainingURI = substringAfter(str, prefixPattern);
+            }
+
+            // 匹配后缀Pattern
+            latterStarOffset = indexOf(pattern, START, formerStarOffset + 1);
+            suffixPattern = substring(pattern, formerStarOffset + 1, latterStarOffset > -1 ? latterStarOffset : pattern.length());
+
+            result = remainingURI.contains(suffixPattern);
+            // 匹配失败，直接返回
+            if (!result)
+                return false;
+
+            if (!isEmpty(suffixPattern))
+            {
+                remainingURI = substringAfter(str, suffixPattern);
+            }
+
+            // 移动指针
+            beginOffset = latterStarOffset + 1;
+
+        }
+        while (!isEmpty(suffixPattern) && !isEmpty(remainingURI));
+
+        return true;
     }
 
     @SuppressWarnings("unchecked")

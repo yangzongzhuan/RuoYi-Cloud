@@ -1,9 +1,9 @@
 package com.ruoyi.gateway.filter;
 
-import java.util.Arrays;
 import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.gateway.config.properties.IgnoreWhiteProperties;
 import reactor.core.publisher.Mono;
 
 /**
@@ -32,9 +33,9 @@ public class AuthFilter implements GlobalFilter, Ordered
 {
     private static final Logger log = LoggerFactory.getLogger(AuthFilter.class);
 
-    // 排除过滤的 uri 地址，swagger排除自行添加
-    private static final String[] whiteList = { "/auth/login", "/code/v2/api-docs", "/schedule/v2/api-docs",
-            "/system/v2/api-docs", "/csrf" };
+    // 排除过滤的 uri 地址，nacos自行添加
+    @Autowired
+    private IgnoreWhiteProperties ignoreWhite;
 
     @Resource(name = "stringRedisTemplate")
     private ValueOperations<String, String> sops;
@@ -44,7 +45,7 @@ public class AuthFilter implements GlobalFilter, Ordered
     {
         String url = exchange.getRequest().getURI().getPath();
         // 跳过不需要验证的路径
-        if (Arrays.asList(whiteList).contains(url))
+        if (StringUtils.matches(url, ignoreWhite.getWhites()))
         {
             return chain.filter(exchange);
         }
@@ -69,7 +70,7 @@ public class AuthFilter implements GlobalFilter, Ordered
         ServerHttpRequest mutableReq = exchange.getRequest().mutate().header(CacheConstants.DETAILS_USER_ID, userid)
                 .header(CacheConstants.DETAILS_USERNAME, username).build();
         ServerWebExchange mutableExchange = exchange.mutate().request(mutableReq).build();
-        
+
         return chain.filter(mutableExchange);
     }
 
