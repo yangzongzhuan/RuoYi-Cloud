@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.UserConstants;
+import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.redis.service.RedisService;
@@ -135,6 +136,14 @@ public class SysConfigServiceImpl implements ISysConfigService
     @Override
     public int deleteConfigByIds(Long[] configIds)
     {
+        for (Long configId : configIds)
+        {
+            SysConfig config = selectConfigById(configId);
+            if (StringUtils.equals(UserConstants.YES, config.getConfigType()))
+            {
+                throw new CustomException(String.format("内置参数【%1$s】不能删除 ", config.getConfigKey()));
+            }
+        }
         int count = configMapper.deleteConfigByIds(configIds);
         if (count > 0)
         {
