@@ -57,7 +57,7 @@ public class AuthFilter implements GlobalFilter, Ordered
         String userStr = sops.get(CacheConstants.LOGIN_TOKEN_KEY + token);
         if (StringUtils.isNull(userStr))
         {
-            return setUnauthorizedResponse(exchange, "令牌验证失败");
+            return setUnauthorizedResponse(exchange, "登录状态已过期");
         }
         JSONObject obj = JSONObject.parseObject(userStr);
         String userid = obj.getString("userid");
