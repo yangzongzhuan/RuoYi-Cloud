@@ -29,7 +29,7 @@ public class GlobalExceptionHandler
     @ExceptionHandler(BaseException.class)
     public AjaxResult baseException(BaseException e)
     {
-        return AjaxResult.error(e.getMessage());
+        return AjaxResult.error(e.getDefaultMessage());
     }
 
     /**

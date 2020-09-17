@@ -55,6 +55,12 @@ public class SysLoginService
         }
         // 查询用户信息
         R<LoginUser> userResult = remoteUserService.getUserInfo(username);
+
+        if (R.FAIL == userResult.getCode())
+        {
+            throw new BaseException(userResult.getMsg());
+        }
+
         if (StringUtils.isNull(userResult) || StringUtils.isNull(userResult.getData()))
         {
             remoteLogService.saveLogininfor(username, Constants.LOGIN_FAIL, "登录用户不存在");
