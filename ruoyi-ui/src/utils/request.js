@@ -89,6 +89,9 @@ export function download(url, params, filename) {
     transformRequest: [(params) => {
       return tansParams(params)
     }],
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    },
     responseType: 'blob'
   }).then((data) => {
     const content = data
