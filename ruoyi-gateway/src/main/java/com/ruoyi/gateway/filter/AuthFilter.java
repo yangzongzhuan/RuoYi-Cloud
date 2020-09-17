@@ -18,8 +18,10 @@ import org.springframework.web.server.ServerWebExchange;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.constant.CacheConstants;
+import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.gateway.config.properties.IgnoreWhiteProperties;
 import reactor.core.publisher.Mono;
 
@@ -32,6 +34,8 @@ import reactor.core.publisher.Mono;
 public class AuthFilter implements GlobalFilter, Ordered
 {
     private static final Logger log = LoggerFactory.getLogger(AuthFilter.class);
+    
+    private final static long EXPIRE_TIME = Constants.TOKEN_EXPIRE * 60;
 
     // 排除过滤的 uri 地址，nacos自行添加
     @Autowired
@@ -39,6 +43,9 @@ public class AuthFilter implements GlobalFilter, Ordered
 
     @Resource(name = "stringRedisTemplate")
     private ValueOperations<String, String> sops;
+    
+    @Autowired
+    private RedisService redisService;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain)
@@ -54,7 +61,7 @@ public class AuthFilter implements GlobalFilter, Ordered
         {
             return setUnauthorizedResponse(exchange, "令牌不能为空");
         }
-        String userStr = sops.get(CacheConstants.LOGIN_TOKEN_KEY + token);
+        String userStr = sops.get(getTokenKey(token));
         if (StringUtils.isNull(userStr))
         {
             return setUnauthorizedResponse(exchange, "登录状态已过期");
@@ -66,6 +73,9 @@ public class AuthFilter implements GlobalFilter, Ordered
         {
             return setUnauthorizedResponse(exchange, "令牌验证失败");
         }
+        
+        // 设置过期时间
+        redisService.expire(getTokenKey(token), EXPIRE_TIME);
         // 设置用户信息到请求
         ServerHttpRequest mutableReq = exchange.getRequest().mutate().header(CacheConstants.DETAILS_USER_ID, userid)
                 .header(CacheConstants.DETAILS_USERNAME, username).build();
@@ -86,6 +96,11 @@ public class AuthFilter implements GlobalFilter, Ordered
             DataBufferFactory bufferFactory = response.bufferFactory();
             return bufferFactory.wrap(JSON.toJSONBytes(R.fail(msg)));
         }));
+    }
+
+    private String getTokenKey(String token)
+    {
+        return CacheConstants.LOGIN_TOKEN_KEY + token;
     }
 
     /**
