@@ -67,6 +67,11 @@
 			font-size: 13px;
 		}
 	}
+	.el-table__body-wrapper {
+		.el-button [class*="el-icon-"] + span {
+			margin-left: 1px;
+		}
+	}
 }
 
 /** 表单布局 **/
@@ -85,6 +90,14 @@
 	margin-bottom: 10px;
 	margin-top: 15px;
 	padding: 10px 20px !important;
+}
+
+/* tree border */
+.tree-border {
+    margin-top: 5px;
+    border: 1px solid #e5e6e7;
+    background: #FFFFFF none;
+    border-radius:4px;
 }
 
 .pagination-container .el-pagination {
@@ -222,5 +235,6 @@
 }
 
 .top-right-btn {
+	position: relative;
 	float: right;
 }
