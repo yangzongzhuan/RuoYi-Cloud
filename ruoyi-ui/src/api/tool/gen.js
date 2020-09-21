@@ -66,3 +66,11 @@ export function genCode(tableName) {
     method: 'get'
   })
 }
+
+// 同步数据库
+export function synchDb(tableName) {
+  return request({
+    url: '/code/gen/synchDb/' + tableName,
+    method: 'get'
+  })
+}

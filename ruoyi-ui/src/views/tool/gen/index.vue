@@ -132,6 +132,13 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['tool:gen:remove']"
           >删除</el-button>
+		  <el-button
+            type="text"
+            size="small"
+            icon="el-icon-refresh"
+            @click="handleSynchDb(scope.row)"
+            v-hasPermi="['tool:gen:edit']"
+          >同步</el-button>
           <el-button
             type="text"
             size="small"
@@ -167,7 +174,7 @@
 </template>
 
 <script>
-import { listTable, previewTable, delTable, genCode } from "@/api/tool/gen";
+import { listTable, previewTable, delTable, genCode, synchDb } from "@/api/tool/gen";
 import importTable from "./importTable";
 import { downLoadZip } from "@/utils/zipdownload";
 export default {
@@ -251,6 +258,19 @@ export default {
       } else {
           downLoadZip("/code/gen/batchGenCode?tables=" + tableNames, "ruoyi");
       }
+    },
+    /** 同步数据库操作 */
+    handleSynchDb(row) {
+      const tableName = row.tableName;
+      this.$confirm('确认要强制同步"' + tableName + '"表结构吗？', "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+          return synchDb(tableName);
+      }).then(() => {
+          this.msgSuccess("同步成功");
+      }).catch(function() {});
     },
     /** 打开导入表弹窗 */
     openImportTable() {
