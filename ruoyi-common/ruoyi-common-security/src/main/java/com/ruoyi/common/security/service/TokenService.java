@@ -11,6 +11,7 @@ import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.utils.IdUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
+import com.ruoyi.common.core.utils.ip.IpUtils;
 import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.system.api.model.LoginUser;
 
@@ -41,6 +42,7 @@ public class TokenService
         loginUser.setToken(token);
         loginUser.setUserid(loginUser.getSysUser().getUserId());
         loginUser.setUsername(loginUser.getSysUser().getUserName());
+        loginUser.setIpaddr(IpUtils.getIpAddr(ServletUtils.getRequest()));
         refreshToken(loginUser);
 
         // 保存或更新用户token

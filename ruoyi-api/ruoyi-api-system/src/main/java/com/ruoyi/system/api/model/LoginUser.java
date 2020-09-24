@@ -39,6 +39,11 @@ public class LoginUser implements Serializable
     private Long expireTime;
 
     /**
+     * 登录IP地址
+     */
+    private String ipaddr;
+
+    /**
      * 权限列表
      */
     private Set<String> permissions;
@@ -101,6 +106,16 @@ public class LoginUser implements Serializable
     public void setExpireTime(Long expireTime)
     {
         this.expireTime = expireTime;
+    }
+
+    public String getIpaddr()
+    {
+        return ipaddr;
+    }
+
+    public void setIpaddr(String ipaddr)
+    {
+        this.ipaddr = ipaddr;
     }
 
     public Set<String> getPermissions()
