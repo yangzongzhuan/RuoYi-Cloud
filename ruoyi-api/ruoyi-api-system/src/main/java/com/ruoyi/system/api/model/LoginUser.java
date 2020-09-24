@@ -29,7 +29,7 @@ public class LoginUser implements Serializable
     private String username;
 
     /**
-     * 登陆时间
+     * 登录时间
      */
     private Long loginTime;
 
