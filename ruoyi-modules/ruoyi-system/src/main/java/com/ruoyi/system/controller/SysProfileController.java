@@ -10,8 +10,10 @@ import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.security.service.TokenService;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysUser;
+import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.service.ISysUserService;
 
 /**
@@ -25,6 +27,9 @@ public class SysProfileController extends BaseController
 {
     @Autowired
     private ISysUserService userService;
+    
+    @Autowired
+    private TokenService tokenService;
 
     /**
      * 个人信息
@@ -49,6 +54,13 @@ public class SysProfileController extends BaseController
     {
         if (userService.updateUserProfile(user) > 0)
         {
+            LoginUser loginUser = tokenService.getLoginUser();
+            // 更新缓存用户信息
+            loginUser.getSysUser().setNickName(user.getNickName());
+            loginUser.getSysUser().setPhonenumber(user.getPhonenumber());
+            loginUser.getSysUser().setEmail(user.getEmail());
+            loginUser.getSysUser().setSex(user.getSex());
+            tokenService.setLoginUser(loginUser);
             return AjaxResult.success();
         }
         return AjaxResult.error("修改个人信息异常，请联系管理员");
@@ -74,6 +86,10 @@ public class SysProfileController extends BaseController
         }
         if (userService.resetUserPwd(username, SecurityUtils.encryptPassword(newPassword)) > 0)
         {
+            // 更新缓存用户密码
+            LoginUser loginUser = tokenService.getLoginUser();
+            loginUser.getSysUser().setPassword(SecurityUtils.encryptPassword(newPassword));
+            tokenService.setLoginUser(loginUser);
             return AjaxResult.success();
         }
         return AjaxResult.error("修改密码异常，请联系管理员");

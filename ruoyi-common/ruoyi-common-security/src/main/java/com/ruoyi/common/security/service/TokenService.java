@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.utils.IdUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
+import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.ip.IpUtils;
 import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.system.api.model.LoginUser;
@@ -81,6 +81,17 @@ public class TokenService
         return null;
     }
 
+    /**
+     * 设置用户身份信息
+     */
+    public void setLoginUser(LoginUser loginUser)
+    {
+        if (StringUtils.isNotNull(loginUser) && StringUtils.isNotEmpty(loginUser.getToken()))
+        {
+            refreshToken(loginUser);
+        }
+    }
+
     public void delLoginUser(String token)
     {
         if (StringUtils.isNotEmpty(token))
@@ -95,14 +106,13 @@ public class TokenService
      *
      * @param loginUser 登录信息
      */
-    public Long refreshToken(LoginUser loginUser)
+    public void refreshToken(LoginUser loginUser)
     {
         loginUser.setLoginTime(System.currentTimeMillis());
         loginUser.setExpireTime(loginUser.getLoginTime() + EXPIRE_TIME * MILLIS_SECOND);
         // 根据uuid将loginUser缓存
         String userKey = getTokenKey(loginUser.getToken());
         redisService.setCacheObject(userKey, loginUser, EXPIRE_TIME, TimeUnit.SECONDS);
-        return EXPIRE_TIME;
     }
 
     private String getTokenKey(String token)

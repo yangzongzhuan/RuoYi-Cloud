@@ -58,7 +58,8 @@ public class TokenController
         if (StringUtils.isNotNull(loginUser))
         {
             // 刷新令牌有效期
-            return R.ok(tokenService.refreshToken(loginUser));
+            tokenService.refreshToken(loginUser);
+            return R.ok();
         }
         return R.ok();
     }
