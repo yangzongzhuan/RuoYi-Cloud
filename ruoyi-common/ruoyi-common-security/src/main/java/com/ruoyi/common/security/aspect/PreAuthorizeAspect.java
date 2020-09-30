@@ -79,7 +79,7 @@ public class PreAuthorizeAspect
             }
             throw new PreAuthorizeException();
         }
-        else if (StringUtils.isEmpty(annotation.lacksRole()))
+        else if (!StringUtils.isEmpty(annotation.lacksRole()))
         {
             if (lacksRole(annotation.lacksRole()))
             {
@@ -87,7 +87,7 @@ public class PreAuthorizeAspect
             }
             throw new PreAuthorizeException();
         }
-        else if (StringUtils.isEmpty(annotation.hasAnyRoles()))
+        else if (!StringUtils.isEmpty(annotation.hasAnyRoles()))
         {
             if (hasAnyRoles(annotation.hasAnyRoles()))
             {
