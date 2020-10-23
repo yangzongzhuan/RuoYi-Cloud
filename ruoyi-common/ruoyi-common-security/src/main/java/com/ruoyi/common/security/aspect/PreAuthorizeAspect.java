@@ -35,6 +35,9 @@ public class PreAuthorizeAspect
     /** 管理员角色权限标识 */
     private static final String SUPER_ADMIN = "admin";
 
+    /** 数组为0时 */
+    private static final Integer ARRAY_EMPTY = 0;
+
     @Around("@annotation(com.ruoyi.common.security.annotation.PreAuthorize)")
     public Object around(ProceedingJoinPoint point) throws Throwable
     {
@@ -63,7 +66,7 @@ public class PreAuthorizeAspect
             }
             throw new PreAuthorizeException();
         }
-        else if (!StringUtils.isEmpty(annotation.hasAnyPermi()))
+        else if (ARRAY_EMPTY < annotation.hasAnyPermi().length)
         {
             if (hasAnyPermi(annotation.hasAnyPermi()))
             {
@@ -87,7 +90,7 @@ public class PreAuthorizeAspect
             }
             throw new PreAuthorizeException();
         }
-        else if (!StringUtils.isEmpty(annotation.hasAnyRoles()))
+        else if (ARRAY_EMPTY < annotation.hasAnyRoles().length)
         {
             if (hasAnyRoles(annotation.hasAnyRoles()))
             {
