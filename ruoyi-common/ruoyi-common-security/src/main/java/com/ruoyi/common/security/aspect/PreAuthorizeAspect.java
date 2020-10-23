@@ -168,7 +168,7 @@ public class PreAuthorizeAspect
         }
         for (String roleKey : userInfo.getRoles())
         {
-            if (SUPER_ADMIN.contains(roleKey) || roleKey.contains(role))
+            if (SUPER_ADMIN.equals(roleKey) || roleKey.equals(role))
             {
                 return true;
             }
