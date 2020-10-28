@@ -20,7 +20,7 @@ public interface RemoteUserService
      * 通过用户名查询用户信息
      *
      * @param username 用户名
-     * @return 结果
+     * @return 结果1
      */
     @GetMapping(value = "/user/info/{username}")
     public R<LoginUser> getUserInfo(@PathVariable("username") String username);
