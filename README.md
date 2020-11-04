@@ -110,4 +110,4 @@ com.ruoyi
 
 ## 若依微服务交流群
 
-QQ群： [![加入QQ群](https://img.shields.io/badge/已满-42799195-blue.svg)](https://jq.qq.com/?_wv=1027&k=yqInfq0S) [![加入QQ群](https://img.shields.io/badge/170157040-blue.svg)](https://jq.qq.com/?_wv=1027&k=Oy1mb3p8) 点击按钮入群。
+QQ群： [![加入QQ群](https://img.shields.io/badge/已满-42799195-blue.svg)](https://jq.qq.com/?_wv=1027&k=yqInfq0S) [![加入QQ群](https://img.shields.io/badge/已满-170157040-blue.svg)](https://jq.qq.com/?_wv=1027&k=Oy1mb3p8) [![加入QQ群](https://img.shields.io/badge/130643120-blue.svg)](https://jq.qq.com/?_wv=1027&k=rvxkJtXK) 点击按钮入群。
