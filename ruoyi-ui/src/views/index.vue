@@ -1,98 +1,412 @@
 <template>
-  <div class="dashboard-editor-container">
+  <div class="app-container home">
+    <el-row :gutter="20">
+      <el-col :sm="24" :lg="24">
+        <blockquote class="text-warning" style="font-size: 14px">
+          领取阿里云通用云产品1888优惠券
+          <br />
+          <el-link
+            href="https://www.aliyun.com/minisite/goods?userCode=brki8iof"
+            type="primary"
+            target="_blank"
+            >https://www.aliyun.com/minisite/goods?userCode=brki8iof</el-link
+          >
+          <br />
+          领取腾讯云通用云产品2860优惠券
+          <br />
+          <el-link
+            href="https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console"
+            type="primary"
+            target="_blank"
+            >https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console</el-link
+          >
+          <br />
+          阿里云服务器折扣区
+          <el-link href="http://aly.ruoyi.vip" type="primary" target="_blank"
+            >>☛☛点我进入☚☚</el-link
+          >
+          &nbsp;&nbsp;&nbsp; 腾讯云服务器秒杀区
+          <el-link href="http://txy.ruoyi.vip" type="primary" target="_blank"
+            >>☛☛点我进入☚☚</el-link
+          ><br />
+          <h4 class="text-danger">
+            云产品通用红包，可叠加官网常规优惠使用。(仅限新用户)
+          </h4>
+        </blockquote>
 
-    <panel-group @handleSetLineChartData="handleSetLineChartData" />
-
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <line-chart :chart-data="lineChartData" />
+        <hr />
+      </el-col>
     </el-row>
+    <el-row :gutter="20">
+      <el-col :sm="24" :lg="12" style="padding-left: 20px">
+        <h2>若依后台管理框架</h2>
+        <p>
+          一直想做一款后台管理系统，看了很多优秀的开源项目但是发现没有合适自己的。于是利用空闲休息时间开始自己写一套后台系统。如此有了若依管理系统。，她可以用于所有的Web应用程序，如网站管理后台，网站会员中心，CMS，CRM，OA等等，当然，您也可以对她进行深度定制，以做出更强系统。所有前端后台代码封装过后十分精简易上手，出错概率低。同时支持移动客户端访问。系统会陆续更新一些实用功能。
+        </p>
+        <p>
+          <b>当前版本:</b> <span>v{{ version }}</span>
+        </p>
+        <p>
+          <el-tag type="danger">&yen;免费开源</el-tag>
+        </p>
+        <p>
+          <el-button
+            type="primary"
+            size="mini"
+            icon="el-icon-cloudy"
+            plain
+            @click="goTarget('https://gitee.com/y_project/RuoYi-Cloud')"
+            >访问码云</el-button
+          >
+          <el-button
+            size="mini"
+            icon="el-icon-s-home"
+            plain
+            @click="goTarget('http://ruoyi.vip')"
+            >访问主页</el-button
+          >
+        </p>
+      </el-col>
 
-    <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <raddar-chart />
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <pie-chart />
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <bar-chart />
-        </div>
+      <el-col :sm="24" :lg="12" style="padding-left: 50px">
+        <el-row>
+          <el-col :span="12">
+            <h2>技术选型</h2>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">
+            <h4>后端技术</h4>
+            <ul>
+              <li>SpringBoot</li>
+              <li>SpringCloud</li>
+              <li>Nacos</li>
+              <li>Sentinel</li>
+              <li>MyBatis</li>
+              <li>Fastjson</li>
+              <li>...</li>
+            </ul>
+          </el-col>
+          <el-col :span="6">
+            <h4>前端技术</h4>
+            <ul>
+              <li>Vue</li>
+              <li>Vuex</li>
+              <li>Element-ui</li>
+              <li>Axios</li>
+              <li>Sass</li>
+              <li>Quill</li>
+              <li>...</li>
+            </ul>
+          </el-col>
+        </el-row>
       </el-col>
     </el-row>
+    <el-divider />
+    <el-row :gutter="20">
+      <el-col :xs="24" :sm="24" :md="12" :lg="8">
+        <el-card class="update-log">
+          <div slot="header" class="clearfix">
+            <span>联系信息</span>
+          </div>
+          <div class="body">
+            <p>
+              <i class="el-icon-s-promotion"></i> 官网：<el-link
+                href="http://www.ruoyi.vip"
+                target="_blank"
+                >http://www.ruoyi.vip</el-link
+              >
+            </p>
+            <p>
+              <i class="el-icon-user-solid"></i> QQ群：<s>满42799195</s>
+              <s>满170157040</s>
+              <a
+                href="https://jq.qq.com/?_wv=1027&k=MI9Ro7lk"
+                target="_blank"
+              >
+                130643120</a
+              >
+            </p>
+            <p>
+              <i class="el-icon-chat-dot-round"></i> 微信：<a
+                href="javascript:;"
+                >/ *若依</a
+              >
+            </p>
+            <p>
+              <i class="el-icon-money"></i> 支付宝：<a
+                href="javascript:;"
+                class="支付宝信息"
+                >/ *若依</a
+              >
+            </p>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :xs="24" :sm="24" :md="12" :lg="8">
+        <el-card class="update-log">
+          <div slot="header" class="clearfix">
+            <span>更新日志</span>
+          </div>
+          <el-collapse accordion>
+            <el-collapse-item title="v2.2.0 - 2020-10-10">
+              <ol>
+                <li>移除 OAuth2 改为 Redis</li>
+                <li>升级SpringCloud到最新版本Hoxton.SR8</li>
+                <li>升级SpringCloud Alibaba到最新版本2.2.3</li>
+                <li>升级SpringBoot Admin到最新版本2.3.0</li>
+                <li>升级Fastjson到最新版1.2.73</li>
+                <li>新增在线用户会话管理</li>
+                <li>修改用户个人资料/密码同步缓存信息</li>
+                <li>修复前端通用导出方法参数传值请求方式问题</li>
+                <li>菜单新增是否缓存keep-alive</li>
+                <li>菜单&数据权限新增（展开/折叠 全选/全不选 父子联动）</li>
+                <li>Job与Gen模块增加Redis默认配置</li>
+                <li>新增表格右侧工具栏组件right-toolbar</li>
+                <li>代码生成支持同步数据库</li>
+                <li>代码生成支持富文本控件</li>
+                <li>代码生成树模板去掉多余双引号</li>
+                <li>代码生成添加select必填选项</li>
+                <li>代码生成页面时不忽略remark属性</li>
+                <li>修复代码生成下载路径错误</li>
+                <li>左侧菜单文字过长显示省略号</li>
+                <li>表格操作列间距调整</li>
+                <li>Excel注解支持自动统计数据总和</li>
+                <li>Excel注解支持设置BigDecimal精度&舍入规则</li>
+                <li>导入Excel整形值校验优化</li>
+                <li>导出Excel类型NUMERIC支持精度浮点类型</li>
+                <li>导出Excel调整targetAttr获取值方法，防止get方法不规范</li>
+                <li>Token续期调整为后端刷新</li>
+                <li>Token设置默认有效期时长12小时</li>
+                <li>网关白名单放入nacos配置&支持模糊匹配</li>
+                <li>修复富文本工具栏样式不对齐问题</li>
+                <li>Editor组件优化，支持自定义高度&图片冲突问题</li>
+                <li>
+                  修复富文本空格和缩进保存后不生效问题&删除重复的placeholder
+                </li>
+                <li>限制系统内置参数不允许删除</li>
+                <li>修正调用目标字符串最大长度</li>
+                <li>修改自定义权限实现</li>
+                <li>优化递归菜单&部门子节点</li>
+                <li>修改sass为node-sass，避免el-icon图标乱码</li>
+                <li>修复根节点为子部门时，树状结构显示问题</li>
+                <li>全局异常状态汉化拦截处理</li>
+                <li>唯一限制条件只返回单条数据</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
 
-    
+            <el-collapse-item title="v2.1.0 - 2020-08-02">
+              <ol>
+                <li>表格工具栏右侧添加刷新&显隐查询栏</li>
+                <li>OAuth自动刷新续签Token</li>
+                <li>网关支持黑名单配置</li>
+                <li>权限配置自动注册</li>
+                <li>Feign配置自动注册</li>
+                <li>代码生成支持选择上级菜单</li>
+                <li>代码生成支持复选框</li>
+                <li>代码生成支持自定义路径</li>
+                <li>验证码类型支持（数组计算、字符验证）</li>
+                <li>Excel支持sort导出排序</li>
+                <li>Excel支持分割字符串组内容</li>
+                <li>excel 导入数字不需要格式化 ，导入允许列和属性个数不一致</li>
+                <li>新增菜单默认主类目</li>
+                <li>升级vue-cli版本到4.4.4</li>
+                <li>修改 node-sass 为 dart-sass</li>
+                <li>升级element-ui版本到2.13.2</li>
+                <li>删除babel，提高编译速度</li>
+                <li>修复验证码异常时network面板的中文会出现乱码问题</li>
+                <li>修复 utils/index.js 中不包含 parseTime 函数的 bug</li>
+                <li>优化selectDictLabel方法，数组迭代器换为some</li>
+                <li>修复客户端模式认证会出现错误</li>
+                <li>检查字符支持小数点&降级改成异常提醒</li>
+                <li>定时任务添加cron表达式验证</li>
+                <li>代码生成查询条件修正</li>
+                <li>修正角色管理导出权限权限字符</li>
+                <li>修正防止切换权限用户后登录出现404</li>
+                <li>终端设置安全码加密&更新缓存</li>
+                <li>修复头像上传成功二次打开无法改变裁剪框大小和位置问题</li>
+                <li>修复布局为small者mini用户表单显示错位问题</li>
+                <li>修复代码生成点击多次表修改数据不变化的问题</li>
+                <li>修复代码生成导入表结构出现异常页面不提醒问题</li>
+                <li>修复角色权限修改时已有权限未自动勾选异常</li>
+                <li>创建用户不允许选择系统管理员角色</li>
+                <li>添加全局异常处理（网关异常&业务异常）</li>
+                <li>修复终端查询Enter键搜索时是刷新页面而不是查询列表</li>
+                <li>删除job重复表单参数</li>
+                <li>代码生成浮点型改用BigDecimal</li>
+                <li>表单类型为Integer/Long设置整形默认值</li>
+                <li>修改用户管理复选框宽度，防止部分浏览器出现省略号</li>
+                <li>
+                  RedisCache中所有方法参数添加final，并优化list取出效率，添加其它常用redis方法
+                </li>
+                <li>修正定时任务日志权限字符</li>
+                <li>添加Jackson时区配置</li>
+                <li>代码生成相关问题修复</li>
+                <li>自定义oauth2返回异常信息</li>
+                <li>升级nacos到最新版1.3.0 全新内核构建</li>
+                <li>修正【代码生成】功能无法下载的问题</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
+
+            <el-collapse-item title="v2.0.0 - 2019-12-02">
+              <ol>
+                <li>新增代码生成</li>
+                <li>新增@RepeatSubmit注解，防止重复提交</li>
+                <li>新增菜单主目录添加/删除操作</li>
+                <li>日志记录过滤特殊对象，防止转换异常</li>
+                <li>修改代码生成路由脚本错误</li>
+                <li>用户上传头像实时同步缓存，无需重新登录</li>
+                <li>调整切换页签后不重新加载数据</li>
+                <li>添加jsencrypt实现参数的前端加密</li>
+                <li>系统退出删除用户缓存记录</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
+            <el-collapse-item title="v2.0.0 - 2020-06-10">
+              <ol>
+                <li>使用Sentinel代替Hystrix</li>
+                <li>菜单新增终端管理配置</li>
+                <li>菜单新增Nacos&Sentinel控制台</li>
+                <li>代码生成适配Cloud</li>
+                <li>记录登录退出日志信息</li>
+                <li>网关验证码过滤器添加放行校验</li>
+                <li>个性化的定制自动加载类</li>
+                <li>定时任务调整label-width，防止部署出现错位</li>
+                <li>调整表头固定列默认样式</li>
+                <li>代码生成模板调整，字段为String并且必填则加空串条件</li>
+                <li>代码生成字典Integer/Long使用parseInt</li>
+                <li>修复退出登录重定向到登录页，登录后参数丢失。</li>
+                <li>修正岗位导出权限注解</li>
+                <li>修复首页搜索菜单外链无法点击跳转问题</li>
+                <li>修复菜单管理选择图标，backspace删除时不过滤数据</li>
+                <li>用户管理部门分支节点不可检查&显示计数</li>
+                <li>数据范围过滤属性调整</li>
+                <li>字典管理添加缓存读取</li>
+                <li>参数管理支持缓存操作</li>
+                <li>升级fastjson到最新版1.2.70 修复高危安全漏洞</li>
+                <li>dev启动默认打开浏览器</li>
+                <li>使用vue-cli默认source-map</li>
+                <li>slidebar eslint报错优化</li>
+                <li>当tags-view滚动关闭右键菜单</li>
+                <li>支持一级菜单（和主页同级）在main区域显示</li>
+                <li>限制外链地址必须以http(s)😕/开头</li>
+                <li>tagview & sidebar 主题颜色与element ui(全局)同步</li>
+                <li>
+                  修复dict_sort不可update为0的问题&查询返回增加dict_sort升序排序
+                </li>
+                <li>权限部分代码调整</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
+            <el-collapse-item title="v1.0.0 - 2020-05-20">
+              <ol>
+                <li>若依微服务系统正式发布</li>
+              </ol>
+            </el-collapse-item>
+          </el-collapse>
+        </el-card>
+      </el-col>
+      <el-col :xs="24" :sm="24" :md="12" :lg="8">
+        <el-card class="update-log">
+          <div slot="header" class="clearfix">
+            <span>捐赠支持</span>
+          </div>
+          <div class="body">
+            <img
+              src="https://oscimg.oschina.net/oscnet/up-d6695f82666e5018f715c41cb7ee60d3b73.png"
+              alt="donate"
+              width="100%"
+            />
+            <span style="display: inline-block; height: 30px; line-height: 30px"
+              >你可以请作者喝杯咖啡表示鼓励</span
+            >
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
-import PanelGroup from './dashboard/PanelGroup'
-import LineChart from './dashboard/LineChart'
-import RaddarChart from './dashboard/RaddarChart'
-import PieChart from './dashboard/PieChart'
-import BarChart from './dashboard/BarChart'
-
-const lineChartData = {
-  newVisitis: {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
-  },
-  messages: {
-    expectedData: [200, 192, 120, 144, 160, 130, 140],
-    actualData: [180, 160, 151, 106, 145, 150, 130]
-  },
-  purchases: {
-    expectedData: [80, 100, 121, 104, 105, 90, 100],
-    actualData: [120, 90, 100, 138, 142, 130, 130]
-  },
-  shoppings: {
-    expectedData: [130, 140, 141, 142, 145, 150, 160],
-    actualData: [120, 82, 91, 154, 162, 140, 130]
-  }
-}
-
 export default {
-  name: 'Index',
-  components: {
-    PanelGroup,
-    LineChart,
-    RaddarChart,
-    PieChart,
-    BarChart
-  },
+  name: "index",
   data() {
     return {
-      lineChartData: lineChartData.newVisitis
-    }
+      // 版本号
+      version: "2.2.0",
+    };
   },
   methods: {
-    handleSetLineChartData(type) {
-      this.lineChartData = lineChartData[type]
-    }
-  }
-}
+    goTarget(href) {
+      window.open(href, "_blank");
+    },
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-.dashboard-editor-container {
-  padding: 32px;
-  background-color: rgb(240, 242, 245);
-  position: relative;
-
-  .chart-wrapper {
-    background: #fff;
-    padding: 16px 16px 0;
-    margin-bottom: 32px;
+<style scoped lang="scss">
+.home {
+  blockquote {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    font-size: 17.5px;
+    border-left: 5px solid #eee;
   }
-}
+  hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #eee;
+  }
+  .col-item {
+    margin-bottom: 20px;
+  }
 
-@media (max-width:1024px) {
-  .chart-wrapper {
-    padding: 8px;
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  color: #676a6c;
+  overflow-x: hidden;
+
+  ul {
+    list-style-type: none;
+  }
+
+  h4 {
+    margin-top: 0px;
+  }
+
+  h2 {
+    margin-top: 10px;
+    font-size: 26px;
+    font-weight: 100;
+  }
+
+  p {
+    margin-top: 10px;
+
+    b {
+      font-weight: 700;
+    }
+  }
+
+  .update-log {
+    ol {
+      display: block;
+      list-style-type: decimal;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0;
+      margin-inline-end: 0;
+      padding-inline-start: 40px;
+    }
   }
 }
 </style>
+
