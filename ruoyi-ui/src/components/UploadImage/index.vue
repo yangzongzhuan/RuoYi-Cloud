@@ -24,7 +24,7 @@ export default {
   components: {},
   data() {
     return {
-      uploadImgUrl: process.env.VUE_APP_BASE_API + "/common/upload", // 上传的图片服务器地址
+      uploadImgUrl: process.env.VUE_APP_BASE_API + "/file/upload", // 上传的图片服务器地址
       headers: {
         Authorization: "Bearer " + getToken(),
       },
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     handleUploadSuccess(res) {
-      this.$emit("input", res.url);
+      this.$emit("input", res.data.url);
       this.loading.close();
     },
     handleBeforeUpload() {
