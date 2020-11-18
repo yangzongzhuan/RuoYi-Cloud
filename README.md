@@ -38,7 +38,7 @@ com.ruoyi
 
 ## 架构图
 
-<img src="https://oscimg.oschina.net/oscnet/up-7b2c5c9eba71c66ea7bb5fd3af0e9f95ac7.png"/>
+<img src="https://oscimg.oschina.net/oscnet/up-8b9f92ed62f8aa17bd95999272f12a5927c.png"/>
 
 ## 内置功能
 
@@ -104,7 +104,7 @@ com.ruoyi
         <td><img src="https://oscimg.oschina.net/oscnet/up-92ffb7f3835855cff100fa0f754a6be0d99.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-d69a19493e5aff7ecdd5d02410862bcea40.png"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/up-ff9e3066561574aca73005c5730c6a41f15.png"/></td>
         <td><img src="https://oscimg.oschina.net/oscnet/up-6d73c2140ce694e3de4c05035fdc1868d4c.png"/></td>
     </tr>
 </table>
