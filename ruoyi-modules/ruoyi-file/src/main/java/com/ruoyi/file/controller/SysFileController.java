@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.utils.file.FileUtils;
 import com.ruoyi.file.service.ISysFileService;
 import com.ruoyi.system.api.domain.SysFile;
 
@@ -27,18 +28,6 @@ public class SysFileController
     @Value("${file.path}")
     private String localFilePath;
 
-    /**
-     * 资源映射路径 前缀
-     */
-    @Value("${file.prefix}")
-    public String localFilePrefix;
-
-    /**
-     * 域名或本机访问地址
-     */
-    @Value("${file.domain}")
-    public String domain;
-
     @Autowired
     private ISysFileService sysFileService;
 
@@ -50,11 +39,10 @@ public class SysFileController
     {
         try
         {
-            // 上传并返回新文件名称
-            String fileName = sysFileService.uploadFile(file, localFilePath);
-            String url = domain + localFilePrefix + fileName;
+            // 上传并返回访问地址
+            String url = sysFileService.uploadFile(file, localFilePath);
             SysFile sysFile = new SysFile();
-            sysFile.setName(fileName);
+            sysFile.setName(FileUtils.getName(url));
             sysFile.setUrl(url);
             return R.ok(sysFile);
         }

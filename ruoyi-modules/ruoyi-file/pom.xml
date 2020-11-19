@@ -48,6 +48,13 @@
             <version>${swagger.fox.version}</version>
         </dependency>
         
+        <!-- FastDFS -->
+        <dependency>
+            <groupId>com.github.tobato</groupId>
+            <artifactId>fastdfs-client</artifactId>
+            <version>1.26.5</version>
+        </dependency>
+        
         <!-- Ruoyi Common Security -->
         <dependency>
             <groupId>com.ruoyi</groupId>
