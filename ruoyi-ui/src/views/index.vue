@@ -149,6 +149,28 @@
             <span>更新日志</span>
           </div>
           <el-collapse accordion>
+            <el-collapse-item title="v2.3.0 - 2020-11-20">
+              <ol>
+                <li>新增文件服务应用（支持本地、FastDFS）</li>
+                <li>优化头像样式，鼠标移入悬停遮罩</li>
+                <li>AjaxResult重写put方法，以方便链式调用</li>
+                <li>代码生成支持上传控件</li>
+                <li>新增图片上传组件</li>
+                <li>支持用户头像更新</li>
+                <li>调整默认首页</li>
+                <li>角色权限验证hasRole匹配改为equals</li>
+                <li>修正数组权限为空判断</li>
+                <li>修正注释选中节点和半选节点获取</li>
+                <li>升级pagehelper到最新版1.3.0</li>
+                <li>升级fastjson到最新版1.2.74</li>
+                <li>修正定时任务执行一次权限标识</li>
+                <li>修复页签关闭所有固定标签路由不刷新问题</li>
+                <li>表单构建布局型组件新增按钮</li>
+                <li>调整日志路径到模块目录</li>
+                <li>修正菜单提示信息错误</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
             <el-collapse-item title="v2.2.0 - 2020-10-10">
               <ol>
                 <li>移除 OAuth2 改为 Redis</li>
@@ -335,7 +357,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "2.2.0",
+      version: "2.3.0",
     };
   },
   methods: {
