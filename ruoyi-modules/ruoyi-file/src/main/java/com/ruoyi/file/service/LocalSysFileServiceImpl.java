@@ -26,6 +26,12 @@ public class LocalSysFileServiceImpl implements ISysFileService
      */
     @Value("${file.domain}")
     public String domain;
+    
+    /**
+     * 上传文件存储在本地的根路径
+     */
+    @Value("${file.path}")
+    private String localFilePath;
 
     /**
      * 本地文件上传接口
@@ -35,9 +41,9 @@ public class LocalSysFileServiceImpl implements ISysFileService
      * @return 访问地址
      * @throws Exception
      */
-    public String uploadFile(MultipartFile file, String baseDir) throws Exception
+    public String uploadFile(MultipartFile file) throws Exception
     {
-        String name = FileUploadUtils.upload(baseDir, file);
+        String name = FileUploadUtils.upload(localFilePath, file);
         String url = domain + localFilePrefix + name;
         return url;
     }

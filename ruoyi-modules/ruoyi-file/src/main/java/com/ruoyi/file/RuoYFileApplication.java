@@ -4,7 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
 
 /**
@@ -13,7 +12,6 @@ import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
  * @author ruoyi
  */
 @EnableCustomSwagger2
-@EnableRyFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class RuoYFileApplication

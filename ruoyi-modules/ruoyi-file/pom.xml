@@ -52,16 +52,15 @@
         <dependency>
             <groupId>com.github.tobato</groupId>
             <artifactId>fastdfs-client</artifactId>
-            <version>1.26.5</version>
         </dependency>
         
-        <!-- Ruoyi Common Security -->
+        <!-- RuoYi Api System -->
         <dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-security</artifactId>
+            <artifactId>ruoyi-api-system</artifactId>
         </dependency>
         
-        <!-- Ruoyi Common Swagger -->
+        <!-- RuoYi Common Swagger -->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-swagger</artifactId>

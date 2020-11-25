@@ -60,19 +60,13 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
         
-        <!-- Ruoyi Common Security-->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-security</artifactId>
-        </dependency>
-        
-        <!-- Ruoyi Common Log -->
+        <!-- RuoYi Common Log -->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-log</artifactId>
         </dependency>
         
-        <!-- Ruoyi Common Swagger -->
+        <!-- RuoYi Common Swagger -->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-swagger</artifactId>
