@@ -1,5 +1,6 @@
 package com.ruoyi.common.core.utils;
 
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.text.Convert;
@@ -25,6 +26,27 @@ public class SecurityUtils
     public static Long getUserId()
     {
         return Convert.toLong(ServletUtils.getRequest().getHeader(CacheConstants.DETAILS_USER_ID));
+    }
+
+    /**
+     * 获取请求token
+     */
+    public static String getToken()
+    {
+        return getToken(ServletUtils.getRequest());
+    }
+
+    /**
+     * 根据request获取请求token
+     */
+    public static String getToken(HttpServletRequest request)
+    {
+        String token = ServletUtils.getRequest().getHeader(CacheConstants.HEADER);
+        if (StringUtils.isNotEmpty(token) && token.startsWith(CacheConstants.TOKEN_PREFIX))
+        {
+            token = token.replace(CacheConstants.TOKEN_PREFIX, "");
+        }
+        return token;
     }
 
     /**

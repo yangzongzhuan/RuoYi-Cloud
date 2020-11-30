@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.utils.IdUtils;
+import com.ruoyi.common.core.utils.SecurityUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.ip.IpUtils;
@@ -71,7 +72,7 @@ public class TokenService
     public LoginUser getLoginUser(HttpServletRequest request)
     {
         // 获取请求携带的令牌
-        String token = getToken(request);
+        String token = SecurityUtils.getToken(request);
         if (StringUtils.isNotEmpty(token))
         {
             String userKey = getTokenKey(token);
@@ -118,18 +119,5 @@ public class TokenService
     private String getTokenKey(String token)
     {
         return ACCESS_TOKEN + token;
-    }
-
-    /**
-     * 获取请求token
-     */
-    private String getToken(HttpServletRequest request)
-    {
-        String token = request.getHeader(CacheConstants.HEADER);
-        if (StringUtils.isNotEmpty(token) && token.startsWith(CacheConstants.TOKEN_PREFIX))
-        {
-            token = token.replace(CacheConstants.TOKEN_PREFIX, "");
-        }
-        return token;
     }
 }

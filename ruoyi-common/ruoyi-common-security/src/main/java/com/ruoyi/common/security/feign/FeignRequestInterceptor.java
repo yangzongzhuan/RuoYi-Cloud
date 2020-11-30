@@ -35,6 +35,11 @@ public class FeignRequestInterceptor implements RequestInterceptor
             {
                 requestTemplate.header(CacheConstants.DETAILS_USERNAME, userName);
             }
+            String authentication = headers.get(CacheConstants.AUTHORIZATION_HEADER);
+            if (StringUtils.isNotEmpty(authentication))
+            {
+                requestTemplate.header(CacheConstants.AUTHORIZATION_HEADER, authentication);
+            }
         }
     }
 }
