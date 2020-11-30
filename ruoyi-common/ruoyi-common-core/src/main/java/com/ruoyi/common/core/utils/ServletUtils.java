@@ -1,6 +1,9 @@
 package com.ruoyi.common.core.utils;
 
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -53,7 +56,14 @@ public class ServletUtils
      */
     public static HttpServletRequest getRequest()
     {
-        return getRequestAttributes().getRequest();
+        try
+        {
+            return getRequestAttributes().getRequest();
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
     }
 
     /**
@@ -61,7 +71,14 @@ public class ServletUtils
      */
     public static HttpServletResponse getResponse()
     {
-        return getRequestAttributes().getResponse();
+        try
+        {
+            return getRequestAttributes().getResponse();
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
     }
 
     /**
@@ -74,8 +91,31 @@ public class ServletUtils
 
     public static ServletRequestAttributes getRequestAttributes()
     {
-        RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
-        return (ServletRequestAttributes) attributes;
+        try
+        {
+            RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
+            return (ServletRequestAttributes) attributes;
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+
+    public static Map<String, String> getHeaders(HttpServletRequest request)
+    {
+        Map<String, String> map = new LinkedHashMap<>();
+        Enumeration<String> enumeration = request.getHeaderNames();
+        if (enumeration != null)
+        {
+            while (enumeration.hasMoreElements())
+            {
+                String key = enumeration.nextElement();
+                String value = request.getHeader(key);
+                map.put(key, value);
+            }
+        }
+        return map;
     }
 
     /**
