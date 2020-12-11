@@ -165,7 +165,7 @@
           :name="key.substring(key.lastIndexOf('/')+1,key.indexOf('.vm'))"
           :key="key"
         >
-          <pre>{{ value }}</pre>
+          <highlightjs autodetect :code="value" />
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
