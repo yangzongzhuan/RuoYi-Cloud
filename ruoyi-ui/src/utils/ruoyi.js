@@ -158,7 +158,7 @@ export function handleTree(data, id, parentId, children, rootId) {
 export function tansParams(params) {
 	let result = ''
 	Object.keys(params).forEach((key) => {
-		if (!Object.is(params[key], undefined) && !Object.is(params[key], null)) {
+		if (!Object.is(params[key], undefined) && !Object.is(params[key], null) && !Object.is(JSON.stringify(params[key]), '{}')) {
 			result += encodeURIComponent(key) + '=' + encodeURIComponent(params[key]) + '&'
 		}
 	})
