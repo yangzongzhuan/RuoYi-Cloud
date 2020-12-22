@@ -40,7 +40,7 @@ com.ruoyi
 
 ## 架构图
 
-<img src="https://oscimg.oschina.net/oscnet/up-8b9f92ed62f8aa17bd95999272f12a5927c.png"/>
+<img src="https://oscimg.oschina.net/oscnet/up-63c1c1dd2dc2b91d498164d9ee33682a32a.png"/>
 
 ## 内置功能
 
