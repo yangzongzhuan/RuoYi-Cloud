@@ -9,7 +9,7 @@ import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 
 /**
- * FastDFS文件存储
+ * FastDFS 文件存储
  * 
  * @author ruoyi
  */
