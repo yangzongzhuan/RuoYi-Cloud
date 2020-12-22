@@ -82,8 +82,8 @@
               <li>SpringCloud</li>
               <li>Nacos</li>
               <li>Sentinel</li>
-              <li>MyBatis</li>
-              <li>Fastjson</li>
+              <li>Minio</li>
+              <li>FastDFS</li>
               <li>...</li>
             </ul>
           </el-col>
@@ -179,7 +179,6 @@
                 <li>修正转换字符串的目标字符集属性</li>
                 <li>删除多余的依赖</li>
                 <li>修改node-sass为dart-sass</li>
-                <li>升级poi到最新版本4.1.2</li>
                 <li>升级poi到最新版本4.1.2</li>
                 <li>升级axios到最新版本0.21.0</li>
                 <li>升级element-ui到最新版本2.14.1</li>
