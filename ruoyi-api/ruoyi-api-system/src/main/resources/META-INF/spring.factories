@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.ruoyi.system.api.factory.RemoteUserFallbackFactory,\
-  com.ruoyi.system.api.factory.RemoteLogFallbackFactory
+  com.ruoyi.system.api.factory.RemoteLogFallbackFactory, \
+  com.ruoyi.system.api.factory.RemoteFileFallbackFactory
