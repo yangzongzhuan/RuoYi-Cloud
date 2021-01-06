@@ -1,14 +1,9 @@
 package com.ruoyi.common.core.utils;
 
 import javax.servlet.http.HttpServletRequest;
-
-import com.ruoyi.common.core.exception.BaseException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.text.Convert;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 /**
  * 权限获取工具类
@@ -22,13 +17,8 @@ public class SecurityUtils
      */
     public static String getUsername()
     {
-        String username = "";
-        try {
-            username = URLDecoder.decode(ServletUtils.getRequest().getHeader(CacheConstants.DETAILS_USERNAME), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new BaseException("获取username失败");
-        }
-        return username;
+        String username = ServletUtils.getRequest().getHeader(CacheConstants.DETAILS_USERNAME);
+        return ServletUtils.urlDecode(username);
     }
 
     /**
