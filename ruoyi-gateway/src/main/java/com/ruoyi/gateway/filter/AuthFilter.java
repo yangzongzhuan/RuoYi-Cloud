@@ -24,6 +24,8 @@ import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.gateway.config.properties.IgnoreWhiteProperties;
 import reactor.core.publisher.Mono;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * 网关鉴权
@@ -68,7 +70,7 @@ public class AuthFilter implements GlobalFilter, Ordered
         }
         JSONObject obj = JSONObject.parseObject(userStr);
         String userid = obj.getString("userid");
-        String username = obj.getString("username");
+        String username = urlEncode(obj.getString("username"));
         if (StringUtils.isBlank(userid) || StringUtils.isBlank(username))
         {
             return setUnauthorizedResponse(exchange, "令牌验证失败");
@@ -101,6 +103,18 @@ public class AuthFilter implements GlobalFilter, Ordered
     private String getTokenKey(String token)
     {
         return CacheConstants.LOGIN_TOKEN_KEY + token;
+    }
+
+    /**
+     * 编码
+     */
+    private String urlEncode(String value) {
+        try {
+            value = URLEncoder.encode(value, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return value;
     }
 
     /**
