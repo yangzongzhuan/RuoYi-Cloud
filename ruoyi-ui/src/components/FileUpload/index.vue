@@ -90,6 +90,8 @@ export default {
           return item;
         });
       } else {
+        //上传后关闭弹出框再打开出现`只允许上传单个文件`提示，增加fileList清空可解决
+        this.fileList = [];
         return [];
       }
     },
