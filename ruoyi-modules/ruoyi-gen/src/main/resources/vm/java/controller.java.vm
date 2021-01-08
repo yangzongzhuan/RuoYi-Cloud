@@ -20,7 +20,7 @@ import ${packageName}.service.I${ClassName}Service;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
-#if($table.crud)
+#if($table.crud || $table.sub)
 import com.ruoyi.common.core.web.page.TableDataInfo;
 #elseif($table.tree)
 #end
@@ -43,7 +43,7 @@ public class ${ClassName}Controller extends BaseController
      */
     @PreAuthorize(hasPermi = "${permissionPrefix}:list")
     @GetMapping("/list")
-#if($table.crud)
+#if($table.crud || $table.sub)
     public TableDataInfo list(${ClassName} ${className})
     {
         startPage();

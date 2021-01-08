@@ -139,6 +139,11 @@ public class GenTableColumn extends BaseEntity
         return javaField;
     }
 
+    public String getCapJavaField()
+    {
+        return StringUtils.capitalize(javaField);
+    }
+
     public void setIsPk(String isPk)
     {
         this.isPk = isPk;
