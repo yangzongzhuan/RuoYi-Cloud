@@ -110,7 +110,7 @@ public class FileUploadUtils
                 desc.getParentFile().mkdirs();
             }
         }
-        return desc;
+        return desc.isAbsolute() ? desc : desc.getAbsoluteFile();
     }
 
     private static final String getPathFileName(String fileName) throws IOException
