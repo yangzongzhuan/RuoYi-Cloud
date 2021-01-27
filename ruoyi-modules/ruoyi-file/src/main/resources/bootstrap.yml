@@ -21,4 +21,5 @@ spring:
         # 配置文件格式
         file-extension: yml
         # 共享配置
-        shared-dataids: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
