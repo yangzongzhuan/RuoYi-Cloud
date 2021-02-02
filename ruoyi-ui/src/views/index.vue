@@ -149,6 +149,39 @@
             <span>更新日志</span>
           </div>
           <el-collapse accordion>
+            <el-collapse-item title="v2.5.0 - 2021-02-02">
+              <ol>
+                <li>增加分布式事务seata支持</li>
+                <li>代码生成模板支持主子表</li>
+                <li>表格右侧工具栏组件支持显隐列</li>
+                <li>代码生成支持文件上传组件</li>
+                <li>图片组件添加预览&移除功能</li>
+                <li>Excel注解支持Image图片导出</li>
+                <li>操作按钮组调整为朴素按钮样式</li>
+                <li>代码生成支持文件上传组件</li>
+                <li>代码生成日期控件区分范围</li>
+                <li>代码生成数据库文本类型生成表单文本域</li>
+                <li>用户手机邮箱&菜单组件修改允许空字符串</li>
+                <li>修复header获取username中文情况下乱码</li>
+                <li>修复角色管理-编辑角色-功能权限显示异常</li>
+                <li>修正操作日志删除接口路径</li>
+                <li>修复IE11浏览器报错问题</li>
+                <li>修复sentinel流量告警前端不响应</li>
+                <li>修正侧边栏静态路由丢失问题</li>
+                <li>修复导入数据为负浮点数时丢失精度问题</li>
+                <li>修复Get请求参数特殊值无法正确的传参</li>
+                <li>更换过期的共享配置属性</li>
+                <li>添加启动执行脚本</li>
+                <li>升级element-ui到最新版本2.15.0</li>
+                <li>升级spring-boot到最新版本2.3.7</li>
+                <li>升级spring-cloud到Hoxton.SR9</li>
+                <li>升级spring-boot-alibaba到最新版2.2.5</li>
+                <li>升级spring-boot-admin到最新版2.3.1</li>
+                <li>升级druid到最新版本v1.2.4</li>
+                <li>升级fastjson到最新版1.2.75</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
             <el-collapse-item title="v2.4.0 - 2020-12-22">
               <ol>
                 <li>增加分布式文件Minio支持</li>
@@ -420,7 +453,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "2.4.0",
+      version: "2.5.0",
     };
   },
   methods: {
