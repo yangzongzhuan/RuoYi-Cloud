@@ -82,8 +82,8 @@
               <li>SpringCloud</li>
               <li>Nacos</li>
               <li>Sentinel</li>
+              <li>Seata</li>
               <li>Minio</li>
-              <li>FastDFS</li>
               <li>...</li>
             </ul>
           </el-col>
@@ -94,7 +94,7 @@
               <li>Vuex</li>
               <li>Element-ui</li>
               <li>Axios</li>
-              <li>Sass</li>
+              <li>Echarts</li>
               <li>Quill</li>
               <li>...</li>
             </ul>
