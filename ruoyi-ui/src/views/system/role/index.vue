@@ -213,7 +213,7 @@
           <el-input v-model="form.roleKey" :disabled="true" />
         </el-form-item>
         <el-form-item label="权限范围">
-          <el-select v-model="form.dataScope">
+          <el-select v-model="form.dataScope" @change="dataScopeSelectChange">
             <el-option
               v-for="item in dataScopeOptions"
               :key="item.value"
@@ -276,7 +276,7 @@ export default {
       open: false,
       // 是否显示弹出层（数据权限）
       openDataScope: false,
-	  menuExpand: false,
+      menuExpand: false,
       menuNodeAll: false,
       deptExpand: true,
       deptNodeAll: false,
@@ -431,7 +431,7 @@ export default {
       if (this.$refs.menu != undefined) {
         this.$refs.menu.setCheckedKeys([]);
       }
-	  this.menuExpand = false,
+      this.menuExpand = false,
       this.menuNodeAll = false,
       this.deptExpand = true,
       this.deptNodeAll = false,
@@ -443,8 +443,8 @@ export default {
         status: "0",
         menuIds: [],
         deptIds: [],
-		menuCheckStrictly: true,
-		deptCheckStrictly: true,
+        menuCheckStrictly: true,
+        deptCheckStrictly: true,
         remark: undefined
       };
       this.resetForm("form");
@@ -466,7 +466,7 @@ export default {
       this.single = selection.length!=1
       this.multiple = !selection.length
     },
-	// 树权限（展开/折叠）
+    // 树权限（展开/折叠）
     handleCheckedTreeExpand(value, type) {
       if (type == 'menu') {
         let treeList = this.menuOptions;
@@ -523,6 +523,12 @@ export default {
         });
         this.title = "修改角色";
       });
+    },
+    /** 选择角色权限范围触发 */
+    dataScopeSelectChange(value) {
+      if(value !== '2') {
+        this.$refs.dept.setCheckedKeys([]);
+      }
     },
     /** 分配数据权限操作 */
     handleDataScope(row) {
