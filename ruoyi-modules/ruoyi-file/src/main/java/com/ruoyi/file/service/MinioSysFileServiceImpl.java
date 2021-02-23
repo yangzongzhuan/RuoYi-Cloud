@@ -29,6 +29,7 @@ public class MinioSysFileServiceImpl implements ISysFileService
      * @return 访问地址
      * @throws Exception
      */
+    @Override
     public String uploadFile(MultipartFile file) throws Exception
     {
         String fileName = FileUploadUtils.extractFilename(file);

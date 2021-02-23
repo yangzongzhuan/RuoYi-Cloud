@@ -54,7 +54,7 @@ public class FileUploadUtils
      *
      * @param baseDir 相对应用的基目录
      * @param file 上传的文件
-     * @param extension 上传文件类型
+     * @param allowedExtension 上传文件类型
      * @return 返回上传成功的文件名
      * @throws FileSizeLimitExceededException 如果超出最大大小
      * @throws FileNameLengthLimitExceededException 文件名太长
@@ -116,9 +116,8 @@ public class FileUploadUtils
      * 文件大小校验
      *
      * @param file 上传的文件
-     * @return
      * @throws FileSizeLimitExceededException 如果超出最大大小
-     * @throws InvalidExtensionException
+     * @throws InvalidExtensionException 文件校验异常
      */
     public static final void assertAllowed(MultipartFile file, String[] allowedExtension)
             throws FileSizeLimitExceededException, InvalidExtensionException
@@ -163,9 +162,9 @@ public class FileUploadUtils
     /**
      * 判断MIME类型是否是允许的MIME类型
      *
-     * @param extension
-     * @param allowedExtension
-     * @return
+     * @param extension 上传文件类型
+     * @param allowedExtension 允许上传文件类型
+     * @return true/false
      */
     public static final boolean isAllowedExtension(String extension, String[] allowedExtension)
     {
