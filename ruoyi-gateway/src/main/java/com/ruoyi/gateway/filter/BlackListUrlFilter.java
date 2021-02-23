@@ -28,8 +28,9 @@ public class BlackListUrlFilter extends AbstractGatewayFilterFactory<BlackListUr
             if (config.matchBlacklist(url))
             {
                 ServerHttpResponse response = exchange.getResponse();
+                response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
                 return exchange.getResponse().writeWith(
-                        Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(AjaxResult.error("服务拒绝访问")))));
+                        Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(AjaxResult.error("请求地址不允许访问")))));
             }
 
             return chain.filter(exchange);
