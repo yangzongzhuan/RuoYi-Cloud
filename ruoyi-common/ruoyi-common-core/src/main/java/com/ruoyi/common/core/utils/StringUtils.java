@@ -477,10 +477,14 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
 
             // 匹配前缀Pattern
             result = remainingURI.contains(prefixPattern);
-            // 已经没有星号，直接返回
+            // 已经没有星号，判断长度是否符合，并返回
             if (formerStarOffset == -1)
             {
-                return result;
+                //清洗请求路径
+                if (remainingURI.endsWith("/")) {
+                    remainingURI = remainingURI.substring(0, remainingURI.length() - 1);
+                }
+                return remainingURI.length() == prefixPattern.length();
             }
 
             // 匹配失败，直接返回
