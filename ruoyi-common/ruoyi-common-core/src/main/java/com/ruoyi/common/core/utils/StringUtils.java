@@ -21,6 +21,9 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
     /** 星号 */
     private static final String START = "*";
 
+    /** 斜杠 */
+    private static final String SLASH = "/";
+
     /**
      * 获取参数不为空值
      * 
@@ -477,28 +480,41 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
 
             // 匹配前缀Pattern
             result = remainingURI.contains(prefixPattern);
-            // 已经没有星号，判断长度是否符合，并返回
-            if (formerStarOffset == -1)
-            {
-                //清洗请求路径
-                if (remainingURI.endsWith("/")) {
-                    remainingURI = remainingURI.substring(0, remainingURI.length() - 1);
-                }
-                return remainingURI.length() == prefixPattern.length();
-            }
 
             // 匹配失败，直接返回
             if (!result)
                 return false;
 
+            // 已经没有星号，判断长度是否符合，并返回
+            if (formerStarOffset == -1)
+            {
+                // 清洗请求路径
+                if (remainingURI.endsWith(SLASH)) {
+                    remainingURI = remainingURI.substring(0, remainingURI.length() - 1);
+                }
+                return remainingURI.length() == prefixPattern.length();
+            }
+
             if (!isEmpty(prefixPattern))
             {
+                // 如果前面还有路径 直接返回
+                if (!isEmpty(substringBefore(str, prefixPattern))) {
+                    return false;
+                }
                 remainingURI = substringAfter(str, prefixPattern);
             }
 
             // 匹配后缀Pattern
             latterStarOffset = indexOf(pattern, START, formerStarOffset + 1);
             suffixPattern = substring(pattern, formerStarOffset + 1, latterStarOffset > -1 ? latterStarOffset : pattern.length());
+
+            // 判断是否存在第二个 *
+            if (latterStarOffset == -1) {
+                // 判断是否还包含斜杠
+                if(remainingURI.contains(SLASH)) {
+                    return false;
+                }
+            }
 
             result = remainingURI.contains(suffixPattern);
             // 匹配失败，直接返回
