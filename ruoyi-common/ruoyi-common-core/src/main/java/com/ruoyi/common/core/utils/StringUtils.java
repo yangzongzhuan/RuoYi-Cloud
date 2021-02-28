@@ -3,6 +3,7 @@ package com.ruoyi.common.core.utils;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import org.springframework.util.AntPathMatcher;
 import com.ruoyi.common.core.text.StrFormatter;
 
 /**
@@ -17,12 +18,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
 
     /** 下划线 */
     private static final char SEPARATOR = '_';
-
-    /** 星号 */
-    private static final String START = "*";
-
-    /** 斜杠 */
-    private static final String SLASH = "/";
 
     /**
      * 获取参数不为空值
@@ -416,9 +411,9 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
         {
             return false;
         }
-        for (String testStr : strs)
+        for (String pattern : strs)
         {
-            if (matches(str, testStr))
+            if (isMatch(pattern, str))
             {
                 return true;
             }
@@ -427,112 +422,19 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
     }
 
     /**
-     * 查找指定字符串是否匹配指定字符串数组中的任意一个字符串
+     * 判断url是否与规则配置: 
+     * ? 表示单个字符; 
+     * * 表示一层路径内的任意字符串，不可跨层级; 
+     * ** 表示任意层路径;
      * 
-     * @param str 指定字符串
-     * @param strs 需要检查的字符串数组
-     * @return 是否匹配
+     * @param pattern 匹配规则
+     * @param url 需要匹配的url
+     * @return
      */
-    public static boolean matches(String str, String... strs)
+    public static boolean isMatch(String pattern, String url)
     {
-        if (isEmpty(str) || isEmpty(strs))
-        {
-            return false;
-        }
-        for (String testStr : strs)
-        {
-            if (matches(str, testStr))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 查找指定字符串是否匹配
-     * 
-     * @param str 指定字符串
-     * @param pattern 需要检查的字符串
-     * @return 是否匹配
-     */
-    public static boolean matches(String str, String pattern)
-    {
-        if (isEmpty(pattern) || isEmpty(str))
-        {
-            return false;
-        }
-
-        pattern = pattern.replaceAll("\\s*", ""); // 替换空格
-        int beginOffset = 0; // pattern截取开始位置
-        int formerStarOffset = -1; // 前星号的偏移位置
-        int latterStarOffset = -1; // 后星号的偏移位置
-
-        String remainingURI = str;
-        String prefixPattern = "";
-        String suffixPattern = "";
-
-        boolean result = false;
-        do
-        {
-            formerStarOffset = indexOf(pattern, START, beginOffset);
-            prefixPattern = substring(pattern, beginOffset, formerStarOffset > -1 ? formerStarOffset : pattern.length());
-
-            // 匹配前缀Pattern
-            result = remainingURI.contains(prefixPattern);
-
-            // 匹配失败，直接返回
-            if (!result)
-                return false;
-
-            // 已经没有星号，判断长度是否符合，并返回
-            if (formerStarOffset == -1)
-            {
-                // 清洗请求路径
-                if (remainingURI.endsWith(SLASH)) {
-                    remainingURI = remainingURI.substring(0, remainingURI.length() - 1);
-                }
-                return remainingURI.length() == prefixPattern.length();
-            }
-
-            if (!isEmpty(prefixPattern))
-            {
-                // 如果前面还有路径 直接返回
-                if (!isEmpty(substringBefore(str, prefixPattern))) {
-                    return false;
-                }
-                remainingURI = substringAfter(str, prefixPattern);
-            }
-
-            // 匹配后缀Pattern
-            latterStarOffset = indexOf(pattern, START, formerStarOffset + 1);
-            suffixPattern = substring(pattern, formerStarOffset + 1, latterStarOffset > -1 ? latterStarOffset : pattern.length());
-
-            // 判断是否存在第二个 *
-            if (latterStarOffset == -1) {
-                // 判断是否还包含斜杠
-                if(remainingURI.contains(SLASH)) {
-                    return false;
-                }
-            }
-
-            result = remainingURI.contains(suffixPattern);
-            // 匹配失败，直接返回
-            if (!result)
-                return false;
-
-            if (!isEmpty(suffixPattern))
-            {
-                remainingURI = substringAfter(str, suffixPattern);
-            }
-
-            // 移动指针
-            beginOffset = latterStarOffset + 1;
-
-        }
-        while (!isEmpty(suffixPattern) && !isEmpty(remainingURI));
-
-        return true;
+        AntPathMatcher matcher = new AntPathMatcher();
+        return matcher.match(pattern, url);
     }
 
     @SuppressWarnings("unchecked")
