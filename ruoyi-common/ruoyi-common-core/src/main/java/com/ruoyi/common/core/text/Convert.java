@@ -797,7 +797,17 @@ public class Convert
         }
         else if (obj instanceof byte[] || obj instanceof Byte[])
         {
-            return str((Byte[]) obj, charset);
+            if (obj instanceof byte[]){
+                return str((byte[]) obj, charset);
+            } else {
+                Byte[] bytes = (Byte[])obj;
+                int length = bytes.length;
+                byte[] dest = new byte[length];
+                for (int i = 0; i < length; i++) {
+                    dest[i] = bytes[i];
+                }
+            return str (dest,charset);
+            }
         }
         else if (obj instanceof ByteBuffer)
         {
