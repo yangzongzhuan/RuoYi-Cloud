@@ -2,6 +2,8 @@ package com.ruoyi.common.security.feign;
 
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+
+import com.ruoyi.common.core.utils.ip.IpUtils;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.utils.ServletUtils;
@@ -40,6 +42,10 @@ public class FeignRequestInterceptor implements RequestInterceptor
             {
                 requestTemplate.header(CacheConstants.AUTHORIZATION_HEADER, authentication);
             }
+
+            // 配置客户端IP
+            requestTemplate.header("X-Forwarded-For", IpUtils.getIpAddr(ServletUtils.getRequest()));
+
         }
     }
 }
