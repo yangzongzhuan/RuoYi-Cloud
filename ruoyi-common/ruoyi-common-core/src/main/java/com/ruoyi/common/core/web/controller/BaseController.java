@@ -3,12 +3,10 @@ package com.ruoyi.common.core.web.controller;
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.core.constant.HttpStatus;
@@ -27,7 +25,7 @@ import com.ruoyi.common.core.web.page.TableSupport;
  */
 public class BaseController
 {
-    protected final Logger logger = LoggerFactory.getLogger(BaseController.class);
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * 将前台传递过来的日期格式的字符串，自动转化为Date类型
