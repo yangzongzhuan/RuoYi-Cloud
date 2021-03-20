@@ -14,6 +14,11 @@ public class IpUtils
 {
     public static String getIpAddr(HttpServletRequest request)
     {
+
+        if(request == null){
+            return null;
+        }
+
         String ip = null;
 
         // X-Forwarded-For：Squid 服务代理
