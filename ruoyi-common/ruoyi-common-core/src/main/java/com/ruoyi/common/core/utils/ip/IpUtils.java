@@ -14,8 +14,8 @@ public class IpUtils
 {
     public static String getIpAddr(HttpServletRequest request)
     {
-
-        if(request == null){
+        if (request == null)
+        {
             return null;
         }
 
