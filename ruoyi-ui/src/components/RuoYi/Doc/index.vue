@@ -9,7 +9,7 @@ export default {
   name: 'RuoYiDoc',
   data() {
     return {
-      url: 'https://doc.ruoyi.vip/ruoyi-cloud'
+      url: 'http://doc.ruoyi.vip/ruoyi-cloud'
     }
   },
   methods: {

@@ -119,12 +119,9 @@
             </p>
             <p>
               <i class="el-icon-user-solid"></i> QQ群：<s>满42799195</s>
-              <s>满170157040</s>
-              <a
-                href="https://jq.qq.com/?_wv=1027&k=MI9Ro7lk"
-                target="_blank"
-              >
-                130643120</a
+              <s>满170157040</s> <s>满130643120</s>
+              <a href="https://jq.qq.com/?_wv=1027&k=0Ck3PvTe" target="_blank">
+                225920371</a
               >
             </p>
             <p>
