@@ -97,7 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="roleKey != null and roleKey != ''">role_key,</if>
  			<if test="roleSort != null and roleSort != ''">role_sort,</if>
  			<if test="dataScope != null and dataScope != ''">data_scope,</if>
-            <if test="menuCheckStrictly != null">menu_check_strictly,</if>
+ 			<if test="menuCheckStrictly != null">menu_check_strictly,</if>
  			<if test="deptCheckStrictly != null">dept_check_strictly,</if>
  			<if test="status != null and status != ''">status,</if>
  			<if test="remark != null and remark != ''">remark,</if>
@@ -109,7 +109,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="roleKey != null and roleKey != ''">#{roleKey},</if>
  			<if test="roleSort != null and roleSort != ''">#{roleSort},</if>
  			<if test="dataScope != null and dataScope != ''">#{dataScope},</if>
-            <if test="menuCheckStrictly != null">#{menuCheckStrictly},</if>
+ 			<if test="menuCheckStrictly != null">#{menuCheckStrictly},</if>
  			<if test="deptCheckStrictly != null">#{deptCheckStrictly},</if>
  			<if test="status != null and status != ''">#{status},</if>
  			<if test="remark != null and remark != ''">#{remark},</if>
@@ -125,7 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="roleKey != null and roleKey != ''">role_key = #{roleKey},</if>
  			<if test="roleSort != null and roleSort != ''">role_sort = #{roleSort},</if>
  			<if test="dataScope != null and dataScope != ''">data_scope = #{dataScope},</if>
-            <if test="menuCheckStrictly != null">menu_check_strictly = #{menuCheckStrictly},</if>
+ 			<if test="menuCheckStrictly != null">menu_check_strictly = #{menuCheckStrictly},</if>
  			<if test="deptCheckStrictly != null">dept_check_strictly = #{deptCheckStrictly},</if>
  			<if test="status != null and status != ''">status = #{status},</if>
  			<if test="remark != null">remark = #{remark},</if>
@@ -135,12 +135,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  		where role_id = #{roleId}
 	</update>
 	
-	<update id="updateRoleStatus" parameterType="SysRole">
- 		update sys_user set status = #{status} where user_id = #{userId}
-	</update>
-	
 	<delete id="deleteRoleById" parameterType="Long">
- 		delete from sys_role where role_id = #{roleId}
+		update sys_role set del_flag = '2' where role_id = #{roleId}
  	</delete>
  	
  	<delete id="deleteRoleByIds" parameterType="Long">
