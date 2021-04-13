@@ -68,7 +68,7 @@ public class ${ClassName}Controller extends BaseController
     {
         List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
         ExcelUtil<${ClassName}> util = new ExcelUtil<${ClassName}>(${ClassName}.class);
-        util.exportExcel(response, list, "${businessName}");
+        util.exportExcel(response, list, "${functionName}数据");
     }
 
     /**
