@@ -58,7 +58,7 @@ export function addDateRange(params, dateRange, propName) {
 	var search = params;
 	search.params = {};
 	if (null != dateRange && '' != dateRange) {
-		if (typeof (propName) === "undefined") {
+		if (typeof(propName) === "undefined") {
 			search.params["beginTime"] = dateRange[0];
 			search.params["endTime"] = dateRange[1];
 		} else {
@@ -87,8 +87,8 @@ export function selectDictLabels(datas, value, separator) {
 	var currentSeparator = undefined === separator ? "," : separator;
 	var temp = value.split(currentSeparator);
 	Object.keys(value.split(currentSeparator)).some((val) => {
-		Object.keys(datas).some((key) => {
-			if (datas[key].dictValue == ('' + temp[val])) {
+        Object.keys(datas).some((key) => {
+            if (datas[key].dictValue == ('' + temp[val])) {
 				actions.push(datas[key].dictLabel + currentSeparator);
 			}
 		})
@@ -172,4 +172,18 @@ export function handleTree(data, id, parentId, children) {
 		}
 	}
 	return tree;
+}
+
+/**
+* 参数处理
+* @param {*} params  参数
+*/
+export function tansParams(params) {
+	let result = ''
+	Object.keys(params).forEach((key) => {
+		if (!Object.is(params[key], undefined) && !Object.is(params[key], null) && !Object.is(JSON.stringify(params[key]), '{}')) {
+			result += encodeURIComponent(key) + '=' + encodeURIComponent(params[key]) + '&'
+		}
+	})
+	return result
 }
