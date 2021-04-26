@@ -22,25 +22,25 @@
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
-        <!-- SpringCloud Ailibaba Nacos -->
+        <!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
-        <!-- SpringCloud Ailibaba Nacos Config -->
+        <!-- SpringCloud Alibaba Nacos Config -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-        <!-- SpringCloud Ailibaba Sentinel -->
+        <!-- SpringCloud Alibaba Sentinel -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
 
-        <!-- SpringCloud Ailibaba Sentinel Gateway -->
+        <!-- SpringCloud Alibaba Sentinel Gateway -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>

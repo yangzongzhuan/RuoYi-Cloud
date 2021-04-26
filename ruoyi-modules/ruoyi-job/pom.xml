@@ -17,19 +17,19 @@
 
     <dependencies>
     	
-    	<!-- SpringCloud Ailibaba Nacos -->
+    	<!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
         
-        <!-- SpringCloud Ailibaba Nacos Config -->
+        <!-- SpringCloud Alibaba Nacos Config -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
         
-        <!-- SpringCloud Ailibaba Sentinel -->
+        <!-- SpringCloud Alibaba Sentinel -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
