@@ -190,7 +190,7 @@ public class LogAspect
         {
             for (int i = 0; i < paramsArray.length; i++)
             {
-                if (!isFilterObject(paramsArray[i]))
+                if (StringUtils.isNotNull(paramsArray[i]) && !isFilterObject(paramsArray[i]))
                 {
                     try
                     {
