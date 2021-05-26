@@ -27,7 +27,7 @@
         <tobato.version>1.26.5</tobato.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <pagehelper.boot.version>1.3.0</pagehelper.boot.version>
-        <druid.version>1.2.4</druid.version>
+        <druid.version>1.2.6</druid.version>
         <dynamic-ds.version>3.2.1</dynamic-ds.version>
         <commons.io.version>2.5</commons.io.version>
         <commons.fileupload.version>1.3.3</commons.fileupload.version>
