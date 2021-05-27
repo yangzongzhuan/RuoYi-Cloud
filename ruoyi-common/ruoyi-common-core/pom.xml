@@ -17,23 +17,29 @@
 
     <dependencies>
 
-    	<!-- SpringCloud Openfeign -->
+        <!-- SpringCloud Openfeign -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-    	</dependency>
+        </dependency>
+        
+        <!-- SpringCloud Loadbalancer -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
 
-    	<!-- Spring Context Support -->
-    	<dependency>
+        <!-- Spring Context Support -->
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
-    	</dependency>
+        </dependency>
 
-    	<!-- Spring Web -->
-    	<dependency>
+        <!-- Spring Web -->
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-    	</dependency>
+        </dependency>
 
         <!-- Apache Commons Pool2 -->
         <dependency>

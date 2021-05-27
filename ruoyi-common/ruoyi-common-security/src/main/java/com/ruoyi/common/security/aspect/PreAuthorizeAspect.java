@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.PatternMatchUtils;
-import org.springframework.util.StringUtils;
 import com.ruoyi.common.core.exception.PreAuthorizeException;
+import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.security.annotation.PreAuthorize;
 import com.ruoyi.common.security.service.TokenService;
 import com.ruoyi.system.api.model.LoginUser;
@@ -50,7 +50,7 @@ public class PreAuthorizeAspect
             return point.proceed();
         }
 
-        if (!StringUtils.isEmpty(annotation.hasPermi()))
+        if (StringUtils.isNotEmpty(annotation.hasPermi()))
         {
             if (hasPermi(annotation.hasPermi()))
             {
@@ -58,7 +58,7 @@ public class PreAuthorizeAspect
             }
             throw new PreAuthorizeException();
         }
-        else if (!StringUtils.isEmpty(annotation.lacksPermi()))
+        else if (StringUtils.isNotEmpty(annotation.lacksPermi()))
         {
             if (lacksPermi(annotation.lacksPermi()))
             {
@@ -74,7 +74,7 @@ public class PreAuthorizeAspect
             }
             throw new PreAuthorizeException();
         }
-        else if (!StringUtils.isEmpty(annotation.hasRole()))
+        else if (StringUtils.isNotEmpty(annotation.hasRole()))
         {
             if (hasRole(annotation.hasRole()))
             {
@@ -82,7 +82,7 @@ public class PreAuthorizeAspect
             }
             throw new PreAuthorizeException();
         }
-        else if (!StringUtils.isEmpty(annotation.lacksRole()))
+        else if (StringUtils.isNotEmpty(annotation.lacksRole()))
         {
             if (lacksRole(annotation.lacksRole()))
             {
@@ -111,7 +111,7 @@ public class PreAuthorizeAspect
     public boolean hasPermi(String permission)
     {
         LoginUser userInfo = tokenService.getLoginUser();
-        if (StringUtils.isEmpty(userInfo) || CollectionUtils.isEmpty(userInfo.getPermissions()))
+        if (StringUtils.isNull(userInfo) || CollectionUtils.isEmpty(userInfo.getPermissions()))
         {
             return false;
         }
@@ -138,7 +138,7 @@ public class PreAuthorizeAspect
     public boolean hasAnyPermi(String[] permissions)
     {
         LoginUser userInfo = tokenService.getLoginUser();
-        if (StringUtils.isEmpty(userInfo) || CollectionUtils.isEmpty(userInfo.getPermissions()))
+        if (StringUtils.isNull(userInfo) || CollectionUtils.isEmpty(userInfo.getPermissions()))
         {
             return false;
         }
@@ -162,7 +162,7 @@ public class PreAuthorizeAspect
     public boolean hasRole(String role)
     {
         LoginUser userInfo = tokenService.getLoginUser();
-        if (StringUtils.isEmpty(userInfo) || CollectionUtils.isEmpty(userInfo.getRoles()))
+        if (StringUtils.isNull(userInfo) || CollectionUtils.isEmpty(userInfo.getRoles()))
         {
             return false;
         }
@@ -196,7 +196,7 @@ public class PreAuthorizeAspect
     public boolean hasAnyRoles(String[] roles)
     {
         LoginUser userInfo = tokenService.getLoginUser();
-        if (StringUtils.isEmpty(userInfo) || CollectionUtils.isEmpty(userInfo.getRoles()))
+        if (StringUtils.isNull(userInfo) || CollectionUtils.isEmpty(userInfo.getRoles()))
         {
             return false;
         }
@@ -220,6 +220,6 @@ public class PreAuthorizeAspect
     private boolean hasPermissions(Collection<String> authorities, String permission)
     {
         return authorities.stream().filter(StringUtils::hasText)
-                .anyMatch(x -> ALL_PERMISSION.contains(x) || PatternMatchUtils.simpleMatch(permission, x));
+                .anyMatch(x -> ALL_PERMISSION.contains(x) || PatternMatchUtils.simpleMatch(x, permission));
     }
 }
