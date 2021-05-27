@@ -98,9 +98,9 @@
           plain
           icon="el-icon-refresh"
           size="mini"
-          @click="handleClearCache"
+          @click="handleRefreshCache"
           v-hasPermi="['system:config:remove']"
-        >清理缓存</el-button>
+        >刷新缓存</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -180,7 +180,7 @@
 </template>
 
 <script>
-import { listConfig, getConfig, delConfig, addConfig, updateConfig, clearCache } from "@/api/system/config";
+import { listConfig, getConfig, delConfig, addConfig, updateConfig, refreshCache } from "@/api/system/config";
 
 export default {
   name: "Config",
@@ -343,10 +343,10 @@ export default {
         ...this.queryParams
       }, `config_${new Date().getTime()}.xlsx`)
     },
-    /** 清理缓存按钮操作 */
-    handleClearCache() {
-      clearCache().then(response => {
-        this.msgSuccess("清理成功");
+    /** 刷新缓存按钮操作 */
+    handleRefreshCache() {
+      refreshCache().then(() => {
+        this.msgSuccess("刷新成功");
       });
     }
   }

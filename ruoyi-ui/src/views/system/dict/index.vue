@@ -104,9 +104,9 @@
           plain
           icon="el-icon-refresh"
           size="mini"
-          @click="handleClearCache"
+          @click="handleRefreshCache"
           v-hasPermi="['system:dict:remove']"
-        >清理缓存</el-button>
+        >刷新缓存</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -188,7 +188,7 @@
 </template>
 
 <script>
-import { listType, getType, delType, addType, updateType, clearCache } from "@/api/system/dict/type";
+import { listType, getType, delType, addType, updateType, refreshCache } from "@/api/system/dict/type";
 
 export default {
   name: "Dict",
@@ -347,10 +347,10 @@ export default {
         ...this.queryParams
       }, `type_${new Date().getTime()}.xlsx`)
     },
-    /** 清理缓存按钮操作 */
-    handleClearCache() {
-      clearCache().then(response => {
-        this.msgSuccess("清理成功");
+    /** 刷新缓存按钮操作 */
+    handleRefreshCache() {
+      refreshCache().then(() => {
+        this.msgSuccess("刷新成功");
       });
     }
   }
