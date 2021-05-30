@@ -36,6 +36,7 @@
         <minio.version>8.2.1</minio.version>
 		<poi.version>4.1.2</poi.version>
         <common-pool.version>2.6.2</common-pool.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -148,6 +149,13 @@
                         <artifactId>commons-collections</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <!-- Collection 增强Java集合框架 -->
+            <dependency> 
+                <groupId>commons-collections</groupId> 
+                <artifactId>commons-collections</artifactId> 
+                <version>${commons-collections.version}</version>
             </dependency>
 
             <!-- JSON 解析器和生成器 -->
