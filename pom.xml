@@ -20,6 +20,7 @@
         <spring-boot.version>2.5.0</spring-boot.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+        <alibaba.nacos.version>2.0.1</alibaba.nacos.version>
 		<spring-boot-admin.version>2.4.1</spring-boot-admin.version>
         <spring-boot.mybatis>2.1.4</spring-boot.mybatis>
         <swagger.fox.version>2.9.2</swagger.fox.version>
@@ -59,6 +60,13 @@
                 <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- Alibaba Nacos 配置 -->
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>${alibaba.nacos.version}</version>
             </dependency>
 
             <!-- SpringBoot 依赖配置 -->
