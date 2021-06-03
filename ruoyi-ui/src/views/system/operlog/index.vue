@@ -100,7 +100,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:config:export']"
+          v-hasPermi="['system:operlog:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -286,7 +286,7 @@ export default {
         }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-        })
+        }).catch(() => {});
     },
     /** 清空按钮操作 */
     handleClean() {
@@ -299,7 +299,7 @@ export default {
         }).then(() => {
           this.getList();
           this.msgSuccess("清空成功");
-        })
+        }).catch(() => {});
     },
     /** 导出按钮操作 */
     handleExport() {

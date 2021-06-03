@@ -407,7 +407,7 @@ export default {
           return runJob(row.jobId, row.jobGroup);
         }).then(() => {
           this.msgSuccess("执行成功");
-        })
+        }).catch(() => {});
     },
     /** 任务详细信息 */
     handleView(row) {
