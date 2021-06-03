@@ -75,7 +75,7 @@ export default {
             [{ color: [] }, { background: [] }],             // 字体颜色、字体背景颜色
             [{ align: [] }],                                 // 对齐方式
             ["clean"],                                       // 清除文本格式
-            ["link", "image"]                                // 链接、图片
+            ["link", "image", "video"]                       // 链接、图片、视频
           ],
         },
         placeholder: "请输入内容",
@@ -165,7 +165,7 @@ export default {
         // 获取光标所在位置
         let length = quill.getSelection().index;
         // 插入图片  res.url为服务器返回的图片地址
-        quill.insertEmbed(length, "image", res.data.url);
+        quill.insertEmbed(length, "image", res.url);
         // 调整光标到最后
         quill.setSelection(length + 1);
       } else {
