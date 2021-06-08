@@ -36,6 +36,7 @@ import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddressList;
+import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFDataValidation;
@@ -179,7 +180,8 @@ public class ExcelUtil<T>
             throw new IOException("文件sheet不存在");
         }
 
-        int rows = sheet.getPhysicalNumberOfRows();
+        // 获取最后一个非空行的行下标，比如总行数为n，则返回的为n-1
+        int rows = sheet.getLastRowNum();
 
         if (rows > 0)
         {
@@ -219,10 +221,15 @@ public class ExcelUtil<T>
                     }
                 }
             }
-            for (int i = 1; i < rows; i++)
+            for (int i = 1; i <= rows; i++)
             {
                 // 从第2行开始取数据,默认第一行是表头.
                 Row row = sheet.getRow(i);
+                // 判断当前行是否是空行
+                if (isRowEmpty(row))
+                {
+                    continue;
+                }
                 T entity = null;
                 for (Map.Entry<Integer, Field> entry : fieldsMap.entrySet())
                 {
@@ -321,7 +328,7 @@ public class ExcelUtil<T>
      */
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName) throws IOException
     {
-        response.setContentType("application/vnd.ms-excel");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("utf-8");
         this.init(list, sheetName, Type.EXPORT);
         exportExcel(response.getOutputStream());
@@ -335,7 +342,7 @@ public class ExcelUtil<T>
      */
     public void importTemplateExcel(HttpServletResponse response, String sheetName) throws IOException
     {
-        response.setContentType("application/vnd.ms-excel");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("utf-8");
         this.init(null, sheetName, Type.IMPORT);
         exportExcel(response.getOutputStream());
@@ -346,32 +353,12 @@ public class ExcelUtil<T>
      * 
      * @return 结果
      */
-    public void exportExcel(OutputStream outputStream)
+    public void exportExcel(OutputStream out)
     {
         try
         {
-            // 取出一共有多少个sheet.
-            double sheetNo = Math.ceil(list.size() / sheetSize);
-            for (int index = 0; index <= sheetNo; index++)
-            {
-                createSheet(sheetNo, index);
-
-                // 产生一行
-                Row row = sheet.createRow(0);
-                int column = 0;
-                // 写入各个字段的列头名称
-                for (Object[] os : fields)
-                {
-                    Excel excel = (Excel) os[1];
-                    this.createCell(excel, row, column++);
-                }
-                if (Type.EXPORT.equals(type))
-                {
-                    fillExcelData(index, row);
-                    addStatisticsRow();
-                }
-            }
-            wb.write(outputStream);
+            writeSheet();
+            wb.write(out);
         }
         catch (Exception e)
         {
@@ -379,27 +366,35 @@ public class ExcelUtil<T>
         }
         finally
         {
-            if (wb != null)
+            IOUtils.closeQuietly(wb);
+            IOUtils.closeQuietly(out);
+        }
+    }
+
+    /**
+     * 创建写入数据到Sheet
+     */
+    public void writeSheet()
+    {
+        // 取出一共有多少个sheet.
+        double sheetNo = Math.ceil(list.size() / sheetSize);
+        for (int index = 0; index <= sheetNo; index++)
+        {
+            createSheet(sheetNo, index);
+
+            // 产生一行
+            Row row = sheet.createRow(0);
+            int column = 0;
+            // 写入各个字段的列头名称
+            for (Object[] os : fields)
             {
-                try
-                {
-                    wb.close();
-                }
-                catch (IOException e1)
-                {
-                    e1.printStackTrace();
-                }
+                Excel excel = (Excel) os[1];
+                this.createCell(excel, row, column++);
             }
-            if (outputStream != null)
+            if (Type.EXPORT.equals(type))
             {
-                try
-                {
-                    outputStream.close();
-                }
-                catch (IOException e1)
-                {
-                    e1.printStackTrace();
-                }
+                fillExcelData(index, row);
+                addStatisticsRow();
             }
         }
     }
@@ -535,8 +530,7 @@ public class ExcelUtil<T>
         }
         else if (ColumnType.IMAGE == attr.cellType())
         {
-            ClientAnchor anchor = new XSSFClientAnchor(0, 0, 0, 0, (short) cell.getColumnIndex(), cell.getRow().getRowNum(), (short) (cell.getColumnIndex() + 1),
-                    cell.getRow().getRowNum() + 1);
+            ClientAnchor anchor = new XSSFClientAnchor(0, 0, 0, 0, (short) cell.getColumnIndex(), cell.getRow().getRowNum(), (short) (cell.getColumnIndex() + 1), cell.getRow().getRowNum() + 1);
             String imagePath = Convert.toStr(value);
             if (StringUtils.isNotEmpty(imagePath))
             {
@@ -546,7 +540,7 @@ public class ExcelUtil<T>
             }
         }
     }
-    
+
     /**
      * 获取画布
      */
@@ -1027,5 +1021,28 @@ public class ExcelUtil<T>
             return val;
         }
         return val;
+    }
+
+    /**
+     * 判断是否是空行
+     * 
+     * @param row 判断的行
+     * @return
+     */
+    private boolean isRowEmpty(Row row)
+    {
+        if (row == null)
+        {
+            return true;
+        }
+        for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++)
+        {
+            Cell cell = row.getCell(i);
+            if (cell != null && cell.getCellType() != CellType.BLANK)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
