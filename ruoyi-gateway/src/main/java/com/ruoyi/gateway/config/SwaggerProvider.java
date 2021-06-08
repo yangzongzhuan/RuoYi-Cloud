@@ -7,6 +7,8 @@ import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.support.NameUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.config.ResourceHandlerRegistry;
+import org.springframework.web.reactive.config.WebFluxConfigurer;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
@@ -16,7 +18,7 @@ import springfox.documentation.swagger.web.SwaggerResourcesProvider;
  * @author ruoyi
  */
 @Component
-public class SwaggerProvider implements SwaggerResourcesProvider
+public class SwaggerProvider implements SwaggerResourcesProvider, WebFluxConfigurer
 {
     /**
      * Swagger2默认的url后缀
@@ -62,5 +64,13 @@ public class SwaggerProvider implements SwaggerResourcesProvider
         swaggerResource.setLocation(location);
         swaggerResource.setSwaggerVersion("2.0");
         return swaggerResource;
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry)
+    {
+        /** swagger-ui 地址 */
+        registry.addResourceHandler("/swagger-ui/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/");
     }
 }

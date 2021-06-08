@@ -3,13 +3,12 @@ package com.ruoyi.common.swagger.config;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -18,8 +17,10 @@ import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.SecurityReference;
+import springfox.documentation.service.SecurityScheme;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
+import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -60,27 +61,26 @@ public class SwaggerAutoConfiguration
         {
             swaggerProperties.getExcludePath().addAll(DEFAULT_EXCLUDE_PATH);
         }
+
         List<Predicate<String>> excludePath = new ArrayList<>();
         swaggerProperties.getExcludePath().forEach(path -> excludePath.add(PathSelectors.ant(path)));
 
-        //noinspection Guava
-        return new Docket(DocumentationType.SWAGGER_2)
-                .host(swaggerProperties.getHost())
+        ApiSelectorBuilder builder = new Docket(DocumentationType.SWAGGER_2).host(swaggerProperties.getHost())
                 .apiInfo(apiInfo(swaggerProperties)).select()
-                .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()))
-                .paths(Predicates.and(Predicates.not(Predicates.or(excludePath)), Predicates.or(basePath)))
-                .build()
-                .securitySchemes(securitySchemes())
-                .securityContexts(securityContexts())
-                .pathMapping("/");
+                .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()));
+
+        swaggerProperties.getBasePath().forEach(p -> builder.paths(PathSelectors.ant(p)));
+        swaggerProperties.getExcludePath().forEach(p -> builder.paths(PathSelectors.ant(p).negate()));
+
+        return builder.build().securitySchemes(securitySchemes()).securityContexts(securityContexts()).pathMapping("/");
     }
 
     /**
      * 安全模式，这里指定token通过Authorization头请求头传递
      */
-    private List<ApiKey> securitySchemes()
+    private List<SecurityScheme> securitySchemes()
     {
-        List<ApiKey> apiKeyList = new ArrayList<ApiKey>();
+        List<SecurityScheme> apiKeyList = new ArrayList<SecurityScheme>();
         apiKeyList.add(new ApiKey("Authorization", "Authorization", "header"));
         return apiKeyList;
     }
@@ -94,7 +94,7 @@ public class SwaggerAutoConfiguration
         securityContexts.add(
                 SecurityContext.builder()
                         .securityReferences(defaultAuth())
-                        .forPaths(PathSelectors.regex("^(?!auth).*$"))
+                        .operationSelector(o -> o.requestMappingPattern().matches("/.*"))
                         .build());
         return securityContexts;
     }
