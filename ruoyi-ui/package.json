@@ -1,6 +1,6 @@
 {
   "name": "ruoyi",
-  "version": "2.5.0",
+  "version": "3.0.0",
   "description": "若依管理系统",
   "author": "若依",
   "license": "MIT",
@@ -33,7 +33,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/y_project/RuoYi-Vue.git"
+    "url": "https://gitee.com/y_project/RuoYi-Cloud.git"
   },
   "dependencies": {
     "@riophae/vue-treeselect": "0.4.0",

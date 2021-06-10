@@ -1,4 +1,4 @@
-version : '3'
+version : '3.8'
 services:
   ruoyi-nacos:
     container_name: ruoyi-nacos
@@ -12,6 +12,8 @@ services:
       - ./nacos/conf/application.properties:/home/nacos/conf/application.properties
     ports:
       - "8848:8848"
+      - "9848:9848"
+      - "9849:9849"
     depends_on:
       - ruoyi-mysql
   ruoyi-mysql:

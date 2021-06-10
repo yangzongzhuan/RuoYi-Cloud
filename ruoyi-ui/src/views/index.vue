@@ -146,6 +146,62 @@
             <span>更新日志</span>
           </div>
           <el-collapse accordion>
+            <el-collapse-item title="v3.0.0 - 2021-06-10">
+              <ol>
+                <li>新增菜单导航显示风格TopNav（false为左侧导航菜单，true为顶部导航菜单）</li>
+                <li>布局设置支持保存&重置配置</li>
+                <li>富文本编辑器支持自定义上传地址</li>
+                <li>富文本编辑组件新增readOnly属性</li>
+                <li>优化参数&字典缓存操作</li>
+                <li>新增IE浏览器版本过低提示页面</li>
+                <li>页签TagsView新增关闭右侧功能</li>
+                <li>显隐列组件加载初始默认隐藏列</li>
+                <li>关闭头像上传窗口还原默认图片</li>
+                <li>个人信息添加手机&邮箱重复验证</li>
+                <li>代码生成模板树表操作列添加新增按钮</li>
+                <li>代码生成模板修复主子表字段重名问题</li>
+                <li>支持docker部署项目</li>
+                <li>升级springcloud到最新版2020.0.3</li>
+                <li>升级spring-boot-alibaba到最新版2021.1</li>
+                <li>升级nacos到最新版2.0.1 性能提升</li>
+                <li>升级spring-boot到最新版本2.5.0</li>
+                <li>升级spring-boot-admin到最新版2.4.1</li>
+                <li>升级swagger到最新版本3.0.0</li>
+                <li>升级mybatis到最新版3.5.6</li>
+                <li>升级dynamic-ds到最新版本3.3.2</li>
+                <li>升级minio到最新版本8.2.1</li>
+                <li>升级fastjson到最新版1.2.76</li>
+                <li>升级druid到最新版本v1.2.6</li>
+                <li>修复四级菜单无法显示问题</li>
+                <li>修复树表数据显示不全&加载慢问题</li>
+                <li>修复关闭confirm提示框控制台报错问题</li>
+                <li>上传媒体类型添加视频格式</li>
+                <li>增加feign客户端IP头部信息</li>
+                <li>修复两处存在SQL注入漏洞问题</li>
+                <li>优化图片工具类读取文件，防止异常</li>
+                <li>修复导出角色数据范围翻译缺少仅本人</li>
+                <li>修复表单构建选择下拉选择控制台报错问题</li>
+                <li>修复请求形参未传值记录日志异常问题</li>
+                <li>调整sql默认为当前时间</li>
+                <li>修改ip字段长度防止ipv6地址长度不够</li>
+                <li>删除操作日志记录信息</li>
+                <li>修复firefox下表单构建拖拽会新打卡一个选项卡</li>
+                <li>用户&角色单条删除时使其逻辑删除</li>
+                <li>优化树表代码生成模板</li>
+                <li>修正通知公告日志记录类型</li>
+                <li>修正后端导入表权限标识</li>
+                <li>过滤BindingResult对象，防止异常</li>
+                <li>Redis设置HashKey序列化</li>
+                <li>优化Excel导入增加空行判断</li>
+                <li>树级结构更新子节点使用replaceFirst</li>
+                <li>富文本工具栏配置视频</li>
+                <li>修正模板字符编码</li>
+                <li>优化通用下载完成后删除节点</li>
+                <li>角色非自定义权限范围清空选择值</li>
+                <li>修改主题后mini类型按钮无效问题</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
             <el-collapse-item title="v2.5.0 - 2021-02-02">
               <ol>
                 <li>增加分布式事务seata支持</li>
@@ -449,7 +505,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "2.5.0",
+      version: "3.0.0",
     };
   },
   methods: {
