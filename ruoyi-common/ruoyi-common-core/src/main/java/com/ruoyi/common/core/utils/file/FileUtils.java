@@ -18,7 +18,7 @@ import com.ruoyi.common.core.utils.StringUtils;
  * 
  * @author ruoyi
  */
-public class FileUtils extends org.apache.commons.io.FileUtils
+public class FileUtils
 {
     /** 字符常量：斜杠 {@code '/'} */
     public static final char SLASH = '/';
