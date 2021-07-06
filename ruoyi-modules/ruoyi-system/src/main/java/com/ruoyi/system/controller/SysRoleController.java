@@ -23,7 +23,10 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.PreAuthorize;
 import com.ruoyi.system.api.domain.SysRole;
+import com.ruoyi.system.api.domain.SysUser;
+import com.ruoyi.system.domain.SysUserRole;
 import com.ruoyi.system.service.ISysRoleService;
+import com.ruoyi.system.service.ISysUserService;
 
 /**
  * 角色信息
@@ -36,6 +39,9 @@ public class SysRoleController extends BaseController
 {
     @Autowired
     private ISysRoleService roleService;
+
+    @Autowired
+    private ISysUserService userService;
 
     @PreAuthorize(hasPermi = "system:role:list")
     @GetMapping("/list")
@@ -152,5 +158,61 @@ public class SysRoleController extends BaseController
     public AjaxResult optionselect()
     {
         return AjaxResult.success(roleService.selectRoleAll());
+    }
+    /**
+     * 查询已分配用户角色列表
+     */
+    @PreAuthorize(hasPermi = "system:role:list")
+    @GetMapping("/authUser/allocatedList")
+    public TableDataInfo allocatedList(SysUser user)
+    {
+        startPage();
+        List<SysUser> list = userService.selectAllocatedList(user);
+        return getDataTable(list);
+    }
+
+    /**
+     * 查询未分配用户角色列表
+     */
+    @PreAuthorize(hasPermi = "system:role:list")
+    @GetMapping("/authUser/unallocatedList")
+    public TableDataInfo unallocatedList(SysUser user)
+    {
+        startPage();
+        List<SysUser> list = userService.selectUnallocatedList(user);
+        return getDataTable(list);
+    }
+
+    /**
+     * 取消授权用户
+     */
+    @PreAuthorize(hasPermi = "system:role:edit")
+    @Log(title = "角色管理", businessType = BusinessType.GRANT)
+    @PutMapping("/authUser/cancel")
+    public AjaxResult cancelAuthUser(@RequestBody SysUserRole userRole)
+    {
+        return toAjax(roleService.deleteAuthUser(userRole));
+    }
+
+    /**
+     * 批量取消授权用户
+     */
+    @PreAuthorize(hasPermi = "system:role:edit")
+    @Log(title = "角色管理", businessType = BusinessType.GRANT)
+    @PutMapping("/authUser/cancelAll")
+    public AjaxResult cancelAuthUserAll(Long roleId, Long[] userIds)
+    {
+        return toAjax(roleService.deleteAuthUsers(roleId, userIds));
+    }
+
+    /**
+     * 批量选择用户授权
+     */
+    @PreAuthorize(hasPermi = "system:role:edit")
+    @Log(title = "角色管理", businessType = BusinessType.GRANT)
+    @PutMapping("/authUser/selectAll")
+    public AjaxResult selectAuthUserAll(Long roleId, Long[] userIds)
+    {
+        return toAjax(roleService.insertAuthUsers(roleId, userIds));
     }
 }
