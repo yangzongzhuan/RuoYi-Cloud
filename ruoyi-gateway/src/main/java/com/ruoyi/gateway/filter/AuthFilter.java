@@ -95,7 +95,7 @@ public class AuthFilter implements GlobalFilter, Ordered
 
         return response.writeWith(Mono.fromSupplier(() -> {
             DataBufferFactory bufferFactory = response.bufferFactory();
-            return bufferFactory.wrap(JSON.toJSONBytes(R.fail(msg)));
+            return bufferFactory.wrap(JSON.toJSONBytes(R.fail(HttpStatus.UNAUTHORIZED.value(), msg)));
         }));
     }
 
