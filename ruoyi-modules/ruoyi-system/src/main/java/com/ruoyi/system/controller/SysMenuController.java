@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.utils.SecurityUtils;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -94,8 +93,7 @@ public class SysMenuController extends BaseController
         {
             return AjaxResult.error("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
         }
-        else if (UserConstants.YES_FRAME.equals(menu.getIsFrame())
-                && !StringUtils.startsWithAny(menu.getPath(), Constants.HTTP, Constants.HTTPS))
+        else if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringUtils.ishttp(menu.getPath()))
         {
             return AjaxResult.error("新增菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
         }
@@ -115,8 +113,7 @@ public class SysMenuController extends BaseController
         {
             return AjaxResult.error("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
         }
-        else if (UserConstants.YES_FRAME.equals(menu.getIsFrame())
-                && !StringUtils.startsWithAny(menu.getPath(), Constants.HTTP, Constants.HTTPS))
+        else if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringUtils.ishttp(menu.getPath()))
         {
             return AjaxResult.error("修改菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
         }

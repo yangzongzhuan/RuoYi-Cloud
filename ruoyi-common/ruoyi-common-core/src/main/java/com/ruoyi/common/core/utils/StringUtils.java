@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import org.springframework.util.AntPathMatcher;
+import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.text.StrFormatter;
 
 /**
@@ -280,6 +281,17 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
             return template;
         }
         return StrFormatter.format(template, params);
+    }
+
+    /**
+     * 是否为http(s)://开头
+     * 
+     * @param link 链接
+     * @return 结果
+     */
+    public static boolean ishttp(String link)
+    {
+        return StringUtils.startsWithAny(link, Constants.HTTP, Constants.HTTPS);
     }
 
     /**
