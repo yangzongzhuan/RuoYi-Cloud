@@ -93,6 +93,15 @@
           v-hasPermi="['monitor:job:export']"
         >导出</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-close"
+          size="mini"
+          @click="handleClose"
+        >关闭</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -167,6 +176,7 @@
 </template>
 
 <script>
+import { getJob} from "@/api/monitor/job";
 import { listJobLog, delJobLog, cleanJobLog } from "@/api/monitor/jobLog";
 
 export default {
@@ -206,7 +216,16 @@ export default {
     };
   },
   created() {
-    this.getList();
+    const jobId = this.$route.query.jobId;
+    if (jobId !== undefined && jobId != 0) {
+      getJob(jobId).then(response => {
+        this.queryParams.jobName = response.data.jobName;
+        this.queryParams.jobGroup = response.data.jobGroup;
+        this.getList();
+      });
+    } else {
+      this.getList();
+    }
     this.getDicts("sys_job_status").then(response => {
       this.statusOptions = response.data;
     });
@@ -232,6 +251,11 @@ export default {
     // 任务组名字典翻译
     jobGroupFormat(row, column) {
       return this.selectDictLabel(this.jobGroupOptions, row.jobGroup);
+    },
+    // 返回按钮
+    handleClose() {
+      this.$store.dispatch("tagsView/delView", this.$route);
+      this.$router.push({ path: "/monitor/job" });
     },
     /** 搜索按钮操作 */
     handleQuery() {
