@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.gateway.config.properties.CaptchaProperties;
 import com.ruoyi.gateway.service.ValidateCodeService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -32,6 +33,9 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
     @Autowired
     private ValidateCodeService validateCodeService;
 
+    @Autowired
+    private CaptchaProperties captchaProperties;
+
     private static final String CODE = "code";
 
     private static final String UUID = "uuid";
@@ -42,8 +46,8 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
 
-            // 非登录请求，不处理
-            if (!StringUtils.containsIgnoreCase(request.getURI().getPath(), AUTH_URL))
+            // 非登录请求或验证码关闭，不处理
+            if (!StringUtils.containsIgnoreCase(request.getURI().getPath(), AUTH_URL) || !captchaProperties.isEnabled())
             {
                 return chain.filter(exchange);
             }

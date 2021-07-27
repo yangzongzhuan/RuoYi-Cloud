@@ -16,6 +16,7 @@ import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.sign.Base64;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.redis.service.RedisService;
+import com.ruoyi.gateway.config.properties.CaptchaProperties;
 import com.ruoyi.gateway.service.ValidateCodeService;
 
 /**
@@ -35,8 +36,8 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
     @Autowired
     private RedisService redisService;
 
-    // 验证码类型
-    private String captchaType = "math";
+    @Autowired
+    private CaptchaProperties captchaProperties;
 
     /**
      * 生成验证码
@@ -44,6 +45,14 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
     @Override
     public AjaxResult createCapcha() throws IOException, CaptchaException
     {
+        AjaxResult ajax = AjaxResult.success();
+        boolean captchaOnOff = captchaProperties.isEnabled();
+        ajax.put("captchaOnOff", captchaOnOff);
+        if (!captchaOnOff)
+        {
+            return ajax;
+        }
+
         // 保存验证码信息
         String uuid = IdUtils.simpleUUID();
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
@@ -51,6 +60,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
         String capStr = null, code = null;
         BufferedImage image = null;
 
+        String captchaType = captchaProperties.getType();
         // 生成验证码
         if ("math".equals(captchaType))
         {
@@ -77,7 +87,6 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
             return AjaxResult.error(e.getMessage());
         }
 
-        AjaxResult ajax = AjaxResult.success();
         ajax.put("uuid", uuid);
         ajax.put("img", Base64.encode(os.toByteArray()));
         return ajax;
