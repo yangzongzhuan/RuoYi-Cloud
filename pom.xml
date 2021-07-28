@@ -22,7 +22,7 @@
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <alibaba.nacos.version>2.0.2</alibaba.nacos.version>
         <spring-boot-admin.version>2.4.3</spring-boot-admin.version>
-        <spring-boot.mybatis>2.1.4</spring-boot.mybatis>
+        <spring-boot.mybatis>2.2.0</spring-boot.mybatis>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <swagger.core.version>1.6.2</swagger.core.version>
         <tobato.version>1.26.5</tobato.version>
@@ -35,7 +35,7 @@
         <velocity.version>1.7</velocity.version>
         <fastjson.version>1.2.76</fastjson.version>
         <minio.version>8.2.1</minio.version>
-		<poi.version>4.1.2</poi.version>
+        <poi.version>4.1.2</poi.version>
         <common-pool.version>2.6.2</common-pool.version>
         <commons-collections.version>3.2.2</commons-collections.version>
     </properties>
@@ -53,7 +53,7 @@
                 <scope>import</scope>
             </dependency>
 
-			<!-- SpringCloud Alibaba 微服务 -->
+            <!-- SpringCloud Alibaba 微服务 -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
@@ -77,28 +77,28 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-			
+
             <!--  SpringBoot 监控客户端 -->
             <dependency>
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-client</artifactId>
                 <version>${spring-boot-admin.version}</version>
             </dependency>
-			
+
             <!-- FastDFS 分布式文件系统 -->
             <dependency>
                 <groupId>com.github.tobato</groupId>
                 <artifactId>fastdfs-client</artifactId>
                 <version>${tobato.version}</version>
             </dependency>
-			
+
             <!-- Mybatis 依赖配置 -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${spring-boot.mybatis}</version>
             </dependency>
-			
+
             <!-- Swagger 依赖配置 -->
             <dependency>
                 <groupId>io.swagger</groupId>
@@ -172,7 +172,7 @@
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
-            
+
             <!-- 公共资源池 -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -181,71 +181,71 @@
             </dependency>
 
             <!-- 核心模块 -->
-	        <dependency>
+            <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-core</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-			
+
             <!-- 接口模块 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-swagger</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-	        
+
             <!-- 安全模块 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-security</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-	        
+
             <!-- 权限范围 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-datascope</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-            
+
             <!-- 多数据源 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-datasource</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-			
+
             <!-- 日志记录 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-log</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-			
+
             <!-- 缓存服务 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-redis</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-			
+
             <!-- 系统接口 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-api-system</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-			
+
         </dependencies>
     </dependencyManagement>
 
     <modules>
-		<module>ruoyi-auth</module>
-		<module>ruoyi-gateway</module>
-		<module>ruoyi-visual</module>
-		<module>ruoyi-modules</module>
-		<module>ruoyi-api</module>
-		<module>ruoyi-common</module>
+        <module>ruoyi-auth</module>
+        <module>ruoyi-gateway</module>
+        <module>ruoyi-visual</module>
+        <module>ruoyi-modules</module>
+        <module>ruoyi-api</module>
+        <module>ruoyi-common</module>
     </modules>
     <packaging>pom</packaging>
 
