@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @RefreshScope
-@ConfigurationProperties(prefix = "ignore")
+@ConfigurationProperties(prefix = "security.ignore")
 public class IgnoreWhiteProperties
 {
     /**

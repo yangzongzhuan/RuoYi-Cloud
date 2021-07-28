@@ -46,7 +46,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
     public AjaxResult createCapcha() throws IOException, CaptchaException
     {
         AjaxResult ajax = AjaxResult.success();
-        boolean captchaOnOff = captchaProperties.isEnabled();
+        boolean captchaOnOff = captchaProperties.getEnabled();
         ajax.put("captchaOnOff", captchaOnOff);
         if (!captchaOnOff)
         {
