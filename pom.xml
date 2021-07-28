@@ -34,7 +34,7 @@
         <commons.fileupload.version>1.4</commons.fileupload.version>
         <velocity.version>1.7</velocity.version>
         <fastjson.version>1.2.76</fastjson.version>
-        <minio.version>8.3.0</minio.version>
+        <minio.version>8.2.2</minio.version>
         <poi.version>4.1.2</poi.version>
         <common-pool.version>2.6.2</common-pool.version>
         <commons-collections.version>3.2.2</commons-collections.version>
