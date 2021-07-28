@@ -2,6 +2,7 @@ package com.ruoyi.gateway.filter;
 
 import java.nio.charset.StandardCharsets;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -27,6 +28,7 @@ import reactor.core.publisher.Mono;
  * @author ruoyi
  */
 @Component
+@ConditionalOnProperty(value = "security.xss.enabled", havingValue = "true")
 public class XssFilter implements GlobalFilter, Ordered
 {
     // 跨站脚本的 xss 配置，nacos自行添加
