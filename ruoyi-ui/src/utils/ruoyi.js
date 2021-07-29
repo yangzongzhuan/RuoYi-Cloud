@@ -179,11 +179,21 @@ export function handleTree(data, id, parentId, children) {
 * @param {*} params  参数
 */
 export function tansParams(params) {
-	let result = ''
-	Object.keys(params).forEach((key) => {
-		if (!Object.is(params[key], undefined) && !Object.is(params[key], null) && !Object.is(JSON.stringify(params[key]), '{}')) {
-			result += encodeURIComponent(key) + '=' + encodeURIComponent(params[key]) + '&'
+    let result = ''
+    for (const propName of Object.keys(params)) {
+        const value = params[propName];
+        var part = encodeURIComponent(propName) + "=";
+        if (value !== null && typeof(value) !== "undefined") {
+            if (typeof value === 'object') {
+				for (const key of Object.keys(value)) {
+					let params = propName + '[' + key + ']';
+					var subPart = encodeURIComponent(params) + "=";
+					result += subPart + encodeURIComponent(value[key]) + "&";
+				}
+            } else {
+				result += part + encodeURIComponent(value) + "&";
+            }
 		}
-	})
+    }
 	return result
 }
