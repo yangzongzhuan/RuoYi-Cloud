@@ -75,6 +75,17 @@ public class RedisService
     }
 
     /**
+     * 判断 key是否存在
+     *
+     * @param key 键
+     * @return true 存在 false不存在
+     */
+    public Boolean hasKey(String key)
+    {
+        return redisTemplate.hasKey(key);
+    }
+
+    /**
      * 获得缓存的基本对象。
      *
      * @param key 缓存键值

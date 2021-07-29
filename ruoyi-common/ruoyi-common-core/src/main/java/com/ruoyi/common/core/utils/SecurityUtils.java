@@ -42,7 +42,15 @@ public class SecurityUtils
      */
     public static String getToken(HttpServletRequest request)
     {
-        String token = ServletUtils.getRequest().getHeader(CacheConstants.HEADER);
+        String token = request.getHeader(CacheConstants.TOKEN_AUTHENTICATION);
+        return replaceTokenPrefix(token);
+    }
+
+    /**
+     * 替换token前缀
+     */
+    public static String replaceTokenPrefix(String token)
+    {
         if (StringUtils.isNotEmpty(token) && token.startsWith(CacheConstants.TOKEN_PREFIX))
         {
             token = token.replace(CacheConstants.TOKEN_PREFIX, "");

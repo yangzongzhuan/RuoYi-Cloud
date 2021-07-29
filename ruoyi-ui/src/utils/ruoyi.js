@@ -185,15 +185,15 @@ export function tansParams(params) {
         var part = encodeURIComponent(propName) + "=";
         if (value !== null && typeof(value) !== "undefined") {
             if (typeof value === 'object') {
-				for (const key of Object.keys(value)) {
-					let params = propName + '[' + key + ']';
-					var subPart = encodeURIComponent(params) + "=";
-					result += subPart + encodeURIComponent(value[key]) + "&";
-				}
+                for (const key of Object.keys(value)) {
+                    let params = propName + '[' + key + ']';
+                    var subPart = encodeURIComponent(params) + "=";
+                    result += subPart + encodeURIComponent(value[key]) + "&";
+                }
             } else {
-				result += part + encodeURIComponent(value) + "&";
-            }
-		}
+                result += part + encodeURIComponent(value) + "&";
+           }
+        }
     }
-	return result
+    return result
 }

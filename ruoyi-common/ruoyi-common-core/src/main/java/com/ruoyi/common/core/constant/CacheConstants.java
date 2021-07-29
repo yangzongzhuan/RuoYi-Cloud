@@ -10,7 +10,7 @@ public class CacheConstants
     /**
      * 令牌自定义标识
      */
-    public static final String HEADER = "Authorization";
+    public static final String TOKEN_AUTHENTICATION = "Authorization";
 
     /**
      * 令牌前缀

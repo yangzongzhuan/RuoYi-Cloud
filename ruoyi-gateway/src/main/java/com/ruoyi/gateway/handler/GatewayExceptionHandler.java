@@ -6,14 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.io.buffer.DataBufferFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
-import com.alibaba.fastjson.JSON;
-import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.utils.ServletUtils;
 import reactor.core.publisher.Mono;
 
 /**
@@ -55,12 +51,6 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler
 
         log.error("[网关异常处理]请求路径:{},异常信息:{}", exchange.getRequest().getPath(), ex.getMessage());
 
-        response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
-        response.setStatusCode(HttpStatus.OK);
-
-        return response.writeWith(Mono.fromSupplier(() -> {
-            DataBufferFactory bufferFactory = response.bufferFactory();
-            return bufferFactory.wrap(JSON.toJSONBytes(R.fail(msg)));
-        }));
+        return ServletUtils.webFluxResponseWriter(response, msg);
     }
 }
