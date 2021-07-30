@@ -86,6 +86,6 @@ public interface ${ClassName}Mapper
      * @param ${pkColumn.javaField} ${functionName}ID
      * @return 结果
      */
-    public int delete${subClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
+    public int delete${subClassName}By${subTableFkClassName}(${pkColumn.javaType} ${pkColumn.javaField});
 #end
 }

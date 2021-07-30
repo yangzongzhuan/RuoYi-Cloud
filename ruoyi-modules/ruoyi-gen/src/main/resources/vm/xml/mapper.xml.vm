@@ -121,7 +121,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
-    <delete id="delete${subClassName}By${subTableFkClassName}" parameterType="${subTableFkjavaType}">
+    <delete id="delete${subClassName}By${subTableFkClassName}" parameterType="${pkColumn.javaType}">
         delete from ${subTableName} where ${subTableFkName} = #{${subTableFkclassName}}
     </delete>
 
