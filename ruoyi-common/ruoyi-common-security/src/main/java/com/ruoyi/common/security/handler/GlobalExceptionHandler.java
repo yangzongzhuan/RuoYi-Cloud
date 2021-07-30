@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.ruoyi.common.core.exception.BaseException;
 import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.common.core.exception.DemoModeException;
+import com.ruoyi.common.core.exception.InnerAuthException;
 import com.ruoyi.common.core.exception.PreAuthorizeException;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.AjaxResult;
@@ -73,7 +74,7 @@ public class GlobalExceptionHandler
         String message = e.getBindingResult().getFieldError().getDefaultMessage();
         return AjaxResult.error(message);
     }
-    
+
     /**
      * 权限异常
      */
@@ -82,7 +83,16 @@ public class GlobalExceptionHandler
     {
         return AjaxResult.error("没有权限，请联系管理员授权");
     }
-    
+
+    /**
+     * 内部认证异常
+     */
+    @ExceptionHandler(InnerAuthException.class)
+    public AjaxResult InnerAuthException(InnerAuthException e)
+    {
+        return AjaxResult.error(e.getMessage());
+    }
+
     /**
      * 演示模式异常
      */

@@ -8,20 +8,18 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.ruoyi.common.core.constant.Constants;
-import com.ruoyi.common.core.utils.ServletUtils;
-import com.ruoyi.common.core.utils.ip.IpUtils;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.security.annotation.InnerAuth;
 import com.ruoyi.common.security.annotation.PreAuthorize;
-import com.ruoyi.system.domain.SysLogininfor;
+import com.ruoyi.system.api.domain.SysLogininfor;
 import com.ruoyi.system.service.ISysLogininforService;
 
 /**
@@ -72,26 +70,10 @@ public class SysLogininforController extends BaseController
         return AjaxResult.success();
     }
 
+    @InnerAuth
     @PostMapping
-    public AjaxResult add(@RequestParam("username") String username, @RequestParam("status") String status,
-            @RequestParam("message") String message)
+    public AjaxResult add(@RequestBody SysLogininfor logininfor)
     {
-        String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
-
-        // 封装对象
-        SysLogininfor logininfor = new SysLogininfor();
-        logininfor.setUserName(username);
-        logininfor.setIpaddr(ip);
-        logininfor.setMsg(message);
-        // 日志状态
-        if (Constants.LOGIN_SUCCESS.equals(status) || Constants.LOGOUT.equals(status))
-        {
-            logininfor.setStatus("0");
-        }
-        else if (Constants.LOGIN_FAIL.equals(status))
-        {
-            logininfor.setStatus("1");
-        }
         return toAjax(logininforService.insertLogininfor(logininfor));
     }
 }

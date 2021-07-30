@@ -6,6 +6,7 @@ import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.system.api.RemoteUserService;
+import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
 
 /**
@@ -25,9 +26,15 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
         return new RemoteUserService()
         {
             @Override
-            public R<LoginUser> getUserInfo(String username)
+            public R<LoginUser> getUserInfo(String username, String source)
             {
                 return R.fail("获取用户失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<Boolean> registerUserInfo(SysUser sysUser, String source)
+            {
+                return R.fail("注册用户失败:" + throwable.getMessage());
             }
         };
     }

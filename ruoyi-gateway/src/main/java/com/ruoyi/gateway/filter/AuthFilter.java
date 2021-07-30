@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.HttpStatus;
+import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.utils.SecurityUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -77,8 +78,10 @@ public class AuthFilter implements GlobalFilter, Ordered
         // 设置过期时间
         redisService.expire(getTokenKey(token), EXPIRE_TIME);
         // 设置用户信息到请求
-        addHeader(mutate, CacheConstants.DETAILS_USER_ID, userid);
-        addHeader(mutate, CacheConstants.DETAILS_USERNAME, username);
+        addHeader(mutate, SecurityConstants.DETAILS_USER_ID, userid);
+        addHeader(mutate, SecurityConstants.DETAILS_USERNAME, username);
+        // 内部请求来源参数清除
+        removeHeader(mutate, SecurityConstants.FROM_SOURCE);
         return chain.filter(exchange.mutate().request(mutate.build()).build());
     }
 
@@ -91,6 +94,11 @@ public class AuthFilter implements GlobalFilter, Ordered
         String valueStr = value.toString();
         String valueEncode = ServletUtils.urlEncode(valueStr);
         mutate.header(name, valueEncode);
+    }
+
+    private void removeHeader(ServerHttpRequest.Builder mutate, String name)
+    {
+        mutate.headers(httpHeaders -> httpHeaders.remove(name)).build();
     }
 
     private Mono<Void> unauthorizedResponse(ServerWebExchange exchange, String msg)
@@ -112,7 +120,7 @@ public class AuthFilter implements GlobalFilter, Ordered
      */
     private String getToken(ServerHttpRequest request)
     {
-        String token = request.getHeaders().getFirst(CacheConstants.TOKEN_AUTHENTICATION);
+        String token = request.getHeaders().getFirst(SecurityConstants.TOKEN_AUTHENTICATION);
         return SecurityUtils.replaceTokenPrefix(token);
     }
 

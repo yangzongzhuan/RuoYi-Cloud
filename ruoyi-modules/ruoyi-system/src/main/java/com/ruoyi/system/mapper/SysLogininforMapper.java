@@ -1,7 +1,7 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
-import com.ruoyi.system.domain.SysLogininfor;
+import com.ruoyi.system.api.domain.SysLogininfor;
 
 /**
  * 系统访问日志情况信息 数据层

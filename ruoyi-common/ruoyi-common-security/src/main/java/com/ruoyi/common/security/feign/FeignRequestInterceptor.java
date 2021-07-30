@@ -2,11 +2,11 @@ package com.ruoyi.common.security.feign;
 
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import com.ruoyi.common.core.utils.ip.IpUtils;
 import org.springframework.stereotype.Component;
-import com.ruoyi.common.core.constant.CacheConstants;
+import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.core.utils.ip.IpUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
@@ -26,20 +26,20 @@ public class FeignRequestInterceptor implements RequestInterceptor
         {
             Map<String, String> headers = ServletUtils.getHeaders(httpServletRequest);
             // 传递用户信息请求头，防止丢失
-            String userId = headers.get(CacheConstants.DETAILS_USER_ID);
+            String userId = headers.get(SecurityConstants.DETAILS_USER_ID);
             if (StringUtils.isNotEmpty(userId))
             {
-                requestTemplate.header(CacheConstants.DETAILS_USER_ID, userId);
+                requestTemplate.header(SecurityConstants.DETAILS_USER_ID, userId);
             }
-            String userName = headers.get(CacheConstants.DETAILS_USERNAME);
+            String userName = headers.get(SecurityConstants.DETAILS_USERNAME);
             if (StringUtils.isNotEmpty(userName))
             {
-                requestTemplate.header(CacheConstants.DETAILS_USERNAME, userName);
+                requestTemplate.header(SecurityConstants.DETAILS_USERNAME, userName);
             }
-            String authentication = headers.get(CacheConstants.AUTHORIZATION_HEADER);
+            String authentication = headers.get(SecurityConstants.AUTHORIZATION_HEADER);
             if (StringUtils.isNotEmpty(authentication))
             {
-                requestTemplate.header(CacheConstants.AUTHORIZATION_HEADER, authentication);
+                requestTemplate.header(SecurityConstants.AUTHORIZATION_HEADER, authentication);
             }
 
             // 配置客户端IP

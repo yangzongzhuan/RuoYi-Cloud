@@ -2,7 +2,7 @@ package com.ruoyi.common.core.utils;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import com.ruoyi.common.core.constant.CacheConstants;
+import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.text.Convert;
 
 /**
@@ -17,7 +17,7 @@ public class SecurityUtils
      */
     public static String getUsername()
     {
-        String username = ServletUtils.getRequest().getHeader(CacheConstants.DETAILS_USERNAME);
+        String username = ServletUtils.getRequest().getHeader(SecurityConstants.DETAILS_USERNAME);
         return ServletUtils.urlDecode(username);
     }
 
@@ -26,7 +26,7 @@ public class SecurityUtils
      */
     public static Long getUserId()
     {
-        return Convert.toLong(ServletUtils.getRequest().getHeader(CacheConstants.DETAILS_USER_ID));
+        return Convert.toLong(ServletUtils.getRequest().getHeader(SecurityConstants.DETAILS_USER_ID));
     }
 
     /**
@@ -42,7 +42,7 @@ public class SecurityUtils
      */
     public static String getToken(HttpServletRequest request)
     {
-        String token = request.getHeader(CacheConstants.TOKEN_AUTHENTICATION);
+        String token = request.getHeader(SecurityConstants.TOKEN_AUTHENTICATION);
         return replaceTokenPrefix(token);
     }
 
@@ -51,9 +51,9 @@ public class SecurityUtils
      */
     public static String replaceTokenPrefix(String token)
     {
-        if (StringUtils.isNotEmpty(token) && token.startsWith(CacheConstants.TOKEN_PREFIX))
+        if (StringUtils.isNotEmpty(token) && token.startsWith(SecurityConstants.TOKEN_PREFIX))
         {
-            token = token.replace(CacheConstants.TOKEN_PREFIX, "");
+            token = token.replace(SecurityConstants.TOKEN_PREFIX, "");
         }
         return token;
     }
