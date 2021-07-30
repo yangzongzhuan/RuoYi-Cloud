@@ -18,6 +18,11 @@ public class Constants
     public static final String GBK = "GBK";
 
     /**
+     * RMI 远程方法调用
+     */
+    public static final String LOOKUP_RMI = "rmi://";
+
+    /**
      * http请求
      */
     public static final String HTTP = "http://";
