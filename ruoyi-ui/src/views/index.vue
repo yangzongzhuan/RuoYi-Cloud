@@ -146,6 +146,61 @@
             <span>更新日志</span>
           </div>
           <el-collapse accordion>
+            <el-collapse-item title="v3.1.0 - 2021-08-02">
+              <ol>
+                <li>支持配置XSS跨站脚本过滤</li>
+                <li>支持配置验证码开关&类型</li>
+                <li>新增是否开启用户注册功能</li>
+                <li>用户管理新增分配角色功能</li>
+                <li>角色管理新增分配用户功能</li>
+                <li>系统布局配置支持动态标题开关</li>
+                <li>增加字典标签样式回显dict组件</li>
+                <li>FileUpload组件支持多文件上传</li>
+                <li>ImageUpload组件支持多图片上传</li>
+                <li>封装通用iframe组件</li>
+                <li>菜单路由配置支持内链访问</li>
+                <li>全局注册通用组件</li>
+                <li>富文本默认上传返回url类型</li>
+                <li>富文本新增上传文件大小限制</li>
+                <li>增加自定义弹窗拖拽指令</li>
+                <li>顶部菜单排除隐藏的默认路由</li>
+                <li>跳转路由高亮相对应的菜单栏</li>
+                <li>日志列表支持排序操作</li>
+                <li>分页组件新增pagerCount属性</li>
+                <li>定时任务屏蔽http(s)远程调用</li>
+                <li>文件服务本地资源允许跨域访问</li>
+                <li>升级spring-boot到最新版本2.5.3</li>
+                <li>升级spring-boot-admin到最新版2.4.3</li>
+                <li>升级spring-boot-mybatis到最新版2.2.0</li>
+                <li>升级nacos到最新版2.0.3</li>
+                <li>升级pagehelper到最新版1.3.1</li>
+                <li>升级minio到最新版本8.2.2</li>
+                <li>升级tobato到最新版本1.27.2</li>
+                <li>升级dynamic-ds到最新版本3.4.1</li>
+                <li>升级commons.io到最新版本v2.11.0</li>
+                <li>升级common-pool到最新版本2.10.0</li>
+                <li>升级commons.fileupload到最新版本v1.4</li>
+                <li>升级element-ui到最新版本2.15.3</li>
+                <li>优化统一网关错误码响应</li>
+                <li>修复导出含params属性对象参数问题</li>
+                <li>修复任意账户越权问题</li>
+                <li>修复定时任务日志执行状态显示</li>
+                <li>修改登录失效返回值code401</li>
+                <li>用户信息长度校验限制</li>
+                <li>角色&菜单新增字段属性提示信息</li>
+                <li>修复用户搜索分页变量错误</li>
+                <li>优化部门父级启用状态</li>
+                <li>启用部门状态排除顶级节点</li>
+                <li>定时任务新增更多操作</li>
+                <li>优化代码生成模板</li>
+                <li>优化顶部菜单显示样式</li>
+                <li>优化导入用户显示样式</li>
+                <li>优化用户不能删除自己</li>
+                <li>密码框新增显示切换密码图标</li>
+                <li>BLOB下载时清除URL对象引用</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
             <el-collapse-item title="v3.0.0 - 2021-06-10">
               <ol>
                 <li>新增菜单导航显示风格TopNav（false为左侧导航菜单，true为顶部导航菜单）</li>
@@ -505,7 +560,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "3.0.0",
+      version: "3.1.0",
     };
   },
   methods: {
