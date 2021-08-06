@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.system.domain.SysDictData;
-import com.ruoyi.system.domain.SysDictType;
+import com.ruoyi.common.security.utils.DictUtils;
+import com.ruoyi.system.api.domain.SysDictData;
+import com.ruoyi.system.api.domain.SysDictType;
 import com.ruoyi.system.mapper.SysDictDataMapper;
 import com.ruoyi.system.mapper.SysDictTypeMapper;
 import com.ruoyi.system.service.ISysDictTypeService;
-import com.ruoyi.system.utils.DictUtils;
 
 /**
  * 字典 业务层处理

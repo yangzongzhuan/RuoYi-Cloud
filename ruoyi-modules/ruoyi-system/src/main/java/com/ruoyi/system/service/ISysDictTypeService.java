@@ -1,8 +1,8 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
-import com.ruoyi.system.domain.SysDictData;
-import com.ruoyi.system.domain.SysDictType;
+import com.ruoyi.system.api.domain.SysDictData;
+import com.ruoyi.system.api.domain.SysDictType;
 
 /**
  * 字典 业务层

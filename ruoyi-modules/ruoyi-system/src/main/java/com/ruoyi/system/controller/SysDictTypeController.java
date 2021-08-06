@@ -22,7 +22,7 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.PreAuthorize;
-import com.ruoyi.system.domain.SysDictType;
+import com.ruoyi.system.api.domain.SysDictType;
 import com.ruoyi.system.service.ISysDictTypeService;
 
 /**
