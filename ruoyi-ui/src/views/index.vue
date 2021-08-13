@@ -556,7 +556,7 @@
 
 <script>
 export default {
-  name: "index",
+  name: "Index",
   data() {
     return {
       // 版本号
