@@ -1,6 +1,6 @@
 @echo off
 echo.
-echo [信息] 运行modules-gen工程。
+echo [信息] 使用Jar命令运行Modules-Gen工程。
 echo.
 
 cd %~dp0
