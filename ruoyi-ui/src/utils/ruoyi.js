@@ -58,7 +58,7 @@ export function addDateRange(params, dateRange, propName) {
 	var search = params;
 	search.params = {};
 	if (null != dateRange && '' != dateRange) {
-		if (typeof(propName) === "undefined") {
+		if (typeof (propName) === "undefined") {
 			search.params["beginTime"] = dateRange[0];
 			search.params["endTime"] = dateRange[1];
 		} else {
@@ -87,8 +87,8 @@ export function selectDictLabels(datas, value, separator) {
 	var currentSeparator = undefined === separator ? "," : separator;
 	var temp = value.split(currentSeparator);
 	Object.keys(value.split(currentSeparator)).some((val) => {
-        Object.keys(datas).some((key) => {
-            if (datas[key].dictValue == ('' + temp[val])) {
+		Object.keys(datas).some((key) => {
+			if (datas[key].dictValue == ('' + temp[val])) {
 				actions.push(datas[key].dictLabel + currentSeparator);
 			}
 		})
@@ -179,21 +179,23 @@ export function handleTree(data, id, parentId, children) {
 * @param {*} params  参数
 */
 export function tansParams(params) {
-    let result = ''
-    for (const propName of Object.keys(params)) {
-        const value = params[propName];
-        var part = encodeURIComponent(propName) + "=";
-        if (value !== null && typeof(value) !== "undefined") {
-            if (typeof value === 'object') {
-                for (const key of Object.keys(value)) {
-                    let params = propName + '[' + key + ']';
-                    var subPart = encodeURIComponent(params) + "=";
-                    result += subPart + encodeURIComponent(value[key]) + "&";
-                }
-            } else {
-                result += part + encodeURIComponent(value) + "&";
-           }
-        }
-    }
-    return result
+	let result = ''
+	for (const propName of Object.keys(params)) {
+		const value = params[propName];
+		var part = encodeURIComponent(propName) + "=";
+		if (value !== null && typeof (value) !== "undefined") {
+			if (typeof value === 'object') {
+				for (const key of Object.keys(value)) {
+					if (value[key] !== null && typeof (value[key]) !== 'undefined') {
+						let params = propName + '[' + key + ']';
+						var subPart = encodeURIComponent(params) + "=";
+						result += subPart + encodeURIComponent(value[key]) + "&";
+					}
+				}
+			} else {
+				result += part + encodeURIComponent(value) + "&";
+			}
+		}
+	}
+	return result
 }
