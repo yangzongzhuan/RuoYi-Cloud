@@ -1,6 +1,6 @@
 package com.ruoyi.common.core.utils.sql;
 
-import com.ruoyi.common.core.exception.BaseException;
+import com.ruoyi.common.core.exception.UtilException;
 import com.ruoyi.common.core.utils.StringUtils;
 
 /**
@@ -22,7 +22,7 @@ public class SqlUtil
     {
         if (StringUtils.isNotEmpty(value) && !isValidOrderBySql(value))
         {
-            throw new BaseException("参数不符合规范，不能进行查询");
+            throw new UtilException("参数不符合规范，不能进行查询");
         }
         return value;
     }
