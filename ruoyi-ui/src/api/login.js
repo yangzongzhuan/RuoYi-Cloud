@@ -49,6 +49,7 @@ export function logout() {
 export function getCodeImg() {
   return request({
     url: '/code',
-    method: 'get'
+    method: 'get',
+    timeout: 20000
   })
 }
