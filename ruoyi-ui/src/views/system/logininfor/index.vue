@@ -95,7 +95,11 @@
       <el-table-column label="访问编号" align="center" prop="infoId" />
       <el-table-column label="用户名称" align="center" prop="userName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
       <el-table-column label="地址" align="center" prop="ipaddr" width="130" :show-overflow-tooltip="true" />
-      <el-table-column label="状态" align="center" prop="status" :formatter="statusFormat" />
+      <el-table-column label="登录状态" align="center" prop="status">
+        <template slot-scope="scope">
+          <dict-tag :options="statusOptions" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
       <el-table-column label="描述" align="center" prop="msg" />
       <el-table-column label="访问时间" align="center" prop="accessTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">
         <template slot-scope="scope">
@@ -165,10 +169,6 @@ export default {
           this.loading = false;
         }
       );
-    },
-    // 登录状态字典翻译
-    statusFormat(row, column) {
-      return this.selectDictLabel(this.statusOptions, row.status);
     },
     /** 搜索按钮操作 */
     handleQuery() {
