@@ -6,7 +6,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.ruoyi.common.core.web.domain.BaseEntity;
 
 /**
@@ -38,6 +37,9 @@ public class SysMenu extends BaseEntity
 
     /** 组件路径 */
     private String component;
+
+    /** 路由参数 */
+    private String query;
 
     /** 是否为外链（0是 1否） */
     private String isFrame;
@@ -136,6 +138,16 @@ public class SysMenu extends BaseEntity
     public void setComponent(String component)
     {
         this.component = component;
+    }
+
+    public String getQuery()
+    {
+        return query;
+    }
+
+    public void setQuery(String query)
+    {
+        this.query = query;
     }
 
     public String getIsFrame()
