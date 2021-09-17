@@ -30,10 +30,10 @@
           style="width: 240px"
         >
           <el-option
-            v-for="dict in statusOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
+            v-for="dict in dict.type.sys_common_status"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
           />
         </el-select>
       </el-form-item>
@@ -97,7 +97,7 @@
       <el-table-column label="地址" align="center" prop="ipaddr" width="130" :show-overflow-tooltip="true" />
       <el-table-column label="登录状态" align="center" prop="status">
         <template slot-scope="scope">
-          <dict-tag :options="statusOptions" :value="scope.row.status"/>
+          <dict-tag :options="dict.type.sys_common_status" :value="scope.row.status"/>
         </template>
       </el-table-column>
       <el-table-column label="描述" align="center" prop="msg" />
@@ -123,6 +123,7 @@ import { list, delLogininfor, cleanLogininfor } from "@/api/system/logininfor";
 
 export default {
   name: "Logininfor",
+  dicts: ['sys_common_status'],
   data() {
     return {
       // 遮罩层
@@ -137,8 +138,6 @@ export default {
       total: 0,
       // 表格数据
       list: [],
-      // 状态数据字典
-      statusOptions: [],
       // 日期范围
       dateRange: [],
       // 默认排序
@@ -155,9 +154,6 @@ export default {
   },
   created() {
     this.getList();
-    this.getDicts("sys_common_status").then(response => {
-      this.statusOptions = response.data;
-    });
   },
   methods: {
     /** 查询登录日志列表 */
