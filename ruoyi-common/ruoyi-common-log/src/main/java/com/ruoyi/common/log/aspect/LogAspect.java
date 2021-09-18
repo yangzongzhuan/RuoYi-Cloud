@@ -1,18 +1,13 @@
 package com.ruoyi.common.log.aspect;
 
-import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,21 +39,15 @@ public class LogAspect
     @Autowired
     private AsyncLogService asyncLogService;
 
-    // 配置织入点
-    @Pointcut("@annotation(com.ruoyi.common.log.annotation.Log)")
-    public void logPointCut()
-    {
-    }
-
     /**
      * 处理完请求后执行
      *
      * @param joinPoint 切点
      */
-    @AfterReturning(pointcut = "logPointCut()", returning = "jsonResult")
-    public void doAfterReturning(JoinPoint joinPoint, Object jsonResult)
+    @AfterReturning(pointcut = "@annotation(controllerLog)", returning = "jsonResult")
+    public void doAfterReturning(JoinPoint joinPoint, Log controllerLog, Object jsonResult)
     {
-        handleLog(joinPoint, null, jsonResult);
+        handleLog(joinPoint, controllerLog, null, jsonResult);
     }
 
     /**
@@ -67,23 +56,16 @@ public class LogAspect
      * @param joinPoint 切点
      * @param e 异常
      */
-    @AfterThrowing(value = "logPointCut()", throwing = "e")
-    public void doAfterThrowing(JoinPoint joinPoint, Exception e)
+    @AfterThrowing(value = "@annotation(controllerLog)", throwing = "e")
+    public void doAfterThrowing(JoinPoint joinPoint, Log controllerLog, Exception e)
     {
-        handleLog(joinPoint, e, null);
+        handleLog(joinPoint, controllerLog, e, null);
     }
 
-    protected void handleLog(final JoinPoint joinPoint, final Exception e, Object jsonResult)
+    protected void handleLog(final JoinPoint joinPoint, Log controllerLog, final Exception e, Object jsonResult)
     {
         try
         {
-            // 获得注解
-            Log controllerLog = getAnnotationLog(joinPoint);
-            if (controllerLog == null)
-            {
-                return;
-            }
-
             // *========数据库日志=========*//
             SysOperLog operLog = new SysOperLog();
             operLog.setStatus(BusinessStatus.SUCCESS.ordinal());
@@ -164,22 +146,11 @@ public class LogAspect
             String params = argsArrayToString(joinPoint.getArgs());
             operLog.setOperParam(StringUtils.substring(params, 0, 2000));
         }
-    }
-
-    /**
-     * 是否存在注解，如果存在就获取
-     */
-    private Log getAnnotationLog(JoinPoint joinPoint) throws Exception
-    {
-        Signature signature = joinPoint.getSignature();
-        MethodSignature methodSignature = (MethodSignature) signature;
-        Method method = methodSignature.getMethod();
-
-        if (method != null)
+        else
         {
-            return method.getAnnotation(Log.class);
+            Map<?, ?> paramsMap = (Map<?, ?>) ServletUtils.getRequest().getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+            operLog.setOperParam(StringUtils.substring(paramsMap.toString(), 0, 2000));
         }
-        return null;
     }
 
     /**
@@ -190,13 +161,13 @@ public class LogAspect
         String params = "";
         if (paramsArray != null && paramsArray.length > 0)
         {
-            for (int i = 0; i < paramsArray.length; i++)
+            for (Object o : paramsArray)
             {
-                if (StringUtils.isNotNull(paramsArray[i]) && !isFilterObject(paramsArray[i]))
+                if (StringUtils.isNotNull(o) && !isFilterObject(o))
                 {
                     try
                     {
-                        Object jsonObj = JSON.toJSON(paramsArray[i]);
+                        Object jsonObj = JSON.toJSON(o);
                         params += jsonObj.toString() + " ";
                     }
                     catch (Exception e)
@@ -225,17 +196,17 @@ public class LogAspect
         else if (Collection.class.isAssignableFrom(clazz))
         {
             Collection collection = (Collection) o;
-            for (Iterator iter = collection.iterator(); iter.hasNext();)
+            for (Object value : collection)
             {
-                return iter.next() instanceof MultipartFile;
+                return value instanceof MultipartFile;
             }
         }
         else if (Map.class.isAssignableFrom(clazz))
         {
             Map map = (Map) o;
-            for (Iterator iter = map.entrySet().iterator(); iter.hasNext();)
+            for (Object value : map.entrySet())
             {
-                Map.Entry entry = (Map.Entry) iter.next();
+                Map.Entry entry = (Map.Entry) value;
                 return entry.getValue() instanceof MultipartFile;
             }
         }

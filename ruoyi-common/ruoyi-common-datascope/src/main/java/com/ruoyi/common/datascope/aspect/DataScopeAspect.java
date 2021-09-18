@@ -1,12 +1,8 @@
 package com.ruoyi.common.datascope.aspect;
 
-import java.lang.reflect.Method;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -59,27 +55,15 @@ public class DataScopeAspect
     @Autowired
     private TokenService tokenService;
 
-    // 配置织入点
-    @Pointcut("@annotation(com.ruoyi.common.datascope.annotation.DataScope)")
-    public void dataScopePointCut()
-    {
-    }
-
-    @Before("dataScopePointCut()")
-    public void doBefore(JoinPoint point) throws Throwable
+    @Before("@annotation(controllerDataScope)")
+    public void doBefore(JoinPoint point, DataScope controllerDataScope) throws Throwable
     {
         clearDataScope(point);
-        handleDataScope(point);
+        handleDataScope(point, controllerDataScope);
     }
 
-    protected void handleDataScope(final JoinPoint joinPoint)
+    protected void handleDataScope(final JoinPoint joinPoint, DataScope controllerDataScope)
     {
-        // 获得注解
-        DataScope controllerDataScope = getAnnotationLog(joinPoint);
-        if (controllerDataScope == null)
-        {
-            return;
-        }
         // 获取当前的用户
         LoginUser loginUser = tokenService.getLoginUser();
         if (StringUtils.isNotNull(loginUser))
@@ -153,22 +137,6 @@ public class DataScopeAspect
                 baseEntity.getParams().put(DATA_SCOPE, " AND (" + sqlString.substring(4) + ")");
             }
         }
-    }
-
-    /**
-     * 是否存在注解，如果存在就获取
-     */
-    private DataScope getAnnotationLog(JoinPoint joinPoint)
-    {
-        Signature signature = joinPoint.getSignature();
-        MethodSignature methodSignature = (MethodSignature) signature;
-        Method method = methodSignature.getMethod();
-
-        if (method != null)
-        {
-            return method.getAnnotation(DataScope.class);
-        }
-        return null;
     }
 
     /**
