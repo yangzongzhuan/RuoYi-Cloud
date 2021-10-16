@@ -22,7 +22,7 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.security.annotation.PreAuthorize;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.system.api.domain.SysDictData;
 import com.ruoyi.system.service.ISysDictDataService;
 import com.ruoyi.system.service.ISysDictTypeService;
@@ -42,7 +42,7 @@ public class SysDictDataController extends BaseController
     @Autowired
     private ISysDictTypeService dictTypeService;
 
-    @PreAuthorize(hasPermi = "system:dict:list")
+    @RequiresPermissions("system:dict:list")
     @GetMapping("/list")
     public TableDataInfo list(SysDictData dictData)
     {
@@ -52,7 +52,7 @@ public class SysDictDataController extends BaseController
     }
 
     @Log(title = "字典数据", businessType = BusinessType.EXPORT)
-    @PreAuthorize(hasPermi = "system:dict:export")
+    @RequiresPermissions("system:dict:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysDictData dictData) throws IOException
     {
@@ -64,7 +64,7 @@ public class SysDictDataController extends BaseController
     /**
      * 查询字典数据详细
      */
-    @PreAuthorize(hasPermi = "system:dict:query")
+    @RequiresPermissions("system:dict:query")
     @GetMapping(value = "/{dictCode}")
     public AjaxResult getInfo(@PathVariable Long dictCode)
     {
@@ -88,7 +88,7 @@ public class SysDictDataController extends BaseController
     /**
      * 新增字典类型
      */
-    @PreAuthorize(hasPermi = "system:dict:add")
+    @RequiresPermissions("system:dict:add")
     @Log(title = "字典数据", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysDictData dict)
@@ -100,7 +100,7 @@ public class SysDictDataController extends BaseController
     /**
      * 修改保存字典类型
      */
-    @PreAuthorize(hasPermi = "system:dict:edit")
+    @RequiresPermissions("system:dict:edit")
     @Log(title = "字典数据", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysDictData dict)
@@ -112,7 +112,7 @@ public class SysDictDataController extends BaseController
     /**
      * 删除字典类型
      */
-    @PreAuthorize(hasPermi = "system:dict:remove")
+    @RequiresPermissions("system:dict:remove")
     @Log(title = "字典类型", businessType = BusinessType.DELETE)
     @DeleteMapping("/{dictCodes}")
     public AjaxResult remove(@PathVariable Long[] dictCodes)

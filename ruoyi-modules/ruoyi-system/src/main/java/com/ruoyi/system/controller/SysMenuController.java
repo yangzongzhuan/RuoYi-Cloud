@@ -18,7 +18,7 @@ import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.security.annotation.PreAuthorize;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.system.domain.SysMenu;
 import com.ruoyi.system.service.ISysMenuService;
 
@@ -37,7 +37,7 @@ public class SysMenuController extends BaseController
     /**
      * 获取菜单列表
      */
-    @PreAuthorize(hasPermi = "system:menu:list")
+    @RequiresPermissions("system:menu:list")
     @GetMapping("/list")
     public AjaxResult list(SysMenu menu)
     {
@@ -49,7 +49,7 @@ public class SysMenuController extends BaseController
     /**
      * 根据菜单编号获取详细信息
      */
-    @PreAuthorize(hasPermi = "system:menu:query")
+    @RequiresPermissions("system:menu:query")
     @GetMapping(value = "/{menuId}")
     public AjaxResult getInfo(@PathVariable Long menuId)
     {
@@ -84,7 +84,7 @@ public class SysMenuController extends BaseController
     /**
      * 新增菜单
      */
-    @PreAuthorize(hasPermi = "system:menu:add")
+    @RequiresPermissions("system:menu:add")
     @Log(title = "菜单管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysMenu menu)
@@ -104,7 +104,7 @@ public class SysMenuController extends BaseController
     /**
      * 修改菜单
      */
-    @PreAuthorize(hasPermi = "system:menu:edit")
+    @RequiresPermissions("system:menu:edit")
     @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysMenu menu)
@@ -128,7 +128,7 @@ public class SysMenuController extends BaseController
     /**
      * 删除菜单
      */
-    @PreAuthorize(hasPermi = "system:menu:remove")
+    @RequiresPermissions("system:menu:remove")
     @Log(title = "菜单管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{menuId}")
     public AjaxResult remove(@PathVariable("menuId") Long menuId)

@@ -42,18 +42,20 @@ public class SecurityUtils
      */
     public static String getToken(HttpServletRequest request)
     {
+        // 从header获取token标识
         String token = request.getHeader(SecurityConstants.TOKEN_AUTHENTICATION);
         return replaceTokenPrefix(token);
     }
 
     /**
-     * 替换token前缀
+     * 裁剪token前缀
      */
     public static String replaceTokenPrefix(String token)
     {
+        // 如果前端设置了令牌前缀，则裁剪掉前缀
         if (StringUtils.isNotEmpty(token) && token.startsWith(SecurityConstants.TOKEN_PREFIX))
         {
-            token = token.replace(SecurityConstants.TOKEN_PREFIX, "");
+            token = token.replaceFirst(SecurityConstants.TOKEN_PREFIX, "");
         }
         return token;
     }
