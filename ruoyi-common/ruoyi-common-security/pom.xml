@@ -15,19 +15,25 @@
     </description>
 
     <dependencies>
-    
+
+        <!-- Spring Web -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+
         <!-- RuoYi Api System -->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-api-system</artifactId>
         </dependency>
-        
+
         <!-- RuoYi Common Redis-->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-redis</artifactId>
         </dependency>
-        
+
     </dependencies>
 
 </project>

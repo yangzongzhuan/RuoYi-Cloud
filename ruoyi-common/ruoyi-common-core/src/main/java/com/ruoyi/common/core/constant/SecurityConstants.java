@@ -8,16 +8,6 @@ package com.ruoyi.common.core.constant;
 public class SecurityConstants
 {
     /**
-     * 令牌自定义标识
-     */
-    public static final String TOKEN_AUTHENTICATION = "Authorization";
-
-    /**
-     * 令牌前缀
-     */
-    public static final String TOKEN_PREFIX = "Bearer ";
-
-    /**
      * 用户ID字段
      */
     public static final String DETAILS_USER_ID = "user_id";
@@ -41,4 +31,14 @@ public class SecurityConstants
      * 内部请求
      */
     public static final String INNER = "inner";
+
+    /**
+     * 用户标识
+     */
+    public static final String USER_KEY = "user_key";
+
+    /**
+     * 登录用户
+     */
+    public static final String LOGIN_USER = "login_user";
 }

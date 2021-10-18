@@ -10,8 +10,11 @@ import com.ruoyi.auth.form.LoginBody;
 import com.ruoyi.auth.form.RegisterBody;
 import com.ruoyi.auth.service.SysLoginService;
 import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.utils.JwtUtils;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.security.auth.AuthUtil;
 import com.ruoyi.common.security.service.TokenService;
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
 
 /**
@@ -40,12 +43,12 @@ public class TokenController
     @DeleteMapping("logout")
     public R<?> logout(HttpServletRequest request)
     {
-        LoginUser loginUser = tokenService.getLoginUser(request);
-        if (StringUtils.isNotNull(loginUser))
+        String token = SecurityUtils.getToken(request);
+        if (StringUtils.isNotEmpty(token))
         {
-            String username = loginUser.getUsername();
+            String username = JwtUtils.getUserName(token);
             // 删除用户缓存记录
-            tokenService.delLoginUser(loginUser.getToken());
+            AuthUtil.logoutByToken(token);
             // 记录用户退出日志
             sysLoginService.logout(username);
         }

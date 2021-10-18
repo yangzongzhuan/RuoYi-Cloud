@@ -12,14 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.domain.R;
-import com.ruoyi.common.core.utils.SecurityUtils;
-import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.service.TokenService;
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.RemoteFileService;
 import com.ruoyi.system.api.domain.SysFile;
 import com.ruoyi.system.api.domain.SysUser;
@@ -75,7 +74,7 @@ public class SysProfileController extends BaseController
         {
             return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
-        LoginUser loginUser = tokenService.getLoginUser();
+        LoginUser loginUser = SecurityUtils.getLoginUser();
         SysUser sysUser = loginUser.getSysUser();
         user.setUserId(sysUser.getUserId());
         user.setPassword(null);
@@ -113,7 +112,7 @@ public class SysProfileController extends BaseController
         if (userService.resetUserPwd(username, SecurityUtils.encryptPassword(newPassword)) > 0)
         {
             // 更新缓存用户密码
-            LoginUser loginUser = tokenService.getLoginUser();
+            LoginUser loginUser = SecurityUtils.getLoginUser();
             loginUser.getSysUser().setPassword(SecurityUtils.encryptPassword(newPassword));
             tokenService.setLoginUser(loginUser);
             return AjaxResult.success();
@@ -130,7 +129,7 @@ public class SysProfileController extends BaseController
     {
         if (!file.isEmpty())
         {
-            LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
+            LoginUser loginUser = SecurityUtils.getLoginUser();
             R<SysFile> fileResult = remoteFileService.upload(file);
             if (StringUtils.isNull(fileResult) || StringUtils.isNull(fileResult.getData()))
             {

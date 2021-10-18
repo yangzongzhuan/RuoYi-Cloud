@@ -2,6 +2,7 @@ package com.ruoyi.common.security.auth;
 
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.annotation.RequiresRoles;
+import com.ruoyi.system.api.model.LoginUser;
 
 /**
  * Token 权限验证工具类
@@ -16,11 +17,45 @@ public class AuthUtil
     public static AuthLogic authLogic = new AuthLogic();
 
     /**
+     * 会话注销
+     */
+    public static void logout()
+    {
+        authLogic.logout();
+    }
+
+    /**
+     * 会话注销，根据指定Token
+     * 
+     * @param tokenValue 指定token
+     */
+    public static void logoutByToken(String token)
+    {
+        authLogic.logoutByToken(token);
+    }
+
+    /**
      * 检验当前会话是否已经登录，如未登录，则抛出异常
      */
     public static void checkLogin()
     {
         authLogic.checkLogin();
+    }
+
+    /**
+     * 获取当前登录用户信息
+     */
+    public static LoginUser getLoginUser(String token)
+    {
+        return authLogic.getLoginUser(token);
+    }
+
+    /**
+     * 验证当前用户有效期
+     */
+    public static void verifyLoginUserExpire(LoginUser loginUser)
+    {
+        authLogic.verifyLoginUserExpire(loginUser);
     }
 
     /**

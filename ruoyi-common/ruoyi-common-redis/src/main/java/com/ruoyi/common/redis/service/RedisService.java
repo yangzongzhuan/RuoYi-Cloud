@@ -75,6 +75,17 @@ public class RedisService
     }
 
     /**
+     * 获取有效时间
+     *
+     * @param key Redis键
+     * @return 有效时间
+     */
+    public long getExpire(final String key)
+    {
+        return redisTemplate.getExpire(key);
+    }
+
+    /**
      * 判断 key是否存在
      *
      * @param key 键

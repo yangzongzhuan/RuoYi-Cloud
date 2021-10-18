@@ -130,6 +130,16 @@ public class ServletUtils
         }
     }
 
+    public static String getHeader(HttpServletRequest request, String name)
+    {
+        String value = request.getHeader(name);
+        if (StringUtils.isEmpty(value))
+        {
+            return StringUtils.EMPTY;
+        }
+        return urlDecode(value);
+    }
+
     public static Map<String, String> getHeaders(HttpServletRequest request)
     {
         Map<String, String> map = new LinkedHashMap<>();
@@ -216,7 +226,7 @@ public class ServletUtils
         }
         catch (UnsupportedEncodingException e)
         {
-            return "";
+            return StringUtils.EMPTY;
         }
     }
 
@@ -234,7 +244,7 @@ public class ServletUtils
         }
         catch (UnsupportedEncodingException e)
         {
-            return "";
+            return StringUtils.EMPTY;
         }
     }
 
