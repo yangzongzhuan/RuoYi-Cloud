@@ -199,7 +199,7 @@
             ref="menu"
             node-key="id"
             :check-strictly="!form.menuCheckStrictly"
-            empty-text="加载中，请稍后"
+            empty-text="加载中，请稍候"
             :props="defaultProps"
           ></el-tree>
         </el-form-item>
@@ -244,7 +244,7 @@
             ref="dept"
             node-key="id"
             :check-strictly="!form.deptCheckStrictly"
-            empty-text="加载中，请稍后"
+            empty-text="加载中，请稍候"
             :props="defaultProps"
           ></el-tree>
         </el-form-item>
