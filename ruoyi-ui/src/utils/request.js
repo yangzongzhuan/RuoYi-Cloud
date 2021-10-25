@@ -3,7 +3,7 @@ import { Notification, MessageBox, Message, Loading } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
-import { tansParams } from "@/utils/ruoyi";
+import { tansParams, blobValidate } from "@/utils/ruoyi";
 import { saveAs } from 'file-saver'
 
 let downloadLoadingInstance;
@@ -43,6 +43,10 @@ service.interceptors.response.use(res => {
     const code = res.data.code || 200;
     // 获取错误信息
     const msg = errorCode[code] || res.data.msg || errorCode['default']
+    // 二进制数据则直接返回
+    if(res.request.responseType ===  'blob' || res.request.responseType ===  'arraybuffer'){
+      return res.data
+    }
     if (code === 401) {
       MessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', {
           confirmButtonText: '重新登录',
@@ -98,10 +102,14 @@ export function download(url, params, filename) {
     transformRequest: [(params) => { return tansParams(params) }],
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     responseType: 'blob'
-  }).then((data) => {
-    const content = data
-    const blob = new Blob([content])
-    saveAs(blob, filename)
+  }).then(async (data) => {
+    const isLogin = await blobValidate(data);
+    if (isLogin) {
+      const blob = new Blob([data])
+      saveAs(blob, filename)
+    } else {
+      Message.error('无效的会话，或者会话已过期，请重新登录。');
+    }
     downloadLoadingInstance.close();
   }).catch((r) => {
     console.error(r)
