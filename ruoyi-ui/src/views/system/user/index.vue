@@ -653,7 +653,7 @@ export default {
     importTemplate() {
       this.download('system/user/importTemplate', {
         ...this.queryParams
-      }, `user_${new Date().getTime()}.xlsx`)
+      }, `user_template_${new Date().getTime()}.xlsx`)
     },
     // 文件上传中处理
     handleFileUploadProgress(event, file, fileList) {
