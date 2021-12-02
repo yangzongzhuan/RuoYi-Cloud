@@ -64,6 +64,7 @@ export function delRole(roleId) {
     method: 'delete'
   })
 }
+
 // 查询角色已授权用户列表
 export function allocatedUserList(query) {
   return request({
