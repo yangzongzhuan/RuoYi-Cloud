@@ -18,6 +18,7 @@ public interface SysUserMapper
      * @return 用户信息集合信息
      */
     public List<SysUser> selectUserList(SysUser sysUser);
+
     /**
      * 根据条件分页查询未已配用户角色列表
      * 

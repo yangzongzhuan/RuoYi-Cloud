@@ -144,6 +144,7 @@ public interface ISysRoleService
      * @return 结果
      */
     public int deleteRoleByIds(Long[] roleIds);
+
     /**
      * 取消授权用户角色
      * 

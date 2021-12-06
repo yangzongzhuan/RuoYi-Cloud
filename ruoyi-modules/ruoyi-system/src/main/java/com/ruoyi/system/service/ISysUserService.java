@@ -127,7 +127,7 @@ public interface ISysUserService
      * @return 结果
      */
     public int updateUser(SysUser user);
-    
+
     /**
      * 用户授权角色
      * 
