@@ -29,7 +29,7 @@
         <kaptcha.version>2.3.2</kaptcha.version>
         <pagehelper.boot.version>1.4.0</pagehelper.boot.version>
         <druid.version>1.2.8</druid.version>
-        <dynamic-ds.version>3.4.1</dynamic-ds.version>
+        <dynamic-ds.version>3.5.0</dynamic-ds.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
         <velocity.version>2.3</velocity.version>
