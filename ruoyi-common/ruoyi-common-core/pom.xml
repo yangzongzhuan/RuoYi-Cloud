@@ -47,12 +47,6 @@
             <artifactId>transmittable-thread-local</artifactId>
         </dependency>
 
-        <!-- Apache Commons Pool2 -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-        </dependency>
-
         <!-- Pagehelper -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>

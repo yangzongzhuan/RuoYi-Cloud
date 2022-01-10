@@ -17,17 +17,17 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.5.8</spring-boot.version>
-        <spring-cloud.version>2020.0.4</spring-cloud.version>
+        <spring-boot.version>2.6.2</spring-boot.version>
+        <spring-cloud.version>2021.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <alibaba.nacos.version>2.0.3</alibaba.nacos.version>
-        <spring-boot-admin.version>2.5.4</spring-boot-admin.version>
+        <spring-boot-admin.version>2.6.0</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.0</spring-boot.mybatis>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <swagger.core.version>1.6.2</swagger.core.version>
         <tobato.version>1.27.2</tobato.version>
         <kaptcha.version>2.3.2</kaptcha.version>
-        <pagehelper.boot.version>1.4.0</pagehelper.boot.version>
+        <pagehelper.boot.version>1.4.1</pagehelper.boot.version>
         <druid.version>1.2.8</druid.version>
         <dynamic-ds.version>3.5.0</dynamic-ds.version>
         <commons.io.version>2.11.0</commons.io.version>
@@ -37,7 +37,6 @@
         <jjwt.version>0.9.1</jjwt.version>
         <minio.version>8.2.2</minio.version>
         <poi.version>4.1.2</poi.version>
-        <common-pool.version>2.10.0</common-pool.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
         <log4j2.version>2.17.1</log4j2.version>
@@ -182,13 +181,6 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>${transmittable-thread-local.version}</version>
-            </dependency>
-
-            <!-- 公共资源池 -->
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-pool2</artifactId>
-                <version>${common-pool.version}</version>
             </dependency>
 
             <!-- log4j日志组件 -->

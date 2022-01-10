@@ -11,6 +11,7 @@ spring:
     # 环境配置
     active: dev
   main:
+    allow-circular-references: true
     allow-bean-definition-overriding: true
   cloud:
     nacos:
