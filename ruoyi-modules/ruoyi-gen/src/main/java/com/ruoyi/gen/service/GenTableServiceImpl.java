@@ -287,7 +287,7 @@ public class GenTableServiceImpl implements IGenTableService
     {
         GenTable table = genTableMapper.selectGenTableByName(tableName);
         List<GenTableColumn> tableColumns = table.getColumns();
-        Map<String, GenTableColumn> tableColumnMap = tableColumns.stream().collect(Collectors.toMap(GenTableColumn::getColumnName,  Function.identity()));
+        Map<String, GenTableColumn> tableColumnMap = tableColumns.stream().collect(Collectors.toMap(GenTableColumn::getColumnName, Function.identity()));
 
         List<GenTableColumn> dbTableColumns = genTableColumnMapper.selectDbTableColumnsByName(tableName);
         if (StringUtils.isEmpty(dbTableColumns))
@@ -302,12 +302,15 @@ public class GenTableServiceImpl implements IGenTableService
             {
                 GenTableColumn prevColumn = tableColumnMap.get(column.getColumnName());
                 column.setColumnId(prevColumn.getColumnId());
-                if (column.isList()) {
+                if (column.isList())
+                {
                     // 如果是列表，继续保留字典类型
                     column.setDictType(prevColumn.getDictType());
                 }
                 genTableColumnMapper.updateGenTableColumn(column);
-            } else {
+            }
+            else
+            {
                 genTableColumnMapper.insertGenTableColumn(column);
             }
         });
@@ -368,7 +371,7 @@ public class GenTableServiceImpl implements IGenTableService
                 zip.putNextEntry(new ZipEntry(VelocityUtils.getFileName(template, table)));
                 IOUtils.write(sw.toString(), zip, Constants.UTF8);
                 IOUtils.closeQuietly(sw);
-				zip.flush();
+                zip.flush();
                 zip.closeEntry();
             }
             catch (IOException e)
@@ -451,6 +454,7 @@ public class GenTableServiceImpl implements IGenTableService
             }
         }
     }
+
     /**
      * 设置主子表信息
      * 
@@ -480,7 +484,7 @@ public class GenTableServiceImpl implements IGenTableService
             String treeName = paramsObj.getString(GenConstants.TREE_NAME);
             String parentMenuId = paramsObj.getString(GenConstants.PARENT_MENU_ID);
             String parentMenuName = paramsObj.getString(GenConstants.PARENT_MENU_NAME);
-            
+
             genTable.setTreeCode(treeCode);
             genTable.setTreeParentCode(treeParentCode);
             genTable.setTreeName(treeName);
