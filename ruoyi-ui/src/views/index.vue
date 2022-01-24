@@ -146,6 +146,43 @@
             <span>更新日志</span>
           </div>
           <el-collapse accordion>
+            <el-collapse-item title="v3.4.0 - 2022-01-24">
+              <ol>
+                <li>新增Vue3前端代码生成模板</li>
+                <li>新增图片预览组件</li>
+                <li>新增压缩插件实现打包Gzip</li>
+                <li>新增docker一键复制的脚本</li>
+                <li>自定义xss校验注解实现</li>
+                <li>路由支持单独配置菜单或角色权限</li>
+                <li>前端支持设置是否需要防止数据重复提交</li>
+                <li>预览组件支持多图显示</li>
+                <li>代码生成列表图片支持预览</li>
+                <li>代码生成新增Java类型Boolean</li>
+                <li>定时任务目标字符串过滤特殊字符</li>
+                <li>定时任务目标字符串验证包名白名单</li>
+				<li>升级nacos到最新版2.0.4</li>
+                <li>升级spring-cloud到最新版2021.0.0</li>
+                <li>升级spring-boot到最新版本2.6.3</li>
+                <li>升级spring-boot-admin到最新版2.6.1</li>
+                <li>升级pagehelper到最新版1.4.1</li>
+                <li>升级fastjson到最新版1.2.79</li>
+                <li>SQL工具类新增检查关键字方法</li>
+                <li>修复打包后字体图标偶现的乱码问题</li>
+                <li>修复版本差异导致的懒加载报错问题</li>
+                <li>修复选项卡点击右键刷新丢失参数问题</li>
+                <li>修复登录失效后多次请求提示多次弹窗问题</li>
+                <li>优化加载字典缓存数据</li>
+                <li>优化代码生成同步更新字段</li>
+                <li>优化代码生成字典组重复问题</li>
+                <li>优化空值不进行回显数据字典</li>
+                <li>优化用户导入提示溢出则显示滚动条</li>
+                <li>优化定时任务cron表达式小时设置24</li>
+                <li>优化部门修改缩放后出现的错位问题</li>
+                <li>优化分页方法设置成通用方便灵活调用</li>
+                <li>优化用户管理部门查询选择节点后分页参数初始</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
             <el-collapse-item title="v3.3.0 - 2021-12-13">
               <ol>
                 <li>新增配套并同步的Vue3前端版本</li>
@@ -642,7 +679,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "3.3.0",
+      version: "3.4.0",
     };
   },
   methods: {
