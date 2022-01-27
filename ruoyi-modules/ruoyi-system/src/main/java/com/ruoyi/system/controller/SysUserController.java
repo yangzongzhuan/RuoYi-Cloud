@@ -223,6 +223,7 @@ public class SysUserController extends BaseController
     public AjaxResult edit(@Validated @RequestBody SysUser user)
     {
         userService.checkUserAllowed(user);
+        userService.checkUserDataScope(user.getUserId());
         if (StringUtils.isNotEmpty(user.getPhonenumber())
                 && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
         {
@@ -261,6 +262,7 @@ public class SysUserController extends BaseController
     public AjaxResult resetPwd(@RequestBody SysUser user)
     {
         userService.checkUserAllowed(user);
+        userService.checkUserDataScope(user.getUserId());
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
         user.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(userService.resetPwd(user));
@@ -275,6 +277,7 @@ public class SysUserController extends BaseController
     public AjaxResult changeStatus(@RequestBody SysUser user)
     {
         userService.checkUserAllowed(user);
+        userService.checkUserDataScope(user.getUserId());
         user.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(userService.updateUserStatus(user));
     }
@@ -302,6 +305,7 @@ public class SysUserController extends BaseController
     @PutMapping("/authRole")
     public AjaxResult insertAuthRole(Long userId, Long[] roleIds)
     {
+        userService.checkUserDataScope(userId);
         userService.insertUserAuth(userId, roleIds);
         return success();
     }
