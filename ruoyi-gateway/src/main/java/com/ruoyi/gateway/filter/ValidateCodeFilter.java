@@ -19,7 +19,7 @@ import reactor.core.publisher.Flux;
 
 /**
  * 验证码过滤器
- * 
+ *
  * @author ruoyi
  */
 @Component
@@ -53,7 +53,7 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
             {
                 String rspStr = resolveBodyFromRequest(request);
                 JSONObject obj = JSONObject.parseObject(rspStr);
-                validateCodeService.checkCapcha(obj.getString(CODE), obj.getString(UUID));
+                validateCodeService.checkCaptcha(obj.getString(CODE), obj.getString(UUID));
             }
             catch (Exception e)
             {

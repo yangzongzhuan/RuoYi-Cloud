@@ -43,7 +43,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
      * 生成验证码
      */
     @Override
-    public AjaxResult createCapcha() throws IOException, CaptchaException
+    public AjaxResult createCaptcha() throws IOException, CaptchaException
     {
         AjaxResult ajax = AjaxResult.success();
         boolean captchaOnOff = captchaProperties.getEnabled();
@@ -96,7 +96,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
      * 校验验证码
      */
     @Override
-    public void checkCapcha(String code, String uuid) throws CaptchaException
+    public void checkCaptcha(String code, String uuid) throws CaptchaException
     {
         if (StringUtils.isEmpty(code))
         {
