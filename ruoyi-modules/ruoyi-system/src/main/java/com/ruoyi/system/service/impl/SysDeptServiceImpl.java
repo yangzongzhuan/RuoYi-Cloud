@@ -63,9 +63,8 @@ public class SysDeptServiceImpl implements ISysDeptService
         {
             tempList.add(dept.getDeptId());
         }
-        for (Iterator<SysDept> iterator = depts.iterator(); iterator.hasNext();)
+        for (SysDept dept : depts)
         {
-            SysDept dept = (SysDept) iterator.next();
             // 如果是顶级节点, 遍历该父节点的所有子节点
             if (!tempList.contains(dept.getParentId()))
             {
