@@ -61,7 +61,6 @@ public class ImageUtils
     public static byte[] readFile(String url)
     {
         InputStream in = null;
-        ByteArrayOutputStream baos = null;
         try
         {
             // 网络地址
@@ -81,7 +80,6 @@ public class ImageUtils
         finally
         {
             IOUtils.closeQuietly(in);
-            IOUtils.closeQuietly(baos);
         }
     }
 }
