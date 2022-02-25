@@ -1,6 +1,4 @@
-package com.ruoyi.common.core.utils;
-
-import com.ruoyi.common.core.text.UUID;
+package com.ruoyi.common.core.utils.uuid;
 
 /**
  * ID生成器工具类
