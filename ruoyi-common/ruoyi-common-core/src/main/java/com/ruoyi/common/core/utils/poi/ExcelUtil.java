@@ -284,7 +284,7 @@ public class ExcelUtil<T>
                             String dateFormat = field.getAnnotation(Excel.class).dateFormat();
                             if (StringUtils.isNotEmpty(dateFormat))
                             {
-                                val = this.parseDateToStr(dateFormat, (Date) val);
+                                val = parseDateToStr(dateFormat, (Date) val);
                             }
                             else
                             {
@@ -703,7 +703,7 @@ public class ExcelUtil<T>
                 String separator = attr.separator();
                 if (StringUtils.isNotEmpty(dateFormat) && StringUtils.isNotNull(value))
                 {
-                    cell.setCellValue(this.parseDateToStr(dateFormat, (Date) value));
+                    cell.setCellValue(parseDateToStr(dateFormat, (Date) value));
                 }
                 else if (StringUtils.isNotEmpty(readConverterExp) && StringUtils.isNotNull(value))
                 {
@@ -1158,25 +1158,33 @@ public class ExcelUtil<T>
     }
 
     /**
-     * 增加ExcelUtil对java8 日期的支持
-     * 格式化日期，日期可能是：{@link Date}、{@link LocalDateTime}、 {@link LocalDate} 其他日期暂不支持
+     * 格式化不同类型的日期对象
+     * 
      * @param dateFormat 日期格式
      * @param val 被格式化的日期对象
-     * @see DateUtils#parseDateToStr(String, Date)
+     * @return 格式化后的日期字符
      */
-    private String parseDateToStr(final String dateFormat, Object val)
+    public String parseDateToStr(String dateFormat, Object val)
     {
-        if (val == null) {
+        if (val == null)
+        {
             return "";
         }
         String str;
-        if (val instanceof Date) {
+        if (val instanceof Date)
+        {
             str = DateUtils.parseDateToStr(dateFormat, (Date) val);
-        } else if (val instanceof LocalDateTime) {
+        }
+        else if (val instanceof LocalDateTime)
+        {
             str = DateUtils.parseDateToStr(dateFormat, DateUtils.toDate((LocalDateTime) val));
-        } else if (val instanceof LocalDate) {
+        }
+        else if (val instanceof LocalDate)
+        {
             str = DateUtils.parseDateToStr(dateFormat, DateUtils.toDate((LocalDate) val));
-        } else {
+        }
+        else
+        {
             str = val.toString();
         }
         return str;
