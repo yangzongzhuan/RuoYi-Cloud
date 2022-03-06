@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" size="small" inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="任务名称" prop="jobName">
         <el-input
           v-model="queryParams.jobName"
@@ -13,7 +13,7 @@
       <el-form-item label="任务组名" prop="jobGroup">
         <el-select
           v-model="queryParams.jobGroup"
-          placeholder="请任务组名"
+          placeholder="请选择任务组名"
           clearable
           style="width: 240px"
         >
