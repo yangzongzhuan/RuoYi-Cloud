@@ -55,12 +55,12 @@ public class Constants
     /**
      * 登录成功状态
      */
-    public static final String LOGIN_SUCCESS_STATUS = "1";
+    public static final String LOGIN_SUCCESS_STATUS = "0";
 
     /**
      * 登录失败状态
      */
-    public static final String LOGIN_FAIL_STATUS = "0";
+    public static final String LOGIN_FAIL_STATUS = "1";
 
     /**
      * 登录成功
