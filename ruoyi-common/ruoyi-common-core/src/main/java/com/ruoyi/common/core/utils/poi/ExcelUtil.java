@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -64,6 +65,8 @@ import com.ruoyi.common.core.utils.reflect.ReflectUtils;
 public class ExcelUtil<T>
 {
     private static final Logger log = LoggerFactory.getLogger(ExcelUtil.class);
+
+    public static final String FORMULA_REGEX_STR = "=|-|\\+|@";
 
     public static final String[] FORMULA_STR = { "=", "-", "+", "@" };
 
@@ -595,9 +598,9 @@ public class ExcelUtil<T>
         {
             String cellValue = Convert.toStr(value);
             // 对于任何以表达式触发字符 =-+@开头的单元格，直接使用tab字符作为前缀，防止CSV注入。
-            if (StringUtils.containsAny(cellValue, FORMULA_STR))
+            if (StringUtils.startsWithAny(cellValue, FORMULA_STR))
             {
-                cellValue = StringUtils.replaceEach(cellValue, FORMULA_STR, new String[] { "\t=", "\t-", "\t+", "\t@" });
+                cellValue = RegExUtils.replaceFirst(cellValue, FORMULA_REGEX_STR, "\t$0");
             }
             cell.setCellValue(StringUtils.isNull(cellValue) ? attr.defaultValue() : cellValue + attr.suffix());
         }
