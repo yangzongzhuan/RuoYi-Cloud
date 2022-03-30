@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.6.4</spring-boot.version>
+        <spring-boot.version>2.6.5</spring-boot.version>
         <spring-cloud.version>2021.0.1</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <alibaba.nacos.version>2.0.4</alibaba.nacos.version>
