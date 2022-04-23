@@ -5,6 +5,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.math.BigDecimal;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import com.ruoyi.common.core.utils.poi.ExcelHandlerAdapter;
 
 /**
@@ -52,11 +54,6 @@ public @interface Excel
     public int roundingMode() default BigDecimal.ROUND_HALF_EVEN;
 
     /**
-     * 导出类型（0数字 1字符串）
-     */
-    public ColumnType cellType() default ColumnType.STRING;
-
-    /**
      * 导出时在excel中每个列的高度 单位为字符
      */
     public double height() default 14;
@@ -102,9 +99,19 @@ public @interface Excel
     public boolean isStatistics() default false;
 
     /**
-     * 导出字段对齐方式（0：默认；1：靠左；2：居中；3：靠右）
+     * 导出类型（0数字 1字符串）
      */
-    public Align align() default Align.AUTO;
+    public ColumnType cellType() default ColumnType.STRING;
+
+    /**
+     * 导出字体颜色
+     */
+    public IndexedColors color() default IndexedColors.BLACK;
+
+    /**
+     * 导出字段对齐方式
+     */
+    public HorizontalAlignment align() default HorizontalAlignment.CENTER;
 
     /**
      * 自定义数据处理器
@@ -115,22 +122,6 @@ public @interface Excel
      * 自定义数据处理器参数
      */
     public String[] args() default {};
-
-    public enum Align
-    {
-        AUTO(0), LEFT(1), CENTER(2), RIGHT(3);
-        private final int value;
-
-        Align(int value)
-        {
-            this.value = value;
-        }
-
-        public int value()
-        {
-            return this.value;
-        }
-    }
 
     /**
      * 字段类型（0：导出导入；1：仅导出；2：仅导入）
