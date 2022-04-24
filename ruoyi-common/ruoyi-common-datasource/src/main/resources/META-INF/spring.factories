@@ -1,2 +1,0 @@
-org.springframework.boot.env.EnvironmentPostProcessor=\
-    com.ruoyi.common.datasource.env.ApplicationSeataInitializer
