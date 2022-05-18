@@ -1,31 +1,36 @@
-version : '3.8'
 services:
   ruoyi-nacos:
-    container_name: ruoyi-nacos
-    image: nacos/nacos-server
-    build:
-      context: ./nacos
-    environment:
-      - MODE=standalone
+    image: nacos/nacos-server:v2.0.4
+    container_name: nacos-standalone-mysql
+    env_file:
+      - ./env/nacos-standlone-mysql.env
     volumes:
       - ./nacos/logs/:/home/nacos/logs
-      - ./nacos/conf/application.properties:/home/nacos/conf/application.properties
+      - ./nacos/init.d/custom.properties:/home/nacos/init.d/custom.properties
     ports:
       - "8848:8848"
       - "9848:9848"
-      - "9849:9849"
+      - "9555:9555"
     depends_on:
       - ruoyi-mysql
+    restart: on-failure
+  # nacos-mysql:
+  #   container_name: mysql
+  #   image: nacos/nacos-mysql:5.7
+  #   env_file:
+  #     - ./env/nacos-mysql.env
+  #   volumes:
+  #     - ./nacos-mysql:/var/lib/mysql
+  #   ports:
+  #     - "3307:3306"
   ruoyi-mysql:
     container_name: ruoyi-mysql
-    image: mysql:5.7
     build:
       context: ./mysql
     ports:
       - "3306:3306"
     volumes:
       - ./mysql/conf:/etc/mysql/conf.d
-      - ./mysql/logs:/logs
       - ./mysql/data:/var/lib/mysql
     command: [
           'mysqld',
@@ -41,8 +46,6 @@ services:
   ruoyi-redis:
     container_name: ruoyi-redis
     image: redis
-    build:
-      context: ./redis
     ports:
       - "6379:6379"
     volumes:
@@ -51,16 +54,12 @@ services:
     command: redis-server /home/ruoyi/redis/redis.conf
   ruoyi-nginx:
     container_name: ruoyi-nginx
-    image: nginx
-    build:
+    build :
       context: ./nginx
     ports:
       - "80:80"
     volumes:
-      - ./nginx/html/dist:/home/ruoyi/projects/ruoyi-ui
-      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/logs:/var/log/nginx
-      - ./nginx/conf.d:/etc/nginx/conf.d
     depends_on:
       - ruoyi-gateway
     links:
@@ -72,45 +71,49 @@ services:
       dockerfile: dockerfile
     ports:
       - "8080:8080"
+    env_file:
+      - ./env/ruoyi-service.env     
     depends_on:
       - ruoyi-redis
-    links:
-      - ruoyi-redis
+      - ruoyi-nacos
   ruoyi-auth:
     container_name: ruoyi-auth
     build:
       context: ./ruoyi/auth
       dockerfile: dockerfile
-    ports:
-      - "9200:9200"
+    env_file:
+      - ./env/ruoyi-service.env     
     depends_on:
       - ruoyi-redis
-    links:
-      - ruoyi-redis
+      - ruoyi-nacos
+    ports:
+      - "9200:9200"
   ruoyi-modules-system:
     container_name: ruoyi-modules-system
     build:
       context: ./ruoyi/modules/system
       dockerfile: dockerfile
-    ports:
-      - "9201:9201"
+    env_file:
+      - ./env/ruoyi-service.env     
     depends_on:
       - ruoyi-redis
       - ruoyi-mysql
-    links:
-      - ruoyi-redis
-      - ruoyi-mysql
+      - ruoyi-nacos            
+    ports:
+      - "9201:9201"
   ruoyi-modules-gen:
     container_name: ruoyi-modules-gen
     build:
       context: ./ruoyi/modules/gen
       dockerfile: dockerfile
+    env_file:
+      - ./env/ruoyi-service.env     
+    depends_on:
+      - ruoyi-redis
+      - ruoyi-mysql
+      - ruoyi-nacos
     ports:
       - "9202:9202"
-    depends_on:
-      - ruoyi-mysql
-    links:
-      - ruoyi-mysql
   ruoyi-modules-job:
     container_name: ruoyi-modules-job
     build:
@@ -118,10 +121,12 @@ services:
       dockerfile: dockerfile
     ports:
       - "9203:9203"
+    env_file:
+      - ./env/ruoyi-service.env     
     depends_on:
+      - ruoyi-redis
       - ruoyi-mysql
-    links:
-      - ruoyi-mysql
+      - ruoyi-nacos
   ruoyi-modules-file:
     container_name: ruoyi-modules-file
     build:
