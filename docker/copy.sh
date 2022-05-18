@@ -6,11 +6,19 @@ usage() {
 	exit 1
 }
 
+# build 
+
+cd ../ruoyi-ui
+npm install --registry=https://registry.npmmirror.com
+npm run build:prod
+cd ..
+mvn clean package -Dmaven.test.skip=true
+cd docker
 
 # copy sql
 echo "begin copy sql "
 cp ../sql/ry_20210908.sql ./mysql/db
-cp ../sql/ry_config_20220114.sql ./mysql/db
+cp ../sql/ry_config_20220510.sql ./mysql/db
 
 # copy html
 echo "begin copy html "

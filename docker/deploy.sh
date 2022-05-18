@@ -26,7 +26,9 @@ port(){
 
 # 启动基础环境（必须）
 base(){
-	docker-compose up -d ruoyi-mysql ruoyi-redis ruoyi-nacos
+	docker-compose up -d ruoyi-mysql 
+	docker-compose up -d ruoyi-redis
+	docker-compose up -d ruoyi-nacos
 }
 
 # 启动程序模块（必须）
