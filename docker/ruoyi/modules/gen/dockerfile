@@ -12,4 +12,4 @@ WORKDIR /home/ruoyi
 # 复制jar文件到路径
 COPY ./jar/ruoyi-modules-gen.jar /home/ruoyi/ruoyi-modules-gen.jar
 # 启动代码生成服务
-ENTRYPOINT ["java","-jar","ruoyi-modules-gen.jar"]
+ENTRYPOINT ["java","-jar", "-Xms200m", "-Xmx200m","ruoyi-modules-gen.jar"]

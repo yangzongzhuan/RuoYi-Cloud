@@ -12,4 +12,4 @@ WORKDIR /home/ruoyi
 # 复制jar文件到路径
 COPY ./jar/ruoyi-modules-file.jar /home/ruoyi/ruoyi-modules-file.jar
 # 启动文件服务
-ENTRYPOINT ["java","-jar","ruoyi-modules-file.jar"]
+ENTRYPOINT ["java", "-jar", "-Xms200m", "-Xmx200m", "ruoyi-modules-file.jar"]

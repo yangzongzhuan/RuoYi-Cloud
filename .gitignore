@@ -40,6 +40,11 @@ nbdist/
 *.log
 *.xml.versionsBackup
 *.swp
+docker/ruoyi/*/*/*.jar
+docker/ruoyi/*/*/*/*.jar
+docker/mysql/db/*.sql
+docker/*/logs
+docker/*/data
 
 !*/build/*.java
 !*/build/*.html

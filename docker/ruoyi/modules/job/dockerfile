@@ -12,4 +12,4 @@ WORKDIR /home/ruoyi
 # 复制jar文件到路径
 COPY ./jar/ruoyi-modules-job.jar /home/ruoyi/ruoyi-modules-job.jar
 # 启动定时任务服务
-ENTRYPOINT ["java","-jar","ruoyi-modules-job.jar"]
+ENTRYPOINT ["java","-jar", "-Xms200m", "-Xmx200m","ruoyi-modules-job.jar"]

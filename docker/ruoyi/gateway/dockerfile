@@ -12,4 +12,4 @@ WORKDIR /home/ruoyi
 # 复制jar文件到路径
 COPY ./jar/ruoyi-gateway.jar /home/ruoyi/ruoyi-gateway.jar
 # 启动网关服务
-ENTRYPOINT ["java","-jar","ruoyi-gateway.jar"]
+ENTRYPOINT ["java", "-jar", "-Xms200m", "-Xmx200m", "ruoyi-gateway.jar"]

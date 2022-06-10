@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--
+    注意: 这个配置文件并不会被实际使用到, 写这个文件仅仅是为了让 IDEA 的 Mybatis 插件找到实体类的位置
+ -->
+<configuration>
+    <typeAliases>
+        <package name="com.ruoyi.system.domain"/>
+    </typeAliases>
+</configuration>

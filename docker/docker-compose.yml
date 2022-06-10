@@ -1,7 +1,8 @@
-version : '3.8'
+version: '3.8'
 services:
   ruoyi-nacos:
     container_name: ruoyi-nacos
+    hostname: ruoyi-nacos
     image: nacos/nacos-server
     build:
       context: ./nacos
@@ -15,10 +16,25 @@ services:
       - "9848:9848"
       - "9849:9849"
     depends_on:
-      - ruoyi-mysql
+      ruoyi-mysql:
+        condition: service_healthy
+    networks:
+      ruoyi:
+        aliases:
+          - ruoyi-nacos
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s -I http://localhost:8848/nacos/index.html | grep -q 'HTTP/1.1'"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
   ruoyi-mysql:
     container_name: ruoyi-mysql
-    image: mysql:5.7
+    hostname: ruoyi-mysql
+    image: mysql:5.7.38
     build:
       context: ./mysql
     ports:
@@ -27,19 +43,34 @@ services:
       - ./mysql/conf:/etc/mysql/conf.d
       - ./mysql/logs:/logs
       - ./mysql/data:/var/lib/mysql
+#      - mysql-data:/var/lib/mysql
     command: [
-          'mysqld',
-          '--innodb-buffer-pool-size=80M',
-          '--character-set-server=utf8mb4',
-          '--collation-server=utf8mb4_unicode_ci',
-          '--default-time-zone=+8:00',
-          '--lower-case-table-names=1'
-        ]
+      'mysqld',
+      '--innodb-buffer-pool-size=80M',
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_unicode_ci',
+      '--default-time-zone=+8:00',
+      '--lower-case-table-names=1'
+    ]
     environment:
       MYSQL_DATABASE: 'ry-cloud'
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      ruoyi:
+        aliases:
+          - ruoyi-mysql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h localhost -u root -p${MYSQL_ROOT_PASSWORD}"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
   ruoyi-redis:
     container_name: ruoyi-redis
+    hostname: ruoyi-redis
     image: redis
     build:
       context: ./redis
@@ -48,9 +79,21 @@ services:
     volumes:
       - ./redis/conf/redis.conf:/home/ruoyi/redis/redis.conf
       - ./redis/data:/data
+#      - redis-data:/data
     command: redis-server /home/ruoyi/redis/redis.conf
+    networks:
+      ruoyi:
+        aliases:
+          - ruoyi-redis
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "redis-cli --raw incr ping"
+        ]
   ruoyi-nginx:
     container_name: ruoyi-nginx
+    hostname: ruoyi-nginx
     image: nginx
     build:
       context: ./nginx
@@ -61,80 +104,223 @@ services:
       - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/logs:/var/log/nginx
       - ./nginx/conf.d:/etc/nginx/conf.d
-    depends_on:
-      - ruoyi-gateway
-    links:
-      - ruoyi-gateway
+    networks:
+      ruoyi:
+        aliases:
+          - ruoyi-nginx
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "service nginx status"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
   ruoyi-gateway:
     container_name: ruoyi-gateway
+    hostname: ruoyi-gateway
     build:
       context: ./ruoyi/gateway
       dockerfile: dockerfile
     ports:
       - "8080:8080"
     depends_on:
-      - ruoyi-redis
+      ruoyi-redis:
+        condition: service_healthy
+      ruoyi-mysql:
+        condition: service_healthy
+      ruoyi-nacos:
+        condition: service_healthy
+      ruoyi-nginx:
+        condition: service_healthy
     links:
       - ruoyi-redis
+      - ruoyi-mysql
+    networks:
+      ruoyi:
+        aliases:
+          - ruoyi-gateway
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s -i http://localhost:8080 | grep 'HTTP/1.1'"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
   ruoyi-auth:
     container_name: ruoyi-auth
+    hostname: ruoyi-auth
     build:
       context: ./ruoyi/auth
       dockerfile: dockerfile
     ports:
       - "9200:9200"
     depends_on:
-      - ruoyi-redis
+      ruoyi-gateway:
+        condition: service_healthy
     links:
       - ruoyi-redis
+      - ruoyi-mysql
+    networks:
+      ruoyi:
+        aliases:
+          - ruoyi-auth
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s -i http://localhost:9200 | grep 'HTTP/1.1'"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
   ruoyi-modules-system:
     container_name: ruoyi-modules-system
+    hostname: ruoyi-modules-system
     build:
       context: ./ruoyi/modules/system
       dockerfile: dockerfile
     ports:
       - "9201:9201"
     depends_on:
-      - ruoyi-redis
-      - ruoyi-mysql
+      ruoyi-gateway:
+        condition: service_healthy
     links:
       - ruoyi-redis
       - ruoyi-mysql
+    networks:
+      ruoyi:
+        aliases:
+          - ruoyi-modules
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s -i http://localhost:9201 | grep 'HTTP/1.1'"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
   ruoyi-modules-gen:
     container_name: ruoyi-modules-gen
+    hostname: ruoyi-modules-gen
     build:
       context: ./ruoyi/modules/gen
       dockerfile: dockerfile
     ports:
       - "9202:9202"
     depends_on:
-      - ruoyi-mysql
+      ruoyi-gateway:
+        condition: service_healthy
     links:
+      - ruoyi-redis
       - ruoyi-mysql
+    networks:
+      ruoyi:
+        aliases:
+          - ruoyi-modules
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s -i http://localhost:9202 | grep 'HTTP/1.1'"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
   ruoyi-modules-job:
     container_name: ruoyi-modules-job
+    hostname: ruoyi-modules-job
     build:
       context: ./ruoyi/modules/job
       dockerfile: dockerfile
     ports:
       - "9203:9203"
     depends_on:
-      - ruoyi-mysql
+      ruoyi-gateway:
+        condition: service_healthy
     links:
+      - ruoyi-redis
       - ruoyi-mysql
+    networks:
+      ruoyi:
+        aliases:
+          - ruoyi-modules
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s -i http://localhost:9203 | grep 'HTTP/1.1'"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
   ruoyi-modules-file:
     container_name: ruoyi-modules-file
+    hostname: ruoyi-modules-file
     build:
       context: ./ruoyi/modules/file
       dockerfile: dockerfile
+    depends_on:
+      ruoyi-gateway:
+        condition: service_healthy
     ports:
       - "9300:9300"
+    links:
+      - ruoyi-redis
+      - ruoyi-mysql
     volumes:
-    - ./ruoyi/uploadPath:/home/ruoyi/uploadPath
+      - ./ruoyi/uploadPath:/home/ruoyi/uploadPath
+    networks:
+      ruoyi:
+        aliases:
+          - ruoyi-modules
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s -i http://localhost:9300 | grep 'HTTP/1.1'"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
   ruoyi-visual-monitor:
     container_name: ruoyi-visual-monitor
+    hostname: ruoyi-visual-monitor
     build:
       context: ./ruoyi/visual/monitor
       dockerfile: dockerfile
     ports:
       - "9100:9100"
+    links:
+      - ruoyi-redis
+      - ruoyi-mysql
+    depends_on:
+      ruoyi-gateway:
+        condition: service_healthy
+    networks:
+      ruoyi:
+        aliases:
+          - ruoyi-visual
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s -i http://localhost:9100 | grep 'HTTP/1.1'"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+#volumes:
+#  mysql-data:
+#    driver: local
+#  redis-data:
+#    driver: local
+
+networks:
+  ruoyi:
+    driver: bridge
