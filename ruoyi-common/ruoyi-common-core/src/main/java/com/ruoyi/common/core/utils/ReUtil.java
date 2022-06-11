@@ -18,7 +18,7 @@ public class ReUtil
      * 正则中需要被转义的关键字
      */
     public final static Set<Character> RE_KEYS = new HashSet<>(
-            Arrays.asList('$', '(', ')', '*', '+', '.', '[', ']', '?', '\\', '^', '{', '}', '|'));;
+            Arrays.asList('$', '(', ')', '*', '+', '.', '[', ']', '?', '\\', '^', '{', '}', '|'));
 
     /**
      * 正则替换指定值<br>
