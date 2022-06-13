@@ -7,14 +7,9 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.core.io.buffer.DataBufferFactory;
-import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -60,7 +55,7 @@ public class CacheRequestFilter extends AbstractGatewayFilterFactory<CacheReques
                 return chain.filter(exchange);
             }
             return ServerWebExchangeUtils.cacheRequestBodyAndRequest(exchange, (serverHttpRequest) -> {
-                if (serverHttpRequest == exchange.getRequest()) 
+                if (serverHttpRequest == exchange.getRequest())
                 {
                     return chain.filter(exchange);
                 }
