@@ -6,6 +6,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
@@ -58,26 +59,12 @@ public class CacheRequestFilter extends AbstractGatewayFilterFactory<CacheReques
             {
                 return chain.filter(exchange);
             }
-            return DataBufferUtils.join(exchange.getRequest().getBody()).map(dataBuffer -> {
-                byte[] bytes = new byte[dataBuffer.readableByteCount()];
-                dataBuffer.read(bytes);
-                DataBufferUtils.release(dataBuffer);
-                return bytes;
-            }).defaultIfEmpty(new byte[0]).flatMap(bytes -> {
-                DataBufferFactory dataBufferFactory = exchange.getResponse().bufferFactory();
-                ServerHttpRequestDecorator decorator = new ServerHttpRequestDecorator(exchange.getRequest())
+            return ServerWebExchangeUtils.cacheRequestBodyAndRequest(exchange, (serverHttpRequest) -> {
+                if (serverHttpRequest == exchange.getRequest()) 
                 {
-                    @Override
-                    public Flux<DataBuffer> getBody()
-                    {
-                        if (bytes.length > 0)
-                        {
-                            return Flux.just(dataBufferFactory.wrap(bytes));
-                        }
-                        return Flux.empty();
-                    }
-                };
-                return chain.filter(exchange.mutate().request(decorator).build());
+                    return chain.filter(exchange);
+                }
+                return chain.filter(exchange.mutate().request(serverHttpRequest).build());
             });
         }
     }
