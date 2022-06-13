@@ -142,7 +142,7 @@ public class ServletUtils
 
     public static Map<String, String> getHeaders(HttpServletRequest request)
     {
-        Map<String, String> map = new LinkedHashMap<>();
+        Map<String, String> map = new LinkedCaseInsensitiveMap<>();
         Enumeration<String> enumeration = request.getHeaderNames();
         if (enumeration != null)
         {
