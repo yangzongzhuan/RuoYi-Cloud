@@ -27,6 +27,7 @@ public class SwaggerProvider implements SwaggerResourcesProvider, WebFluxConfigu
     /**
      * 网关路由
      */
+    @Lazy
     @Autowired
     private RouteLocator routeLocator;
 
