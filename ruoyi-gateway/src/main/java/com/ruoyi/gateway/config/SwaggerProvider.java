@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.support.NameUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.config.ResourceHandlerRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
@@ -24,6 +25,7 @@ public class SwaggerProvider implements SwaggerResourcesProvider, WebFluxConfigu
      * Swagger2默认的url后缀
      */
     public static final String SWAGGER2URL = "/v2/api-docs";
+
     /**
      * 网关路由
      */
