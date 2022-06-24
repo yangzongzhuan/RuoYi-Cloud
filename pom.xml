@@ -87,13 +87,6 @@
                 <scope>import</scope>
             </dependency>
 
-            <!--  SpringBoot 监控客户端 -->
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-starter-client</artifactId>
-                <version>${spring-boot-admin.version}</version>
-            </dependency>
-
             <!-- FastDFS 分布式文件系统 -->
             <dependency>
                 <groupId>com.github.tobato</groupId>
