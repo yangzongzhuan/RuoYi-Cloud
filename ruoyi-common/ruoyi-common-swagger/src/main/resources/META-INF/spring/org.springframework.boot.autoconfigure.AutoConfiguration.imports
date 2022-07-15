@@ -1,0 +1,3 @@
+com.ruoyi.common.swagger.config.SwaggerAutoConfiguration
+com.ruoyi.common.swagger.config.SwaggerWebConfiguration
+com.ruoyi.common.swagger.config.SwaggerBeanPostProcessor
