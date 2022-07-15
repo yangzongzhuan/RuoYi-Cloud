@@ -39,7 +39,7 @@
         <minio.version>8.2.2</minio.version>
         <poi.version>4.1.2</poi.version>
         <commons-collections.version>3.2.2</commons-collections.version>
-        <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
+        <transmittable-thread-local.version>2.13.2</transmittable-thread-local.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -274,7 +274,7 @@
         </plugins>
     </build>
 
-	<repositories>
+    <repositories>
         <repository>
             <id>public</id>
             <name>aliyun nexus</name>
