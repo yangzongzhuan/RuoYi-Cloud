@@ -146,6 +146,44 @@
             <span>更新日志</span>
           </div>
           <el-collapse accordion>
+            <el-collapse-item title="v3.6.0 - 2022-07-16">
+              <ol>
+                <li>Excel注解支持color字体颜色</li>
+                <li>用户头像上传限制只能为图片格式</li>
+                <li>检查定时任务bean所在包名是否为白名单配置</li>
+                <li>字典类型必须以字母开头，且只能为（小写字母，数字，下滑线）</li>
+                <li>升级spring-cloud-alibaba到最新版2021.0.1.0</li>
+                <li>升级spring-cloud到最新版2021.0.3</li>
+                <li>升级spring-boot到最新版本2.7.1</li>
+                <li>升级spring-boot-admin到最新版2.7.2</li>
+                <li>升级seata到最新版1.5.1</li>
+                <li>升级pagehelper到最新版1.4.3</li>
+                <li>升级dynamic-ds到最新版本3.5.1</li>
+                <li>升级fastjson到最新版2.0.9</li>
+                <li>升级druid到最新版本1.2.11</li>
+                <li>升级transmittable-thread-local到最新版本2.13.2</li>
+                <li>升级element-ui到最新版本2.15.9</li>
+                <li>修复字典数据显示不全问题</li>
+                <li>修复操作日志查询类型条件为0时会查到所有数据</li>
+                <li>优化验证码开关变量名</li>
+                <li>优化设置分页参数默认值</li>
+                <li>优化对空字符串参数处理的过滤</li>
+                <li>优化Maven使用阿里云镜像站加速</li>
+                <li>优化用户列表查询不显示密码字段</li>
+                <li>优化表单构建按钮不显示正则校验</li>
+                <li>优化字典类型删除多余的mapper注解</li>
+                <li>优化字典数据回显样式下拉框显示值</li>
+                <li>优化用户管理左侧树型组件增加选中高亮保持</li>
+                <li>优化新增用户与角色信息&用户与岗位信息逻辑</li>
+                <li>优化数据监控Spring Security权限认证过时代码</li>
+                <li>优化岗位长主键溢出问题将查询返回类型改为Long</li>
+                <li>优化删除无用admin-client依赖声明，避免造成误解</li>
+                <li>优化默认不启用压缩文件缓存防止node_modules过大</li>
+                <li>优化获取body请求数据缓存过滤器CacheRequestFilter</li>
+                <li>优化网关通过注解解决循环引用及Bean重复问题删除allow配置</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
             <el-collapse-item title="v3.5.0 - 2022-04-11">
               <ol>
                 <li>开启TopNav没有子菜单情况隐藏侧边栏</li>
@@ -716,7 +754,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "3.5.0",
+      version: "3.6.0",
     };
   },
   methods: {
