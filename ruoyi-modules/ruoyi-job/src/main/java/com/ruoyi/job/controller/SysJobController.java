@@ -168,8 +168,8 @@ public class SysJobController extends BaseController
     @PutMapping("/run")
     public AjaxResult run(@RequestBody SysJob job) throws SchedulerException
     {
-        jobService.run(job);
-        return AjaxResult.success();
+        boolean result = jobService.run(job);
+        return result ? success() : error("任务不存在或已过期！");
     }
 
     /**
