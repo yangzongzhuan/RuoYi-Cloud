@@ -76,7 +76,7 @@ public class SysLogininforController extends BaseController
 
     @RequiresPermissions("system:logininfor:unlock")
     @Log(title = "账户解锁", businessType = BusinessType.OTHER)
-    @GetMapping("/unlock//{userName}")
+    @GetMapping("/unlock/{userName}")
     public AjaxResult unlock(@PathVariable("userName") String userName)
     {
         redisService.deleteObject(CacheConstants.PWD_ERR_CNT_KEY + userName);
