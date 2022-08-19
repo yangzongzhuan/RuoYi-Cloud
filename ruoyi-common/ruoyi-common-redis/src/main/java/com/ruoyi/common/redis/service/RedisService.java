@@ -252,7 +252,7 @@ public class RedisService
      */
     public boolean deleteCacheMapValue(final String key, final String hKey)
     {
-        return Boolean.TRUE.equals(redisTemplate.opsForHash().delete(key, hKey));
+        return redisTemplate.opsForHash().delete(key, hKey) > 0;
     }
 
     /**
