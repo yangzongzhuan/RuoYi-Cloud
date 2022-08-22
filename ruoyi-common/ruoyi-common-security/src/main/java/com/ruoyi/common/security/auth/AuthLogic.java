@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.util.PatternMatchUtils;
+import com.ruoyi.common.core.context.SecurityContextHolder;
 import com.ruoyi.common.core.exception.auth.NotLoginException;
 import com.ruoyi.common.core.exception.auth.NotPermissionException;
 import com.ruoyi.common.core.exception.auth.NotRoleException;
@@ -134,6 +135,7 @@ public class AuthLogic
      */
     public void checkPermi(RequiresPermissions requiresPermissions)
     {
+        SecurityContextHolder.setPermission(StringUtils.join(requiresPermissions.value(), ","));
         if (requiresPermissions.logical() == Logical.AND)
         {
             checkPermiAnd(requiresPermissions.value());

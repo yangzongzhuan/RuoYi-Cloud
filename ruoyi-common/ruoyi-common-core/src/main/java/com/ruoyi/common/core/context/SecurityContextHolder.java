@@ -81,6 +81,16 @@ public class SecurityContextHolder
         set(SecurityConstants.USER_KEY, userKey);
     }
 
+    public static String getPermission()
+    {
+        return get(SecurityConstants.ROLE_PERMISSION);
+    }
+
+    public static void setPermission(String permissions)
+    {
+        set(SecurityConstants.ROLE_PERMISSION, permissions);
+    }
+
     public static void remove()
     {
         THREAD_LOCAL.remove();

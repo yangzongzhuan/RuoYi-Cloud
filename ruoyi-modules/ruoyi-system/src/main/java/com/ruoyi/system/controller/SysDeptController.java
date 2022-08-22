@@ -1,6 +1,5 @@
 package com.ruoyi.system.controller;
 
-import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +54,7 @@ public class SysDeptController extends BaseController
     public AjaxResult excludeChild(@PathVariable(value = "deptId", required = false) Long deptId)
     {
         List<SysDept> depts = deptService.selectDeptList(new SysDept());
-        depts.removeIf(d -> d.getDeptId().intValue() == deptId
-                || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), deptId + ""));
+        depts.removeIf(d -> d.getDeptId().intValue() == deptId || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), deptId + ""));
         return AjaxResult.success(depts);
     }
 
@@ -69,29 +67,6 @@ public class SysDeptController extends BaseController
     {
         deptService.checkDeptDataScope(deptId);
         return AjaxResult.success(deptService.selectDeptById(deptId));
-    }
-
-    /**
-     * 获取部门下拉树列表
-     */
-    @GetMapping("/treeselect")
-    public AjaxResult treeselect(SysDept dept)
-    {
-        List<SysDept> depts = deptService.selectDeptList(dept);
-        return AjaxResult.success(deptService.buildDeptTreeSelect(depts));
-    }
-
-    /**
-     * 加载对应角色部门列表树
-     */
-    @GetMapping(value = "/roleDeptTreeselect/{roleId}")
-    public AjaxResult roleDeptTreeselect(@PathVariable("roleId") Long roleId)
-    {
-        List<SysDept> depts = deptService.selectDeptList(new SysDept());
-        AjaxResult ajax = AjaxResult.success();
-        ajax.put("checkedKeys", deptService.selectDeptListByRoleId(roleId));
-        ajax.put("depts", deptService.buildDeptTreeSelect(depts));
-        return ajax;
     }
 
     /**

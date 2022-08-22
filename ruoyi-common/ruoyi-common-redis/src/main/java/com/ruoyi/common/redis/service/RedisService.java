@@ -124,9 +124,9 @@ public class RedisService
      * @param collection 多个对象
      * @return
      */
-    public long deleteObject(final Collection collection)
+    public boolean deleteObject(final Collection collection)
     {
-        return redisTemplate.delete(collection);
+        return redisTemplate.delete(collection) > 0;
     }
 
     /**

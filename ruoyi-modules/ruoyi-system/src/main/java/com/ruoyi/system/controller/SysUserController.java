@@ -29,10 +29,12 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.InnerAuth;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.system.api.domain.SysDept;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.service.ISysConfigService;
+import com.ruoyi.system.service.ISysDeptService;
 import com.ruoyi.system.service.ISysPermissionService;
 import com.ruoyi.system.service.ISysPostService;
 import com.ruoyi.system.service.ISysRoleService;
@@ -52,6 +54,9 @@ public class SysUserController extends BaseController
 
     @Autowired
     private ISysRoleService roleService;
+
+    @Autowired
+    private ISysDeptService deptService;
 
     @Autowired
     private ISysPostService postService;
@@ -116,9 +121,9 @@ public class SysUserController extends BaseController
             return R.fail("用户名或密码错误");
         }
         // 角色集合
-        Set<String> roles = permissionService.getRolePermission(sysUser.getUserId());
+        Set<String> roles = permissionService.getRolePermission(sysUser);
         // 权限集合
-        Set<String> permissions = permissionService.getMenuPermission(sysUser.getUserId());
+        Set<String> permissions = permissionService.getMenuPermission(sysUser);
         LoginUser sysUserVo = new LoginUser();
         sysUserVo.setSysUser(sysUser);
         sysUserVo.setRoles(roles);
@@ -153,13 +158,13 @@ public class SysUserController extends BaseController
     @GetMapping("getInfo")
     public AjaxResult getInfo()
     {
-        Long userId = SecurityUtils.getUserId();
+        SysUser user = userService.selectUserById(SecurityUtils.getUserId());
         // 角色集合
-        Set<String> roles = permissionService.getRolePermission(userId);
+        Set<String> roles = permissionService.getRolePermission(user);
         // 权限集合
-        Set<String> permissions = permissionService.getMenuPermission(userId);
+        Set<String> permissions = permissionService.getMenuPermission(user);
         AjaxResult ajax = AjaxResult.success();
-        ajax.put("user", userService.selectUserById(userId));
+        ajax.put("user", user);
         ajax.put("roles", roles);
         ajax.put("permissions", permissions);
         return ajax;
@@ -308,5 +313,15 @@ public class SysUserController extends BaseController
         userService.checkUserDataScope(userId);
         userService.insertUserAuth(userId, roleIds);
         return success();
+    }
+
+    /**
+     * 获取部门树列表
+     */
+    @RequiresPermissions("system:user:list")
+    @GetMapping("/deptTree")
+    public AjaxResult deptTree(SysDept dept)
+    {
+        return AjaxResult.success(deptService.selectDeptTreeList(dept));
     }
 }

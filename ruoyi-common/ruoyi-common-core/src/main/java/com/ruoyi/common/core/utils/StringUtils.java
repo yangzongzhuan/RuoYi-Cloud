@@ -295,6 +295,32 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
     }
 
     /**
+     * 判断给定的set列表中是否包含数组array 判断给定的数组array中是否包含给定的元素value
+     *
+     * @param set 给定的集合
+     * @param array 给定的数组
+     * @return boolean 结果
+     */
+    public static boolean containsAny(Collection<String> collection, String... array)
+    {
+        if (isEmpty(collection) || isEmpty(array))
+        {
+            return false;
+        }
+        else
+        {
+            for (String str : array)
+            {
+                if (collection.contains(str))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    /**
      * 驼峰转下划线命名
      */
     public static String toUnderScoreCase(String str)
