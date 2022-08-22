@@ -55,16 +55,8 @@ public class SysDeptController extends BaseController
     public AjaxResult excludeChild(@PathVariable(value = "deptId", required = false) Long deptId)
     {
         List<SysDept> depts = deptService.selectDeptList(new SysDept());
-        Iterator<SysDept> it = depts.iterator();
-        while (it.hasNext())
-        {
-            SysDept d = (SysDept) it.next();
-            if (d.getDeptId().intValue() == deptId
-                    || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), deptId + ""))
-            {
-                it.remove();
-            }
-        }
+        depts.removeIf(d -> d.getDeptId().intValue() == deptId
+                || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), deptId + ""));
         return AjaxResult.success(depts);
     }
 
