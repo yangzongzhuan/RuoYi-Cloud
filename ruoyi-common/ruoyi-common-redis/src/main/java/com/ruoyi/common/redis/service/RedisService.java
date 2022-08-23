@@ -247,7 +247,7 @@ public class RedisService
      * 删除Hash中的某条数据
      *
      * @param key Redis键
-     * @param hKey  Hash键
+     * @param hKey Hash键
      * @return 是否成功
      */
     public boolean deleteCacheMapValue(final String key, final String hKey)
@@ -257,7 +257,7 @@ public class RedisService
 
     /**
      * 获得缓存的基本对象列表
-     * 
+     *
      * @param pattern 字符串前缀
      * @return 对象列表
      */
