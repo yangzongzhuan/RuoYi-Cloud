@@ -72,7 +72,7 @@ export default {
     return {
       number: 0,
       uploadList: [],
-      uploadFileUrl: process.env.VUE_APP_BASE_API + "/file/upload", // 上传的图片服务器地址
+      uploadFileUrl: process.env.VUE_APP_BASE_API + "/file/upload", // 上传文件服务器地址
       headers: {
         Authorization: "Bearer " + getToken(),
       },
@@ -146,7 +146,7 @@ export default {
     },
     // 上传失败
     handleUploadError(err) {
-      this.$modal.msgError("上传图片失败，请重试");
+      this.$modal.msgError("上传文件失败，请重试");
       this.$modal.closeLoading()
     },
     // 上传成功回调
