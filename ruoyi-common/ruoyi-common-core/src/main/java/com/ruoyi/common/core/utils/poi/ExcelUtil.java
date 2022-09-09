@@ -681,7 +681,6 @@ public class ExcelUtil<T>
             if (!headerStyles.containsKey(key))
             {
                 CellStyle style = wb.createCellStyle();
-                style = wb.createCellStyle();
                 style.cloneStyleFrom(styles.get("data"));
                 style.setAlignment(HorizontalAlignment.CENTER);
                 style.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -715,7 +714,6 @@ public class ExcelUtil<T>
             if (!styles.containsKey(key))
             {
                 CellStyle style = wb.createCellStyle();
-                style = wb.createCellStyle();
                 style.setAlignment(excel.align());
                 style.setVerticalAlignment(VerticalAlignment.CENTER);
                 style.setBorderRight(BorderStyle.THIN);
