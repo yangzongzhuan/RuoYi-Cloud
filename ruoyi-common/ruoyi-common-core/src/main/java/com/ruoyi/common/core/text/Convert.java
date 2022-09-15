@@ -313,7 +313,7 @@ public class Convert
      * 转换为Integer数组<br>
      * 
      * @param split 分隔符
-     * @param split 被转换的值
+     * @param str 被转换的值
      * @return 结果
      */
     public static Integer[] toIntArray(String split, String str)
@@ -370,7 +370,7 @@ public class Convert
      * 转换为String数组<br>
      * 
      * @param split 分隔符
-     * @param split 被转换的值
+     * @param str 被转换的值
      * @return 结果
      */
     public static String[] toStrArray(String split, String str)
@@ -962,9 +962,7 @@ public class Convert
                 c[i] = (char) (c[i] - 65248);
             }
         }
-        String returnString = new String(c);
-
-        return returnString;
+        return new String(c);
     }
 
     /**
