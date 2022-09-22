@@ -154,7 +154,7 @@ public class AjaxResult extends HashMap<String, Object>
      */
     public boolean isSuccess()
     {
-        return !isError();
+        return Objects.equals(HttpStatus.SUCCESS, this.get(CODE_TAG));
     }
 
     /**
@@ -164,7 +164,7 @@ public class AjaxResult extends HashMap<String, Object>
      */
     public boolean isError()
     {
-        return Objects.equals(HttpStatus.SUCCESS, this.get(CODE_TAG));
+        return !isSuccess();
     }
 
     /**
