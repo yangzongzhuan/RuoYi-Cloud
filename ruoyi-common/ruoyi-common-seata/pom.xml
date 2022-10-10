@@ -8,27 +8,19 @@
         <version>3.6.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    
-    <artifactId>ruoyi-common-datasource</artifactId>
+
+    <artifactId>ruoyi-common-seata</artifactId>
 
     <description>
-        ruoyi-common-datasource多数据源
+        ruoyi-common-seata分布式事务
     </description>
 
     <dependencies>
 
-        <!-- Druid -->
+        <!-- SpringBoot Seata -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid.version}</version>
-        </dependency>
-
-        <!-- Dynamic DataSource -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-            <version>${dynamic-ds.version}</version>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
         </dependency>
 
     </dependencies>

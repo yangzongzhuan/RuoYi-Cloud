@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.ruoyi</groupId>
         <artifactId>ruoyi</artifactId>
-        <version>3.6.0</version>
+        <version>3.6.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -12,17 +12,18 @@
         <module>ruoyi-common-log</module>
         <module>ruoyi-common-core</module>
         <module>ruoyi-common-redis</module>
+        <module>ruoyi-common-seata</module>
         <module>ruoyi-common-swagger</module>
         <module>ruoyi-common-security</module>
         <module>ruoyi-common-datascope</module>
-		<module>ruoyi-common-datasource</module>
+        <module>ruoyi-common-datasource</module>
     </modules>
 
     <artifactId>ruoyi-common</artifactId>
     <packaging>pom</packaging>
 
     <description>
-	    ruoyi-common通用模块
+        ruoyi-common通用模块
     </description>
 
 </project>
