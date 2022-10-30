@@ -71,7 +71,7 @@ public class SysLogininforController extends BaseController
     public AjaxResult clean()
     {
         logininforService.cleanLogininfor();
-        return AjaxResult.success();
+        return success();
     }
 
     @RequiresPermissions("system:logininfor:unlock")

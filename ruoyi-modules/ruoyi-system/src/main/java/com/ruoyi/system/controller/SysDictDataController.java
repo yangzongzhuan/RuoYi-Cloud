@@ -67,7 +67,7 @@ public class SysDictDataController extends BaseController
     @GetMapping(value = "/{dictCode}")
     public AjaxResult getInfo(@PathVariable Long dictCode)
     {
-        return AjaxResult.success(dictDataService.selectDictDataById(dictCode));
+        return success(dictDataService.selectDictDataById(dictCode));
     }
 
     /**
@@ -81,7 +81,7 @@ public class SysDictDataController extends BaseController
         {
             data = new ArrayList<SysDictData>();
         }
-        return AjaxResult.success(data);
+        return success(data);
     }
 
     /**
