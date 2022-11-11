@@ -784,6 +784,10 @@ public class ExcelUtil<T>
             {
                 cellValue = RegExUtils.replaceFirst(cellValue, FORMULA_REGEX_STR, "\t$0");
             }
+            if (value instanceof Collection && StringUtils.equals("[]", cellValue))
+            {
+                cellValue = StringUtils.EMPTY;
+            }
             cell.setCellValue(StringUtils.isNull(cellValue) ? attr.defaultValue() : cellValue + attr.suffix());
         }
         else if (ColumnType.NUMERIC == attr.cellType())
