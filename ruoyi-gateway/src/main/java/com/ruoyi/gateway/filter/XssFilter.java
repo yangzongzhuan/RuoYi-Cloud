@@ -43,7 +43,8 @@ public class XssFilter implements GlobalFilter, Ordered
     {
         ServerHttpRequest request = exchange.getRequest();
         // xss开关未开启 或 通过nacos关闭，不过滤
-        if(!xss.getEnabled()){
+        if (!xss.getEnabled())
+        {
             return chain.filter(exchange);
         }
         // GET DELETE 不过滤
