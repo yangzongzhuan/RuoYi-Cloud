@@ -37,4 +37,4 @@ spring:
             dataId: sentinel-ruoyi-gateway
             groupId: DEFAULT_GROUP
             data-type: json
-            rule-type: flow
+            rule-type: gw-flow
