@@ -27,7 +27,7 @@
         <kaptcha.version>2.3.3</kaptcha.version>
         <pagehelper.boot.version>1.4.6</pagehelper.boot.version>
         <druid.version>1.2.15</druid.version>
-        <dynamic-ds.version>3.6.0</dynamic-ds.version>
+        <dynamic-ds.version>3.5.2</dynamic-ds.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
         <velocity.version>2.3</velocity.version>
@@ -35,7 +35,6 @@
         <jjwt.version>0.9.1</jjwt.version>
         <minio.version>8.2.2</minio.version>
         <poi.version>4.1.2</poi.version>
-        <commons-collections.version>3.2.2</commons-collections.version>
         <transmittable-thread-local.version>2.14.2</transmittable-thread-local.version>
     </properties>
 
@@ -129,13 +128,6 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
                 <version>${velocity.version}</version>
-            </dependency>
-
-            <!-- Collection 增强Java集合框架 -->
-            <dependency> 
-                <groupId>commons-collections</groupId> 
-                <artifactId>commons-collections</artifactId> 
-                <version>${commons-collections.version}</version>
             </dependency>
 
             <!-- JSON 解析器和生成器 -->

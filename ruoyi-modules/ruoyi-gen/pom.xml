@@ -54,12 +54,6 @@
             <artifactId>velocity-engine-core</artifactId>
         </dependency>
         
-        <!-- Commons Collections -->
-        <dependency> 
-            <groupId>commons-collections</groupId> 
-            <artifactId>commons-collections</artifactId> 
-        </dependency>
-        
         <!-- Mysql Connector -->
         <dependency>
             <groupId>mysql</groupId>
