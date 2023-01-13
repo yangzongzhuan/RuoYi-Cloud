@@ -20,7 +20,7 @@
         <spring-boot.version>2.7.7</spring-boot.version>
         <spring-cloud.version>2021.0.5</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
-        <spring-boot-admin.version>2.7.9</spring-boot-admin.version>
+        <spring-boot-admin.version>2.7.10</spring-boot-admin.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <swagger.core.version>1.6.2</swagger.core.version>
         <tobato.version>1.27.2</tobato.version>
