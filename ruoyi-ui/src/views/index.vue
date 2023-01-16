@@ -146,6 +146,47 @@
             <span>更新日志</span>
           </div>
           <el-collapse accordion>
+            <el-collapse-item title="v3.6.2 - 2023-01-16">
+              <ol>
+                <li>重置时取消部门选中</li>
+                <li>新增返回警告消息提示</li>
+                <li>忽略不必要的属性数据返回</li>
+                <li>修改参数键名时移除前缓存配置</li>
+                <li>开启TopNav没有子菜单隐藏侧边栏</li>
+                <li>删除fuse无效选项maxPatternLength</li>
+                <li>兼容Excel下拉框内容过多无法显示的问题</li>
+                <li>修复文件上传组件格式验证问题</li>
+                <li>修复回显数据字典数组异常问题</li>
+                <li>修复sheet超出最大行数异常问题</li>
+                <li>修复Log注解GET请求记录不到参数问题</li>
+                <li>修复gateway流控规则生效但不显示问题</li>
+                <li>修复主题颜色在Drawer组件不会加载问题</li>
+                <li>修复调度日志点击多次数据不变化的问题</li>
+                <li>修复用户编辑时角色和部门存在无法修改情况</li>
+                <li>修复使用透明底png图片时，自动填充黑色背景</li>
+                <li>修复table中更多按钮切换主题色未生效修复问题</li>
+                <li>修复某些特性的环境生成代码变乱码TXT文件问题</li>
+                <li>修复代码生成图片/文件/单选时选择必填无法校验问题</li>
+                <li>升级spring-cloud到最新版2021.0.5</li>
+                <li>升级spring-boot到最新版本2.7.7</li>
+                <li>升级spring-boot-admin到最新版2.7.10</li>
+                <li>升级kaptcha到最新版2.3.3</li>
+                <li>升级druid到最新版本1.2.15</li>
+                <li>升级fastjson到最新版2.0.22</li>
+                <li>升级pagehelper到最新版1.4.6</li>
+                <li>升级transmittable-thread-local到最新版本2.14.2</li>
+                <li>升级echarts到最新版本5.4.0</li>
+                <li>升级core-js到最新版本3.25.3</li>
+                <li>升级element-ui到最新版本2.15.12</li>
+				<li>移除commons-collections多余的依赖</li>
+                <li>优化弹窗内容过多展示不全问题</li>
+                <li>优化导出对象的子列表为空会出现[]问题</li>
+                <li>优化字符未使用下划线不进行驼峰式处理</li>
+                <li>优化nacos修改xss开关时同步过滤器验证</li>
+                <li>优化修改头像在小屏幕上页面布局错位的问题</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
             <el-collapse-item title="v3.6.1 - 2022-10-01">
               <ol>
                 <li>数据逻辑删除不进行唯一验证</li>
@@ -798,7 +839,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "3.6.1",
+      version: "3.6.2",
     };
   },
   methods: {
