@@ -27,7 +27,7 @@ public class AuthUtil
     /**
      * 会话注销，根据指定Token
      * 
-     * @param tokenValue 指定token
+     * @param token 指定token
      */
     public static void logoutByToken(String token)
     {
@@ -44,6 +44,9 @@ public class AuthUtil
 
     /**
      * 获取当前登录用户信息
+     * 
+     * @param token 指定token
+     * @return 用户信息
      */
     public static LoginUser getLoginUser(String token)
     {
@@ -52,6 +55,8 @@ public class AuthUtil
 
     /**
      * 验证当前用户有效期
+     * 
+     * @param loginUser 用户信息
      */
     public static void verifyLoginUserExpire(LoginUser loginUser)
     {
