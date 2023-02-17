@@ -8,9 +8,11 @@ import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.ruoyi.common.core.utils.file.FileTypeUtils;
 
+import java.io.InputStream;
+
 /**
  * FastDFS 文件存储
- * 
+ *
  * @author ruoyi
  */
 @Service
@@ -27,7 +29,7 @@ public class FastDfsSysFileServiceImpl implements ISysFileService
 
     /**
      * FastDfs文件上传接口
-     * 
+     *
      * @param file 上传的文件
      * @return 访问地址
      * @throws Exception
@@ -35,8 +37,10 @@ public class FastDfsSysFileServiceImpl implements ISysFileService
     @Override
     public String uploadFile(MultipartFile file) throws Exception
     {
-        StorePath storePath = storageClient.uploadFile(file.getInputStream(), file.getSize(),
+        InputStream inputStream = file.getInputStream();
+        StorePath storePath = storageClient.uploadFile(inputStream, file.getSize(),
                 FileTypeUtils.getExtension(file), null);
+        inputStream.close();
         return domain + "/" + storePath.getFullPath();
     }
 }
