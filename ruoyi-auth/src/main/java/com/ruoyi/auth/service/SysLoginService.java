@@ -2,13 +2,17 @@ package com.ruoyi.auth.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.enums.UserStatus;
 import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.core.utils.ip.IpUtils;
+import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.domain.SysUser;
@@ -30,6 +34,9 @@ public class SysLoginService
 
     @Autowired
     private SysRecordLogService recordLogService;
+
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 登录
@@ -55,6 +62,13 @@ public class SysLoginService
         {
             recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, "用户名不在指定范围");
             throw new ServiceException("用户名不在指定范围");
+        }
+        // IP黑名单校验
+        String blackStr = Convert.toStr(redisService.getCacheObject(CacheConstants.SYS_LOGIN_BLACKIPLIST));
+        if (IpUtils.isMatchedIp(blackStr, IpUtils.getIpAddr()))
+        {
+            recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, "很遗憾，访问IP已被列入系统黑名单");
+            throw new ServiceException("很遗憾，访问IP已被列入系统黑名单");
         }
         // 查询用户信息
         R<LoginUser> userResult = remoteUserService.getUserInfo(username, SecurityConstants.INNER);

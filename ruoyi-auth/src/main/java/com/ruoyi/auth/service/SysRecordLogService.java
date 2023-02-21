@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.SecurityConstants;
-import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.ip.IpUtils;
 import com.ruoyi.system.api.RemoteLogService;
@@ -33,7 +32,7 @@ public class SysRecordLogService
     {
         SysLogininfor logininfor = new SysLogininfor();
         logininfor.setUserName(username);
-        logininfor.setIpaddr(IpUtils.getIpAddr(ServletUtils.getRequest()));
+        logininfor.setIpaddr(IpUtils.getIpAddr());
         logininfor.setMsg(message);
         // 日志状态
         if (StringUtils.equalsAny(status, Constants.LOGIN_SUCCESS, Constants.LOGOUT, Constants.REGISTER))

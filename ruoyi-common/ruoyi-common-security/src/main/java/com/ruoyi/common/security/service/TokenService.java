@@ -49,7 +49,7 @@ public class TokenService
         loginUser.setToken(token);
         loginUser.setUserid(userId);
         loginUser.setUsername(userName);
-        loginUser.setIpaddr(IpUtils.getIpAddr(ServletUtils.getRequest()));
+        loginUser.setIpaddr(IpUtils.getIpAddr());
         refreshToken(loginUser);
 
         // Jwt存储信息

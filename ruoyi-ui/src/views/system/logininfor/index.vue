@@ -107,7 +107,7 @@
           <dict-tag :options="dict.type.sys_common_status" :value="scope.row.status"/>
         </template>
       </el-table-column>
-      <el-table-column label="描述" align="center" prop="msg" />
+      <el-table-column label="描述" align="center" prop="msg" :show-overflow-tooltip="true" />
       <el-table-column label="访问时间" align="center" prop="accessTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.accessTime) }}</span>
