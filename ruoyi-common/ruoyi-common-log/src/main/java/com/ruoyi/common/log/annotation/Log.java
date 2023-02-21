@@ -43,4 +43,9 @@ public @interface Log
      * 是否保存响应的参数
      */
     public boolean isSaveResponseData() default true;
+
+    /**
+     * 排除指定的请求参数
+     */
+    public String[] excludeParamNames() default {};
 }
