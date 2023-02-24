@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
  *
  * @author ruoyi
  */
-@Component
 public class SwaggerBeanPostProcessor implements BeanPostProcessor
 {
     @Override
