@@ -1,15 +1,19 @@
-version : '3.8'
+version: '3.8'
 services:
   ruoyi-nacos:
     container_name: ruoyi-nacos
-    image: nacos/nacos-server
+    image: nacos/nacos-server:v2.2.0-slim
     build:
       context: ./nacos
     environment:
       - MODE=standalone
+      - SPRING_DATASOURCE_PLATFORM=mysql
+      - MYSQL_SERVICE_HOST=ruoyi-mysql
+      - MYSQL_SERVICE_DB_NAME=ry-config
+      - MYSQL_SERVICE_USER=ruoyi-nacos
+      - MYSQL_SERVICE_PASSWORD=nacos
     volumes:
       - ./nacos/logs/:/home/nacos/logs
-      - ./nacos/conf/application.properties:/home/nacos/conf/application.properties
     ports:
       - "8848:8848"
       - "9848:9848"
@@ -18,7 +22,7 @@ services:
       - ruoyi-mysql
   ruoyi-mysql:
     container_name: ruoyi-mysql
-    image: mysql:5.7
+    image: mysql:latest
     build:
       context: ./mysql
     ports:
@@ -28,19 +32,19 @@ services:
       - ./mysql/logs:/logs
       - ./mysql/data:/var/lib/mysql
     command: [
-          'mysqld',
-          '--innodb-buffer-pool-size=80M',
-          '--character-set-server=utf8mb4',
-          '--collation-server=utf8mb4_unicode_ci',
-          '--default-time-zone=+8:00',
-          '--lower-case-table-names=1'
-        ]
+      'mysqld',
+      '--innodb-buffer-pool-size=80M',
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_unicode_ci',
+      '--default-time-zone=+8:00',
+      '--lower-case-table-names=1'
+    ]
     environment:
       MYSQL_DATABASE: 'ry-cloud'
       MYSQL_ROOT_PASSWORD: password
   ruoyi-redis:
     container_name: ruoyi-redis
-    image: redis
+    image: redis:latest
     build:
       context: ./redis
     ports:
@@ -130,7 +134,7 @@ services:
     ports:
       - "9300:9300"
     volumes:
-    - ./ruoyi/uploadPath:/home/ruoyi/uploadPath
+      - ./ruoyi/uploadPath:/home/ruoyi/uploadPath
   ruoyi-visual-monitor:
     container_name: ruoyi-visual-monitor
     build:
