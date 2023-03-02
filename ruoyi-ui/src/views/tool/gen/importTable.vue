@@ -1,7 +1,17 @@
 <template>
   <!-- 导入表 -->
-  <el-dialog title="导入表" :visible.sync="visible" width="800px" top="5vh" append-to-body>
+  <el-dialog title="导入表" :visible.sync="visible" width="1000px" top="5vh" append-to-body>
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true">
+      <el-form-item label="库名称" prop="tableName">
+        <el-select
+          v-model="queryParams.dbName"
+          placeholder="请选择库名称"
+          filterable
+          @change="handleQuery"
+        >
+          <el-option v-for="(item, idx) in dbList" :key="idx" :value="item">{{item}}</el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="表名称" prop="tableName">
         <el-input
           v-model="queryParams.tableName"
@@ -26,6 +36,7 @@
     <el-row>
       <el-table @row-click="clickRow" ref="table" :data="dbTableList" @selection-change="handleSelectionChange" height="260px">
         <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column prop="dbName" label="库名称" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="tableName" label="表名称" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="tableComment" label="表描述" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="createTime" label="创建时间"></el-table-column>
@@ -49,6 +60,9 @@
 <script>
 import { listDbTable, importTable } from "@/api/tool/gen";
 export default {
+  props: [
+    'dbList',
+  ],
   data() {
     return {
       // 遮罩层
@@ -63,6 +77,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        dbName: this.dbList[1],
         tableName: undefined,
         tableComment: undefined
       }
@@ -107,7 +122,7 @@ export default {
         this.$modal.msgError("请选择要导入的表");
         return;
       }
-      importTable({ tables: tableNames }).then(res => {
+      importTable({ tables: tableNames,dbName: this.queryParams.dbName }).then(res => {
         this.$modal.msgSuccess(res.msg);
         if (res.code === 200) {
           this.visible = false;

@@ -20,6 +20,10 @@ public class GenTable extends BaseEntity
     /** 编号 */
     private Long tableId;
 
+    /** 数据源名称 */
+    @NotBlank(message = "数据源名称不能为空")
+    private String dbName;
+
     /** 表名称 */
     @NotBlank(message = "表名称不能为空")
     private String tableName;
@@ -95,6 +99,9 @@ public class GenTable extends BaseEntity
     /** 上级菜单名称字段 */
     private String parentMenuName;
 
+    /** 已存在的genTable名称 */
+    private List<String> genTableNames;
+
     public Long getTableId()
     {
         return tableId;
@@ -103,6 +110,14 @@ public class GenTable extends BaseEntity
     public void setTableId(Long tableId)
     {
         this.tableId = tableId;
+    }
+
+    public String getDbName() {
+        return dbName;
+    }
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
     }
 
     public String getTableName()
@@ -322,6 +337,14 @@ public class GenTable extends BaseEntity
     public void setParentMenuName(String parentMenuName)
     {
         this.parentMenuName = parentMenuName;
+    }
+
+    public List<String> getGenTableNames() {
+        return genTableNames;
+    }
+
+    public void setGenTableNames(List<String> genTableNames) {
+        this.genTableNames = genTableNames;
     }
 
     public boolean isSub()

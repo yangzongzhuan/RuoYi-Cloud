@@ -8,6 +8,15 @@ export function listTable(query) {
     params: query
   })
 }
+
+// 查询db列表
+export function listDb() {
+  return request({
+    url: '/code/gen/db/list',
+    method: 'post'
+  })
+}
+
 // 查询db数据库列表
 export function listDbTable(query) {
   return request({

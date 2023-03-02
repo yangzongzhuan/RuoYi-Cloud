@@ -1,6 +1,16 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="库名称" prop="dbName">
+        <el-select
+          v-model="queryParams.dbName"
+          placeholder="请选择库名称"
+          filterable
+          @change="handleQuery"
+        >
+          <el-option v-for="(item, idx) in dbList" :key="idx" :value="item">{{item}}</el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="表名称" prop="tableName">
         <el-input
           v-model="queryParams.tableName"
@@ -88,6 +98,13 @@
         </template>
       </el-table-column>
       <el-table-column
+        label="库名称"
+        align="center"
+        prop="dbName"
+        :show-overflow-tooltip="true"
+        width="120"
+      />
+      <el-table-column
         label="表名称"
         align="center"
         prop="tableName"
@@ -171,12 +188,12 @@
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
-    <import-table ref="import" @ok="handleQuery" />
+    <import-table ref="import" @ok="handleQuery" :db-list="dbList" />
   </div>
 </template>
 
 <script>
-import { listTable, previewTable, delTable, genCode, synchDb } from "@/api/tool/gen";
+import { listDb, listTable, previewTable, delTable, genCode, synchDb } from "@/api/tool/gen";
 import importTable from "./importTable";
 import hljs from "highlight.js/lib/highlight";
 import "highlight.js/styles/github-gist.css";
@@ -208,6 +225,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
+      // 库数据
+      dbList: [],
       // 表数据
       tableList: [],
       // 日期范围
@@ -216,6 +235,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        dbName: undefined,
         tableName: undefined,
         tableComment: undefined
       },
@@ -229,7 +249,11 @@ export default {
     };
   },
   created() {
-    this.getList();
+    listDb().then(resp => {
+      this.dbList = resp.data
+      this.queryParams.dbName = this.dbList[0]
+      this.getList();
+    })
   },
   activated() {
     const time = this.$route.query.t;

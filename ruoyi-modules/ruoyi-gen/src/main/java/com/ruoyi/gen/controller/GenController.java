@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -43,6 +46,9 @@ public class GenController extends BaseController
     @Autowired
     private IGenTableColumnService genTableColumnService;
 
+    @Autowired
+    private Map<String, String> dynamicDataSourceMap;
+
     /**
      * 查询代码生成列表
      */
@@ -79,16 +85,33 @@ public class GenController extends BaseController
     @GetMapping("/db/list")
     public TableDataInfo dataList(GenTable genTable)
     {
+        // 将所有genTable读取出来, 后面的查询中会排除这些
+        List<String> genTableNames = genTableService.selectGenTableList(new GenTable()).stream().map(GenTable::getTableName).collect(Collectors.toList());
+        genTable.setGenTableNames(genTableNames);
+
         startPage();
+
+        // 切换到指定的数据源
+        DynamicDataSourceContextHolder.push(dynamicDataSourceMap.get(genTable.getDbName()));
         List<GenTable> list = genTableService.selectDbTableList(genTable);
+        DynamicDataSourceContextHolder.poll();
+
         return getDataTable(list);
+    }
+
+    /**
+     * 查询数据源列表
+     */
+    @PostMapping("/db/list")
+    public AjaxResult getDBList() {
+        return AjaxResult.success(dynamicDataSourceMap.keySet());
     }
 
     /**
      * 查询数据表字段列表
      */
     @GetMapping(value = "/column/{tableId}")
-    public TableDataInfo columnList(Long tableId)
+    public TableDataInfo columnList(@PathVariable("tableId") Long tableId)
     {
         TableDataInfo dataInfo = new TableDataInfo();
         List<GenTableColumn> list = genTableColumnService.selectGenTableColumnListByTableId(tableId);
@@ -103,11 +126,16 @@ public class GenController extends BaseController
     @RequiresPermissions("tool:gen:import")
     @Log(title = "代码生成", businessType = BusinessType.IMPORT)
     @PostMapping("/importTable")
-    public AjaxResult importTableSave(String tables)
+    public AjaxResult importTableSave(String tables, String dbName)
     {
         String[] tableNames = Convert.toStrArray(tables);
+
+        // 切换到指定的数据源
         // 查询表信息
+        DynamicDataSourceContextHolder.push(dynamicDataSourceMap.get(dbName));
         List<GenTable> tableList = genTableService.selectDbTableListByNames(tableNames);
+        DynamicDataSourceContextHolder.poll();
+
         genTableService.importGenTable(tableList);
         return success();
     }

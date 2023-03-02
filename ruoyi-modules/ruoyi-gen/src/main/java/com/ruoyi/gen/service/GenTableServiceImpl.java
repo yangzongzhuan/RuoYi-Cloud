@@ -11,6 +11,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
@@ -52,6 +55,9 @@ public class GenTableServiceImpl implements IGenTableService
 
     @Autowired
     private GenTableColumnMapper genTableColumnMapper;
+
+    @Autowired
+    private Map<String, String> dynamicDataSourceMap;
 
     /**
      * 查询业务信息
@@ -156,7 +162,7 @@ public class GenTableServiceImpl implements IGenTableService
      * @param tableList 导入表列表
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @DSTransactional
     public void importGenTable(List<GenTable> tableList)
     {
         String operName = SecurityUtils.getUsername();
@@ -169,8 +175,11 @@ public class GenTableServiceImpl implements IGenTableService
                 int row = genTableMapper.insertGenTable(table);
                 if (row > 0)
                 {
+                    // 切换到指定的数据源
                     // 保存列信息
+                    DynamicDataSourceContextHolder.push(dynamicDataSourceMap.get(table.getDbName()));
                     List<GenTableColumn> genTableColumns = genTableColumnMapper.selectDbTableColumnsByName(tableName);
+                    DynamicDataSourceContextHolder.poll();
                     for (GenTableColumn column : genTableColumns)
                     {
                         GenUtils.initColumnField(column, table);
@@ -289,7 +298,11 @@ public class GenTableServiceImpl implements IGenTableService
         List<GenTableColumn> tableColumns = table.getColumns();
         Map<String, GenTableColumn> tableColumnMap = tableColumns.stream().collect(Collectors.toMap(GenTableColumn::getColumnName, Function.identity()));
 
+        // 切换到指定的数据源
+        DynamicDataSourceContextHolder.push(dynamicDataSourceMap.get(table.getDbName()));
         List<GenTableColumn> dbTableColumns = genTableColumnMapper.selectDbTableColumnsByName(tableName);
+        DynamicDataSourceContextHolder.poll();
+
         if (StringUtils.isEmpty(dbTableColumns))
         {
             throw new ServiceException("同步数据失败，原表结构不存在");
