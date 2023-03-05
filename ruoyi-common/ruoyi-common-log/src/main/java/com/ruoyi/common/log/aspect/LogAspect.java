@@ -165,14 +165,15 @@ public class LogAspect
     private void setRequestValue(JoinPoint joinPoint, SysOperLog operLog, String[] excludeParamNames) throws Exception
     {
         String requestMethod = operLog.getRequestMethod();
-        if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod))
+        Map<?, ?> paramsMap = ServletUtils.getParamMap(ServletUtils.getRequest());
+        if (StringUtils.isEmpty(paramsMap)
+                && (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod)))
         {
             String params = argsArrayToString(joinPoint.getArgs(), excludeParamNames);
             operLog.setOperParam(StringUtils.substring(params, 0, 2000));
         }
         else
         {
-            Map<?, ?> paramsMap = ServletUtils.getParamMap(ServletUtils.getRequest());
             operLog.setOperParam(StringUtils.substring(JSON.toJSONString(paramsMap, excludePropertyPreFilter(excludeParamNames)), 0, 2000));
         }
     }
