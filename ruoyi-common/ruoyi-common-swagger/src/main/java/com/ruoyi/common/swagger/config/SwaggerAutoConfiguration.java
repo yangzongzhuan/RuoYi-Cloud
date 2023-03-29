@@ -26,8 +26,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-@EnableAutoConfiguration
+@EnableConfigurationProperties(SwaggerProperties.class)
 @ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)
+@Import({SwaggerBeanPostProcessor.class, SwaggerWebConfiguration.class})
 public class SwaggerAutoConfiguration
 {
     /**
@@ -36,13 +37,6 @@ public class SwaggerAutoConfiguration
     private static final List<String> DEFAULT_EXCLUDE_PATH = Arrays.asList("/error", "/actuator/**");
 
     private static final String BASE_PATH = "/**";
-
-    @Bean
-    @ConditionalOnMissingBean
-    public SwaggerProperties swaggerProperties()
-    {
-        return new SwaggerProperties();
-    }
 
     @Bean
     public Docket api(SwaggerProperties swaggerProperties)
