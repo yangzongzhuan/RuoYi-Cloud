@@ -27,7 +27,7 @@ public interface RemoteLogService
      * @return 结果
      */
     @PostMapping("/operlog")
-    public R<Boolean> saveLog(@RequestBody SysOperLog sysOperLog, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    public R<Boolean> saveLog(@RequestBody SysOperLog sysOperLog, @RequestHeader(SecurityConstants.FROM_SOURCE) String source) throws Exception;
 
     /**
      * 保存访问记录
