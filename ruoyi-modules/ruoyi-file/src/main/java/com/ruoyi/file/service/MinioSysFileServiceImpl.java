@@ -1,5 +1,6 @@
 package com.ruoyi.file.service;
 
+import java.io.InputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -7,8 +8,6 @@ import com.ruoyi.file.config.MinioConfig;
 import com.ruoyi.file.utils.FileUploadUtils;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
-
-import java.io.InputStream;
 
 /**
  * Minio 文件存储
