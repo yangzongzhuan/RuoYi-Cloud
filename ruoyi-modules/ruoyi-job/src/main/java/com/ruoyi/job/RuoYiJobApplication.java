@@ -12,8 +12,8 @@ import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
  * @author ruoyi
  */
 @EnableCustomConfig
-@EnableCustomSwagger2   
-@EnableRyFeignClients
+@EnableCustomSwagger2
+@EnableRyFeignClients   
 @SpringBootApplication
 public class RuoYiJobApplication
 {

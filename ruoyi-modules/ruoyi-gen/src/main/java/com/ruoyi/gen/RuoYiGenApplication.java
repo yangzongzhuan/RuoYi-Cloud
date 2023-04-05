@@ -12,7 +12,7 @@ import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
  * @author ruoyi
  */
 @EnableCustomConfig
-@EnableCustomSwagger2   
+@EnableCustomSwagger2
 @EnableRyFeignClients
 @SpringBootApplication
 public class RuoYiGenApplication
