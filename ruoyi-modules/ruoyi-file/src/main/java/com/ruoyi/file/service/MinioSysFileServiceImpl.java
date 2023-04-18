@@ -4,6 +4,7 @@ import java.io.InputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import com.alibaba.nacos.common.utils.IoUtils;
 import com.ruoyi.file.config.MinioConfig;
 import com.ruoyi.file.utils.FileUploadUtils;
 import io.minio.MinioClient;
@@ -42,7 +43,7 @@ public class MinioSysFileServiceImpl implements ISysFileService
                 .contentType(file.getContentType())
                 .build();
         client.putObject(args);
-        inputStream.close();
+        IoUtils.closeQuietly(inputStream);
         return minioConfig.getUrl() + "/" + minioConfig.getBucketName() + "/" + fileName;
     }
 }
