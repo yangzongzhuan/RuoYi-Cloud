@@ -180,7 +180,7 @@
                 <li>升级echarts到最新版本5.4.0</li>
                 <li>升级core-js到最新版本3.25.3</li>
                 <li>升级element-ui到最新版本2.15.12</li>
-				<li>移除commons-collections多余的依赖</li>
+                <li>移除commons-collections多余的依赖</li>
                 <li>优化弹窗内容过多展示不全问题</li>
                 <li>优化导出对象的子列表为空会出现[]问题</li>
                 <li>优化字符未使用下划线不进行驼峰式处理</li>
@@ -322,7 +322,7 @@
                 <li>代码生成新增Java类型Boolean</li>
                 <li>定时任务目标字符串过滤特殊字符</li>
                 <li>定时任务目标字符串验证包名白名单</li>
-				<li>升级nacos到最新版2.0.4</li>
+                <li>升级nacos到最新版2.0.4</li>
                 <li>升级spring-cloud到最新版2021.0.0</li>
                 <li>升级spring-boot到最新版本2.6.3</li>
                 <li>升级spring-boot-admin到最新版2.6.1</li>
@@ -352,17 +352,17 @@
                 <li>新增tab对象简化页签操作</li>
                 <li>修改获取缓存信息方式</li>
                 <li>修改权限认证注解实现</li>
-				<li>自定义文字复制剪贴指令</li>
+                <li>自定义文字复制剪贴指令</li>
                 <li>升级axios到最新版本0.24.0</li>
                 <li>升级core-js到最新版本3.19.1</li>
                 <li>升级jsencrypt到最新版本3.2.1</li>
                 <li>升级js-cookie到最新版本3.0.1</li>
-				<li>升级clipboard到最新版本2.0.8</li>
+                <li>升级clipboard到最新版本2.0.8</li>
                 <li>升级velocity到最新版本2.3</li>
                 <li>升级spring-boot到最新版本2.5.6</li>
                 <li>升级spring-boot-admin到最新版2.5.4</li>
                 <li>升级dynamic-ds到最新版本3.5.0</li>
-				<li>代码生成预览支持复制内容</li>
+                <li>代码生成预览支持复制内容</li>
                 <li>修复五级以上菜单出现的404问题</li>
                 <li>生产环境使用路由懒加载提升页面响应速度</li>
                 <li>任务屏蔽违规字符&参数忽略双引号中的逗号</li>
@@ -821,7 +821,7 @@
           </div>
           <div class="body">
             <img
-              src="https://oscimg.oschina.net/oscnet/up-d6695f82666e5018f715c41cb7ee60d3b73.png"
+              src="@/assets/images/pay.png"
               alt="donate"
               width="100%"
             />
