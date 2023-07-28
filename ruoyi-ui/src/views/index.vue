@@ -118,12 +118,11 @@
               >
             </p>
             <p>
-              <i class="el-icon-user-solid"></i> QQ群：<s>满42799195</s>
-              <s>满170157040</s> <s>满130643120</s> <s>满225920371</s>
-              <s>满201705537</s> <s>满236543183</s> <s>满213618602</s>
-              <s>满148794840</s> <s>满118752664</s>
-              <a href="https://jq.qq.com/?_wv=1027&k=FqImHgH2" target="_blank"
-                >101038945</a
+              <i class="el-icon-user-solid"></i> QQ群： <s> 满42799195 </s>  <s> 满170157040 </s>
+              <s> 满130643120 </s> <s> 满225920371 </s> <s> 满201705537 </s> <s> 满236543183 </s>
+              <s> 满213618602 </s> <s> 满148794840 </s> <s> 满118752664 </s> <s> 满101038945</s>
+              <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=pHuELvQ01AXiVC_CH9HNq-hL6qd6EbIb&authKey=k5nCvwTnimKrFBbJpFEfaQabjBHzZhMAbvsZAjAXiOIekreMrmJzjjTVuoMsZgB%2F&noverify=0&group_code=128355254" target="_blank"
+                >128355254</a
               >
             </p>
             <p>
