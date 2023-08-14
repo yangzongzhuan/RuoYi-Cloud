@@ -66,27 +66,22 @@ public class SysProfileController extends BaseController
     public AjaxResult updateProfile(@RequestBody SysUser user)
     {
         LoginUser loginUser = SecurityUtils.getLoginUser();
-        SysUser sysUser = loginUser.getSysUser();
-        user.setUserName(sysUser.getUserName());
-        if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user))
+        SysUser currentUser = loginUser.getSysUser();
+        currentUser.setNickName(user.getNickName());
+        currentUser.setEmail(user.getEmail());
+        currentUser.setPhonenumber(user.getPhonenumber());
+        currentUser.setSex(user.getSex());
+        if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(currentUser))
         {
             return error("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
         }
-        else if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user))
+        if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(currentUser))
         {
             return error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
-        user.setUserId(sysUser.getUserId());
-        user.setPassword(null);
-        user.setAvatar(null);
-        user.setDeptId(null);
         if (userService.updateUserProfile(user) > 0)
         {
             // 更新缓存用户信息
-            loginUser.getSysUser().setNickName(user.getNickName());
-            loginUser.getSysUser().setPhonenumber(user.getPhonenumber());
-            loginUser.getSysUser().setEmail(user.getEmail());
-            loginUser.getSysUser().setSex(user.getSex());
             tokenService.setLoginUser(loginUser);
             return success();
         }
