@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.CacheConstants;
@@ -25,6 +27,8 @@ import com.ruoyi.system.api.model.LoginUser;
 @Component
 public class TokenService
 {
+    private static final Logger log = LoggerFactory.getLogger(TokenService.class);
+
     @Autowired
     private RedisService redisService;
 
@@ -106,6 +110,7 @@ public class TokenService
         }
         catch (Exception e)
         {
+            log.error("获取用户信息异常'{}'", e.getMessage());
         }
         return user;
     }
