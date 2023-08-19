@@ -55,6 +55,7 @@ import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.annotation.Excel.ColumnType;
 import com.ruoyi.common.core.annotation.Excel.Type;
 import com.ruoyi.common.core.annotation.Excels;
+import com.ruoyi.common.core.exception.UtilException;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -262,7 +263,21 @@ public class ExcelUtil<T>
      */
     public List<T> importExcel(InputStream is) throws Exception
     {
-        return importExcel(is, 0);
+        List<T> list = null;
+        try
+        {
+            list = importExcel(is, 0);
+        }
+        catch (Exception e)
+        {
+            log.error("导入Excel异常{}", e.getMessage());
+            throw new UtilException(e.getMessage());
+        }
+        finally
+        {
+            IOUtils.closeQuietly(is);
+        }
+        return list;
     }
 
     /**
@@ -299,7 +314,6 @@ public class ExcelUtil<T>
 
         // 获取最后一个非空行的行下标，比如总行数为n，则返回的为n-1
         int rows = sheet.getLastRowNum();
-
         if (rows > 0)
         {
             // 定义一个map用于存放excel列的序号和field.
