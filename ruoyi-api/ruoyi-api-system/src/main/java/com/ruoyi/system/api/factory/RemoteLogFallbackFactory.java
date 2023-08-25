@@ -28,13 +28,13 @@ public class RemoteLogFallbackFactory implements FallbackFactory<RemoteLogServic
             @Override
             public R<Boolean> saveLog(SysOperLog sysOperLog, String source)
             {
-                return null;
+                return R.fail("保存操作日志失败:" + throwable.getMessage());
             }
 
             @Override
             public R<Boolean> saveLogininfor(SysLogininfor sysLogininfor, String source)
             {
-                return null;
+                return R.fail("保存登录日志失败:" + throwable.getMessage());
             }
         };
 
