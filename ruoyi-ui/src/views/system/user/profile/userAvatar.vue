@@ -61,11 +61,6 @@ import { debounce } from '@/utils'
 
 export default {
   components: { VueCropper },
-  props: {
-    user: {
-      type: Object
-    }
-  },
   data() {
     return {
       // 是否显示弹出层
@@ -140,7 +135,7 @@ export default {
         formData.append("avatarfile", data);
         uploadAvatar(formData).then(response => {
           this.open = false;
-          this.options.img = response.imgUrl;
+          this.options.img = process.env.VUE_APP_BASE_API + response.imgUrl;
           store.commit('SET_AVATAR', this.options.img);
           this.$modal.msgSuccess("修改成功");
           this.visible = false;
