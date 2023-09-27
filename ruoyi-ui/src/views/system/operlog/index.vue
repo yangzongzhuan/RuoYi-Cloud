@@ -1,6 +1,15 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="操作地址" prop="operIp">
+        <el-input
+          v-model="queryParams.operIp"
+          placeholder="请输入操作地址"
+          clearable
+          style="width: 240px;"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="系统模块" prop="title">
         <el-input
           v-model="queryParams.title"
@@ -105,7 +114,7 @@
     <el-table ref="tables" v-loading="loading" :data="list" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
       <el-table-column type="selection" width="50" align="center" />
       <el-table-column label="日志编号" align="center" prop="operId" />
-      <el-table-column label="系统模块" align="center" prop="title" />
+      <el-table-column label="系统模块" align="center" prop="title" :show-overflow-tooltip="true" />
       <el-table-column label="操作类型" align="center" prop="businessType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_oper_type" :value="scope.row.businessType"/>
@@ -113,7 +122,7 @@
       </el-table-column>
       <el-table-column label="请求方式" align="center" prop="requestMethod" />
       <el-table-column label="操作人员" align="center" prop="operName" width="110" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']"/>
-      <el-table-column label="主机" align="center" prop="operIp" width="130" :show-overflow-tooltip="true" />
+      <el-table-column label="操作地址" align="center" prop="operIp" width="130" :show-overflow-tooltip="true" />
       <el-table-column label="操作状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_common_status" :value="scope.row.status"/>
@@ -229,6 +238,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        operIp: undefined,
         title: undefined,
         operName: undefined,
         businessType: undefined,
