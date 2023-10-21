@@ -5,7 +5,8 @@ export function login(username, password, code, uuid) {
   return request({
     url: '/auth/login',
     headers: {
-      isToken: false
+      isToken: false,
+      repeatSubmit: false
     },
     method: 'post',
     data: { username, password, code, uuid }
