@@ -175,7 +175,7 @@ public class SysMenuServiceImpl implements ISysMenuService
             router.setQuery(menu.getQuery());
             router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), StringUtils.equals("1", menu.getIsCache()), menu.getPath()));
             List<SysMenu> cMenus = menu.getChildren();
-            if (!cMenus.isEmpty() && cMenus.size() > 0 && UserConstants.TYPE_DIR.equals(menu.getMenuType()))
+            if (StringUtils.isNotEmpty(cMenus) && UserConstants.TYPE_DIR.equals(menu.getMenuType()))
             {
                 router.setAlwaysShow(true);
                 router.setRedirect("noRedirect");
@@ -475,8 +475,8 @@ public class SysMenuServiceImpl implements ISysMenuService
     /**
      * 递归列表
      * 
-     * @param list
-     * @param t
+     * @param list 分类表
+     * @param t 子节点
      */
     private void recursionFn(List<SysMenu> list, SysMenu t)
     {
@@ -521,11 +521,11 @@ public class SysMenuServiceImpl implements ISysMenuService
     /**
      * 内链域名特殊字符替换
      * 
-     * @return
+     * @return 替换后的内链域名
      */
     public String innerLinkReplaceEach(String path)
     {
-        return StringUtils.replaceEach(path, new String[] { Constants.HTTP, Constants.HTTPS, Constants.WWW, "." },
-                new String[] { "", "", "", "/" });
+        return StringUtils.replaceEach(path, new String[] { Constants.HTTP, Constants.HTTPS, Constants.WWW, ".", ":" },
+                new String[] { "", "", "", "/", "/" });
     }
 }
