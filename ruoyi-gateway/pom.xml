@@ -127,6 +127,37 @@
                     </execution>
                 </executions>
             </plugin>
+
+
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>build</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <images>
+                        <image>
+                            <alias>ruoyi-gateway</alias>
+                            <name>ruoyi-gateway</name>
+                            <build>
+                                <tags>
+                                    <tag>latest</tag>
+                                    <tag>${git.commit.id.abbrev}</tag>
+                                </tags>
+                                <contextDir>${project.parent.basedir}/docker/ruoyi/gateway</contextDir>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

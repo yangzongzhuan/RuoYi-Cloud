@@ -344,6 +344,69 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <id>build</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <images>
+                        <image>
+                            <alias>ruoyi-mysql</alias>
+                            <name>ruoyi-mysql</name>
+                            <build>
+                                <tags>
+                                    <tag>latest</tag>
+                                    <tag>${git.commit.id.abbrev}</tag>
+                                </tags>
+                                <contextDir>${project.basedir}/docker/mysql</contextDir>
+                            </build>
+                        </image>
+                        <image>
+                            <alias>ruoyi-redis</alias>
+                            <name>ruoyi-redis</name>
+                            <build>
+                                <tags>
+                                    <tag>latest</tag>
+                                    <tag>${git.commit.id.abbrev}</tag>
+                                </tags>
+                                <contextDir>${project.basedir}/docker/redis</contextDir>
+                            </build>
+                        </image>
+                        <image>
+                            <alias>ruoyi-nacos</alias>
+                            <name>ruoyi-nacos</name>
+                            <build>
+                                <tags>
+                                    <tag>latest</tag>
+                                    <tag>${git.commit.id.abbrev}</tag>
+                                </tags>
+                                <contextDir>${project.basedir}/docker/nacos</contextDir>
+                            </build>
+                        </image>
+                        <image>
+                            <alias>ruoyi-nginx</alias>
+                            <name>ruoyi-nginx</name>
+                            <build>
+                                <tags>
+                                    <tag>latest</tag>
+                                    <tag>${git.commit.id.abbrev}</tag>
+                                </tags>
+                                <contextDir>${project.basedir}/docker/nginx</contextDir>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -376,6 +439,12 @@
                     <groupId>io.github.git-commit-id</groupId>
                     <artifactId>git-commit-id-maven-plugin</artifactId>
                     <version>4.9.9</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>0.43.4</version>
                 </plugin>
             </plugins>
         </pluginManagement>
