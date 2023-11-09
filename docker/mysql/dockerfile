@@ -1,5 +1,6 @@
 # 基础镜像
-FROM mysql:5.7
+# for run on wsl2 see https://github.com/docker/for-win/issues/4824
+FROM mysql:5.7.16
 # author
 MAINTAINER ruoyi
 
