@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash
+
+export COMPOSE_PROJECT_NAME=ruoyi-cloud
 
 # 使用说明，用来提示输入参数
 usage() {
-	echo "Usage: sh 执行脚本.sh [port|base|modules|stop|rm]"
+	echo "Usage: sh 执行脚本.sh [port|base|modules|ui|service|stop|rm]"
 	exit 1
 }
 
@@ -24,6 +26,11 @@ port(){
 	service firewalld restart
 }
 
+all() {
+	base
+	modules
+}
+
 # 启动基础环境（必须）
 base(){
 	docker-compose up -d ruoyi-mysql ruoyi-redis ruoyi-nacos
@@ -31,7 +38,16 @@ base(){
 
 # 启动程序模块（必须）
 modules(){
-	docker-compose up -d ruoyi-nginx ruoyi-gateway ruoyi-auth ruoyi-modules-system
+	ui
+	service
+}
+
+ui(){
+	docker-compose up -d ruoyi-nginx
+}
+
+service(){
+	docker-compose up -d ruoyi-gateway ruoyi-auth ruoyi-modules-system
 }
 
 # 关闭所有环境/模块
@@ -55,11 +71,20 @@ case "$1" in
 "modules")
 	modules
 ;;
+"ui")
+	ui
+;;
+"service")
+	service
+;;
 "stop")
 	stop
 ;;
 "rm")
 	rm
+;;
+"all")
+	all
 ;;
 *)
 	usage
