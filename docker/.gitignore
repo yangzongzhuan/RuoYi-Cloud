@@ -1,0 +1,14 @@
+git.properties
+
+mysql/data/*
+mysql/logs/*.log
+mysql/db/*.sql
+
+nacos/logs/*.log
+
+nginx/html/*
+nginx/logs/*.log
+
+redis/data/*
+
+ruoyi/**/jar/*.jar
