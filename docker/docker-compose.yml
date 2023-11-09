@@ -71,6 +71,7 @@ services:
       context: ./ruoyi/gateway
       dockerfile: dockerfile
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - RUOYI_NACOS_SERVER=ruoyi-nacos
     ports:
       - "8080:8080"
@@ -84,6 +85,7 @@ services:
       context: ./ruoyi/auth
       dockerfile: dockerfile
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - RUOYI_NACOS_SERVER=ruoyi-nacos
     ports:
       - "9200:9200"
@@ -97,6 +99,7 @@ services:
       context: ./ruoyi/modules/system
       dockerfile: dockerfile
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - RUOYI_NACOS_SERVER=ruoyi-nacos
     ports:
       - "9201:9201"
@@ -112,6 +115,7 @@ services:
       context: ./ruoyi/modules/gen
       dockerfile: dockerfile
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - RUOYI_NACOS_SERVER=ruoyi-nacos
     ports:
       - "9202:9202"
@@ -125,6 +129,7 @@ services:
       context: ./ruoyi/modules/job
       dockerfile: dockerfile
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - RUOYI_NACOS_SERVER=ruoyi-nacos
     ports:
       - "9203:9203"
@@ -138,6 +143,7 @@ services:
       context: ./ruoyi/modules/file
       dockerfile: dockerfile
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - RUOYI_NACOS_SERVER=ruoyi-nacos
     ports:
       - "9300:9300"
@@ -149,6 +155,7 @@ services:
       context: ./ruoyi/visual/monitor
       dockerfile: dockerfile
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - RUOYI_NACOS_SERVER=ruoyi-nacos
     ports:
       - "9100:9100"
