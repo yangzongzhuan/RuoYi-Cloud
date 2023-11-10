@@ -355,7 +355,7 @@ public class AuthLogic
     public boolean hasPermi(Collection<String> authorities, String permission)
     {
         return authorities.stream().filter(StringUtils::hasText)
-                .anyMatch(x -> ALL_PERMISSION.contains(x) || PatternMatchUtils.simpleMatch(x, permission));
+                .anyMatch(x -> ALL_PERMISSION.equals(x) || PatternMatchUtils.simpleMatch(x, permission));
     }
 
     /**
@@ -368,6 +368,6 @@ public class AuthLogic
     public boolean hasRole(Collection<String> roles, String role)
     {
         return roles.stream().filter(StringUtils::hasText)
-                .anyMatch(x -> SUPER_ADMIN.contains(x) || PatternMatchUtils.simpleMatch(x, role));
+                .anyMatch(x -> SUPER_ADMIN.equals(x) || PatternMatchUtils.simpleMatch(x, role));
     }
 }
