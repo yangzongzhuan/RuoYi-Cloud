@@ -73,11 +73,11 @@ public class SysProfileController extends BaseController
         currentUser.setSex(user.getSex());
         if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(currentUser))
         {
-            return error("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
+            return error("修改用户'" + loginUser.getUsername() + "'失败，手机号码已存在");
         }
         if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(currentUser))
         {
-            return error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
+            return error("修改用户'" + loginUser.getUsername() + "'失败，邮箱账号已存在");
         }
         if (userService.updateUserProfile(currentUser) > 0)
         {
@@ -106,11 +106,12 @@ public class SysProfileController extends BaseController
         {
             return error("新密码不能与旧密码相同");
         }
-        if (userService.resetUserPwd(username, SecurityUtils.encryptPassword(newPassword)) > 0)
+        newPassword = SecurityUtils.encryptPassword(newPassword);
+        if (userService.resetUserPwd(username, newPassword) > 0)
         {
             // 更新缓存用户密码
             LoginUser loginUser = SecurityUtils.getLoginUser();
-            loginUser.getSysUser().setPassword(SecurityUtils.encryptPassword(newPassword));
+            loginUser.getSysUser().setPassword(newPassword);
             tokenService.setLoginUser(loginUser);
             return success();
         }
