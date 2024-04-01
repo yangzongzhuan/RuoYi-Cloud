@@ -9,8 +9,8 @@ usage() {
 
 # copy sql
 echo "begin copy sql "
-cp ../sql/ry_20230706.sql ./mysql/db
-cp ../sql/ry_config_20220929.sql ./mysql/db
+cp ../sql/ry_20231130.sql ./mysql/db
+cp ../sql/ry_config_20231204.sql ./mysql/db
 
 # copy html
 echo "begin copy html "

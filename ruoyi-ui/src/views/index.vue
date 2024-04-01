@@ -145,6 +145,50 @@
             <span>更新日志</span>
           </div>
           <el-collapse accordion>
+            <el-collapse-item title="v3.6.4 - 2024-04-01">
+              <ol>
+                <li>全局数据存储用户编号</li>
+                <li>用户密码新增非法字符验证</li>
+                <li>代码生成支持选择前端模板类型</li>
+                <li>操作日志列表新增IP地址查询</li>
+                <li>显隐列组件支持复选框弹出类型</li>
+                <li>Excel注解ColumnType类型新增文本</li>
+                <li>Excel自定义数据处理器增加单元格/工作簿对象</li>
+                <li>升级element-ui到最新版本2.15.14</li>
+                <li>升级compression-webpack-plugin到6.1.2以兼容node18+</li>
+                <li>升级druid到最新版本1.2.20</li>
+                <li>升级fastjson到最新版2.0.43</li>
+                <li>升级pagehelper到最新版2.0.0</li>
+                <li>升级dynamic-ds到最新版本4.2.0</li>
+                <li>升级commons.io到最新版本2.13.0</li>
+                <li>升级spring-boot到最新版本2.7.18</li>
+                <li>升级spring-boot-admin到最新版2.7.15</li>
+                <li>升级transmittable-thread-local到最新版本2.14.4</li>
+                <li>修复五级路由缓存无效问题</li>
+                <li>修复外链带端口出现的异常</li>
+                <li>修复内链iframe没有传递参数问题</li>
+                <li>修复自定义字典样式不生效的问题</li>
+                <li>修复字典缓存删除方法参数错误问题</li>
+                <li>修复Excel导入数据临时文件无法删除问题</li>
+                <li>修复未登录带参数访问成功后参数丢失问题</li>
+                <li>修复HeaderSearch组件跳转query参数丢失问题</li>
+                <li>修复数据字典列表页重置后标签值无法输入问题</li>
+                <li>修复Excels导入时无法获取到readConverterExp内容转表达式问题</li>
+                <li>优化Xss注解匹配方式</li>
+                <li>优化权限字符匹配方式</li>
+                <li>优化下载zip方法新增遮罩层</li>
+                <li>优化头像上传参数新增文件名称</li>
+                <li>优化字典标签支持自定义分隔符</li>
+                <li>优化定时任务白名单配置范围缩小</li>
+                <li>优化菜单管理类型为按钮状态可选</li>
+                <li>优化前端防重复提交数据大小限制</li>
+                <li>优化TopNav菜单没有图标svg不显示</li>
+                <li>优化富文本Editor组件检验图片格式</li>
+                <li>优化数字金额大写转换精度丢失问题</li>
+                <li>优化个人中心/基本资料修改时数据显示问题</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
             <el-collapse-item title="v3.6.3 - 2023-07-07">
               <ol>
                 <li>支持登录IP黑名单限制</li>
@@ -722,9 +766,7 @@
                 <li>网关白名单放入nacos配置&支持模糊匹配</li>
                 <li>修复富文本工具栏样式不对齐问题</li>
                 <li>Editor组件优化，支持自定义高度&图片冲突问题</li>
-                <li>
-                  修复富文本空格和缩进保存后不生效问题&删除重复的placeholder
-                </li>
+                <li>修复富文本空格和缩进保存后不生效问题&删除重复的placeholder</li>
                 <li>限制系统内置参数不允许删除</li>
                 <li>修正调用目标字符串最大长度</li>
                 <li>修改自定义权限实现</li>
@@ -778,9 +820,7 @@
                 <li>代码生成浮点型改用BigDecimal</li>
                 <li>表单类型为Integer/Long设置整形默认值</li>
                 <li>修改用户管理复选框宽度，防止部分浏览器出现省略号</li>
-                <li>
-                  RedisCache中所有方法参数添加final，并优化list取出效率，添加其它常用redis方法
-                </li>
+                <li>RedisCache中所有方法参数添加final，并优化list取出效率，添加其它常用redis方法</li>
                 <li>修正定时任务日志权限字符</li>
                 <li>添加Jackson时区配置</li>
                 <li>代码生成相关问题修复</li>
@@ -834,9 +874,7 @@
                 <li>支持一级菜单（和主页同级）在main区域显示</li>
                 <li>限制外链地址必须以http(s)😕/开头</li>
                 <li>tagview & sidebar 主题颜色与element ui(全局)同步</li>
-                <li>
-                  修复dict_sort不可update为0的问题&查询返回增加dict_sort升序排序
-                </li>
+                <li>修复dict_sort不可update为0的问题&查询返回增加dict_sort升序排序</li>
                 <li>权限部分代码调整</li>
                 <li>其他细节优化</li>
               </ol>
@@ -876,7 +914,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "3.6.3",
+      version: "3.6.4",
     };
   },
   methods: {

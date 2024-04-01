@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.ruoyi</groupId>
         <artifactId>ruoyi-common</artifactId>
-        <version>3.6.3</version>
+        <version>3.6.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
