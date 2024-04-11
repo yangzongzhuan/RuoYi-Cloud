@@ -20,6 +20,7 @@
         <spring-boot.version>2.7.18</spring-boot.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
+        <spring-framework.version>5.3.33</spring-framework.version>
         <spring-boot-admin.version>2.7.15</spring-boot-admin.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <swagger.core.version>1.6.2</swagger.core.version>
@@ -40,6 +41,15 @@
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
+
+            <!-- SpringFramework的依赖配置-->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring-framework.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
             <!-- SpringCloud 微服务 -->
             <dependency>
