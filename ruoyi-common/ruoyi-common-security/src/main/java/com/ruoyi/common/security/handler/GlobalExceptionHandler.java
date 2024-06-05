@@ -1,13 +1,6 @@
 package com.ruoyi.common.security.handler;
 
-import com.ruoyi.common.core.constant.HttpStatus;
-import com.ruoyi.common.core.exception.DemoModeException;
-import com.ruoyi.common.core.exception.InnerAuthException;
-import com.ruoyi.common.core.exception.ServiceException;
-import com.ruoyi.common.core.exception.auth.NotPermissionException;
-import com.ruoyi.common.core.exception.auth.NotRoleException;
-import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.web.domain.AjaxResult;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
@@ -17,7 +10,16 @@ import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import javax.servlet.http.HttpServletRequest;
+import com.ruoyi.common.core.constant.HttpStatus;
+import com.ruoyi.common.core.exception.DemoModeException;
+import com.ruoyi.common.core.exception.InnerAuthException;
+import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.core.exception.auth.NotPermissionException;
+import com.ruoyi.common.core.exception.auth.NotRoleException;
+import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.core.utils.html.EscapeUtil;
+import com.ruoyi.common.core.web.domain.AjaxResult;
 
 /**
  * 全局异常处理器
@@ -91,8 +93,13 @@ public class GlobalExceptionHandler
     public AjaxResult handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e, HttpServletRequest request)
     {
         String requestURI = request.getRequestURI();
+        String value = Convert.toStr(e.getValue());
+        if (StringUtils.isNotEmpty(value))
+        {
+            value = EscapeUtil.clean(value);
+        }
         log.error("请求参数类型不匹配'{}',发生系统异常.", requestURI, e);
-        return AjaxResult.error(String.format("请求参数类型不匹配，参数[%s]要求类型为：'%s'，但输入值为：'%s'", e.getName(), e.getRequiredType().getName(), e.getValue()));
+        return AjaxResult.error(String.format("请求参数类型不匹配，参数[%s]要求类型为：'%s'，但输入值为：'%s'", e.getName(), e.getRequiredType().getName(), value));
     }
 
     /**
