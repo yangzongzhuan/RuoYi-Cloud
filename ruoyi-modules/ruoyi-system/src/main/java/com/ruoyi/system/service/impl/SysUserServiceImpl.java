@@ -336,9 +336,9 @@ public class SysUserServiceImpl implements ISysUserService
      * @return 结果
      */
     @Override
-    public int updateUserProfile(SysUser user)
+    public boolean updateUserProfile(SysUser user)
     {
-        return userMapper.updateUser(user);
+        return userMapper.updateUser(user) > 0;
     }
 
     /**

@@ -150,7 +150,7 @@ public interface ISysUserService
      * @param user 用户信息
      * @return 结果
      */
-    public int updateUserProfile(SysUser user);
+    public boolean updateUserProfile(SysUser user);
 
     /**
      * 修改用户头像
