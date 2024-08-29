@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

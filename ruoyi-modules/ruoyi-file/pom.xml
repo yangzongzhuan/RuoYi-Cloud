@@ -40,11 +40,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-		
-        <!-- FastDFS -->
+        
+        <!-- SpringBoot Web -->
         <dependency>
-            <groupId>com.github.tobato</groupId>
-            <artifactId>fastdfs-client</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         
         <!-- Minio -->
@@ -58,12 +58,6 @@
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-api-system</artifactId>
-        </dependency>
-        
-        <!-- RuoYi Common Swagger -->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-swagger</artifactId>
         </dependency>
         
     </dependencies>
