@@ -6,6 +6,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import com.ruoyi.common.core.constant.UserConstants;
+import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.service.ISysMenuService;
@@ -71,9 +73,12 @@ public class SysPermissionServiceImpl implements ISysPermissionService
                 // 多角色设置permissions属性，以便数据权限匹配权限
                 for (SysRole role : roles)
                 {
-                    Set<String> rolePerms = menuService.selectMenuPermsByRoleId(role.getRoleId());
-                    role.setPermissions(rolePerms);
-                    perms.addAll(rolePerms);
+                    if (StringUtils.equals(role.getStatus(), UserConstants.ROLE_NORMAL))
+                    {
+                        Set<String> rolePerms = menuService.selectMenuPermsByRoleId(role.getRoleId());
+                        role.setPermissions(rolePerms);
+                        perms.addAll(rolePerms);
+                    }
                 }
             }
             else
