@@ -3,6 +3,7 @@ services:
   ruoyi-nacos:
     container_name: ruoyi-nacos
     image: nacos/nacos-server
+    platform: linux/amd64
     build:
       context: ./nacos
     environment:
@@ -19,6 +20,7 @@ services:
   ruoyi-mysql:
     container_name: ruoyi-mysql
     image: mysql:5.7
+    platform: linux/amd64
     build:
       context: ./mysql
     ports:
@@ -41,6 +43,7 @@ services:
   ruoyi-redis:
     container_name: ruoyi-redis
     image: redis
+    platform: linux/amd64
     build:
       context: ./redis
     ports:
@@ -52,10 +55,11 @@ services:
   ruoyi-nginx:
     container_name: ruoyi-nginx
     image: nginx
+    platform: linux/amd64
     build:
       context: ./nginx
     ports:
-      - "80:80"
+      - "8088:80"
     volumes:
       - ./nginx/html/dist:/home/ruoyi/projects/ruoyi-ui
       - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
@@ -72,6 +76,9 @@ services:
       dockerfile: dockerfile
     ports:
       - "8080:8080"
+    environment:
+      RUOYI_NACOS: ruoyi-nacos
+      LOCALHOST: ${LOCALHOST}
     depends_on:
       - ruoyi-redis
     links:
@@ -83,6 +90,9 @@ services:
       dockerfile: dockerfile
     ports:
       - "9200:9200"
+    environment:
+      RUOYI_NACOS: ruoyi-nacos
+      LOCALHOST: ${LOCALHOST}
     depends_on:
       - ruoyi-redis
     links:
@@ -94,6 +104,9 @@ services:
       dockerfile: dockerfile
     ports:
       - "9201:9201"
+    environment:
+      RUOYI_NACOS: ruoyi-nacos
+      LOCALHOST: ${LOCALHOST}
     depends_on:
       - ruoyi-redis
       - ruoyi-mysql
@@ -107,6 +120,8 @@ services:
       dockerfile: dockerfile
     ports:
       - "9202:9202"
+    environment:
+      RUOYI_NACOS: ruoyi-nacos
     depends_on:
       - ruoyi-mysql
     links:
@@ -118,6 +133,8 @@ services:
       dockerfile: dockerfile
     ports:
       - "9203:9203"
+    environment:
+      RUOYI_NACOS: ruoyi-nacos
     depends_on:
       - ruoyi-mysql
     links:
@@ -129,6 +146,8 @@ services:
       dockerfile: dockerfile
     ports:
       - "9300:9300"
+    environment:
+      RUOYI_NACOS: ruoyi-nacos
     volumes:
     - ./ruoyi/uploadPath:/home/ruoyi/uploadPath
   ruoyi-visual-monitor:
@@ -138,3 +157,5 @@ services:
       dockerfile: dockerfile
     ports:
       - "9100:9100"
+    environment:
+      RUOYI_NACOS: ruoyi-nacos
