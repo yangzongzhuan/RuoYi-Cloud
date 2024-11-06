@@ -130,7 +130,7 @@ export default {
       }
 
       if (!isImg) {
-        this.$modal.msgError(`文件格式不正确, 请上传${this.fileType.join("/")}图片格式文件!`);
+        this.$modal.msgError(`文件格式不正确，请上传${this.fileType.join("/")}图片格式文件!`);
         return false;
       }
       if (file.name.includes(',')) {
