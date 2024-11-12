@@ -18,30 +18,34 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <spring-boot.version>2.7.18</spring-boot.version>
-        <spring-cloud.version>2021.0.8</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
-        <spring-framework.version>5.3.33</spring-framework.version>
-        <spring-boot-admin.version>2.7.15</spring-boot-admin.version>
+        <spring-cloud.version>2021.0.9</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.6.1</spring-cloud-alibaba.version>
+        <spring-boot-admin.version>2.7.16</spring-boot-admin.version>
         <tobato.version>1.27.2</tobato.version>
         <kaptcha.version>2.3.3</kaptcha.version>
         <pagehelper.boot.version>2.0.0</pagehelper.boot.version>
         <druid.version>1.2.23</druid.version>
-        <dynamic-ds.version>4.2.0</dynamic-ds.version>
+        <dynamic-ds.version>4.3.1</dynamic-ds.version>
         <commons.io.version>2.13.0</commons.io.version>
         <velocity.version>2.3</velocity.version>
-        <fastjson.version>2.0.43</fastjson.version>
+        <fastjson.version>2.0.53</fastjson.version>
         <jjwt.version>0.9.1</jjwt.version>
         <minio.version>8.2.2</minio.version>
         <poi.version>4.1.2</poi.version>
         <springdoc.version>1.6.9</springdoc.version>
         <transmittable-thread-local.version>2.14.4</transmittable-thread-local.version>
+
+        <!-- override dependency version -->
+        <tomcat.version>9.0.96</tomcat.version>
+        <logback.version>1.2.13</logback.version>
+        <spring-framework.version>5.3.39</spring-framework.version>
     </properties>
 
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
 
-            <!-- SpringFramework的依赖配置-->
+            <!-- 覆盖SpringFramework的依赖配置-->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-framework-bom</artifactId>
@@ -75,6 +79,38 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- 覆盖logback的依赖配置-->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
+            <!-- 覆盖tomcat的依赖配置-->
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>${tomcat.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-el</artifactId>
+                <version>${tomcat.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-websocket</artifactId>
+                <version>${tomcat.version}</version>
             </dependency>
 
             <!-- FastDFS 分布式文件系统 -->
