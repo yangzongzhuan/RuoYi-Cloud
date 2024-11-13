@@ -6,14 +6,14 @@
 
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi</artifactId>
-    <version>3.6.4</version>
+    <version>3.6.5</version>
 
     <name>ruoyi</name>
     <url>http://www.ruoyi.vip</url>
     <description>若依微服务系统</description>
 
     <properties>
-        <ruoyi.version>3.6.4</ruoyi.version>
+        <ruoyi.version>3.6.5</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
@@ -28,7 +28,7 @@
         <dynamic-ds.version>4.3.1</dynamic-ds.version>
         <commons.io.version>2.13.0</commons.io.version>
         <velocity.version>2.3</velocity.version>
-        <fastjson.version>2.0.43</fastjson.version>
+        <fastjson.version>2.0.53</fastjson.version>
         <jjwt.version>0.9.1</jjwt.version>
         <minio.version>8.2.2</minio.version>
         <poi.version>4.1.2</poi.version>
