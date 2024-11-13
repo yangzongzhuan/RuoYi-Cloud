@@ -145,6 +145,38 @@
             <span>更新日志</span>
           </div>
           <el-collapse accordion>
+            <el-collapse-item title="v3.6.5 - 2024-11-13">
+              <ol>
+                <li>使用SpringDoc代替Swagger</li>
+                <li>菜单管理新增路由名称</li>
+                <li>新增数据脱敏过滤注解</li>
+                <li>限制用户操作数据权限范围</li>
+                <li>支持自定义显示Excel属性列</li>
+                <li>操作日志记录DELETE请求参数</li>
+                <li>用户登录后记录最后登录IP&时间</li>
+                <li>升级druid到最新版本1.2.23</li>
+                <li>升级fastjson到最新版2.0.53</li>
+                <li>升级dynamic-ds到最新版本4.3.1</li>
+                <li>升级spring-cloud到最新版2021.0.9</li>
+                <li>升级spring-boot-admin到最新版2.7.16</li>
+                <li>升级spring-cloud-alibaba到最新版2021.0.6.1</li>
+                <li>升级quill到最新版本2.0.2</li>
+                <li>升级axios到最新版本0.28.1</li>
+                <li>升级core-js到最新版本3.37.1</li>
+                <li>升级其他依赖到安全版本，防止漏洞风险</li>
+                <li>修复角色禁用权限不失效问题</li>
+                <li>优化身份证脱敏正则</li>
+                <li>优化权限更新后同步缓存</li>
+                <li>优化查询时间范围日期格式</li>
+                <li>优化代码生成上级菜单字段类型</li>
+                <li>优化无用户编号不校验数据权限</li>
+                <li>优化代码生成主子表关联查询方式</li>
+                <li>优化校检文件名是否包含特殊字符</li>
+                <li>优化查表特殊字符使用反斜杠进行转义</li>
+                <li>优化多个自定数据权限使用in查询,避免多次拼接</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
             <el-collapse-item title="v3.6.4 - 2024-04-01">
               <ol>
                 <li>全局数据存储用户编号</li>
@@ -914,7 +946,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "3.6.4",
+      version: "3.6.5",
     };
   },
   methods: {
