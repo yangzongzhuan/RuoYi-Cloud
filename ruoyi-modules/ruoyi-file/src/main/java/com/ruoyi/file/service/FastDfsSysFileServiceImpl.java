@@ -37,10 +37,20 @@ public class FastDfsSysFileServiceImpl implements ISysFileService
     @Override
     public String uploadFile(MultipartFile file) throws Exception
     {
-        InputStream inputStream = file.getInputStream();
-        StorePath storePath = storageClient.uploadFile(inputStream, file.getSize(),
-                FileTypeUtils.getExtension(file), null);
-        IoUtils.closeQuietly(inputStream);
-        return domain + "/" + storePath.getFullPath();
+        InputStream inputStream = null;
+        try
+        {
+            inputStream = file.getInputStream();
+            StorePath storePath = storageClient.uploadFile(inputStream, file.getSize(), FileTypeUtils.getExtension(file), null);
+            return domain + "/" + storePath.getFullPath();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException("FastDfs Failed to upload file", e);
+        }
+        finally
+        {
+            IoUtils.closeQuietly(inputStream);
+        }
     }
 }
