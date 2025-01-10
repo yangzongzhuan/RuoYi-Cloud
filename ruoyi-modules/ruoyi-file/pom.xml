@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ruoyi-modules-file</artifactId>
+    <artifactId>ruoyi-file</artifactId>
 
     <description>
         ruoyi-modules-file文件服务

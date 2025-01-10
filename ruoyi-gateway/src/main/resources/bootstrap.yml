@@ -12,28 +12,37 @@ spring:
     active: dev
   cloud:
     nacos:
+      # nacos 服务地址
+      server-addr: 192.168.9.100:18848
+      username: nacos
+      password: nacos
       discovery:
-        # 服务注册地址
-        server-addr: 127.0.0.1:8848
+        # 注册组
+        group: DEFAULT_GROUP
+        namespace: c82af8cd-6b27-42f3-988b-f9dc9f42a6f1
       config:
-        # 配置中心地址
-        server-addr: 127.0.0.1:8848
+        # 注册组
+        group: DEFAULT_GROUP
+        namespace: c82af8cd-6b27-42f3-988b-f9dc9f42a6f1
         # 配置文件格式
         file-extension: yml
         # 共享配置
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+  config:
+    import:
+      - optional:nacos:${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
     sentinel:
       # 取消控制台懒加载
       eager: true
       transport:
         # 控制台地址
-        dashboard: 127.0.0.1:8718
+        dashboard: http://192.168.9.100:18718
       # nacos配置持久化
       datasource:
         ds1:
           nacos:
-            server-addr: 127.0.0.1:8848
+            server-addr: 192.168.9.100:18848
             dataId: sentinel-ruoyi-gateway
             groupId: DEFAULT_GROUP
             data-type: json
