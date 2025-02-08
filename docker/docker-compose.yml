@@ -27,6 +27,7 @@ services:
       - ./mysql/conf:/etc/mysql/conf.d
       - ./mysql/logs:/logs
       - ./mysql/data:/var/lib/mysql
+      - ./mysql/db:/docker-entrypoint-initdb.d
     command: [
           'mysqld',
           '--innodb-buffer-pool-size=80M',
