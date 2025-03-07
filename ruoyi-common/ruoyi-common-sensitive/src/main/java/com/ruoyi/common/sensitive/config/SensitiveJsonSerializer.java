@@ -8,10 +8,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
-import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.common.core.constant.UserConstants;
+import com.ruoyi.common.core.context.SecurityContextHolder;
 import com.ruoyi.common.sensitive.annotation.Sensitive;
 import com.ruoyi.common.sensitive.enums.DesensitizedType;
-import com.ruoyi.system.api.model.LoginUser;
 
 /**
  * 数据脱敏序列化过滤
@@ -55,9 +55,9 @@ public class SensitiveJsonSerializer extends JsonSerializer<String> implements C
     {
         try
         {
-            LoginUser securityUser = SecurityUtils.getLoginUser();
+            Long userId = SecurityContextHolder.getUserId();
             // 管理员不脱敏
-            return !securityUser.getSysUser().isAdmin();
+            return !UserConstants.isAdmin(userId);
         }
         catch (Exception e)
         {
