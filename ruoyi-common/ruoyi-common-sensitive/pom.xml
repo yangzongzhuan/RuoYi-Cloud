@@ -17,10 +17,10 @@
 
     <dependencies>
 
-        <!-- RuoYi Common Security -->
+        <!-- RuoYi Common Core -->
         <dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-security</artifactId>
+            <artifactId>ruoyi-common-core</artifactId>
         </dependency>
 
     </dependencies>
