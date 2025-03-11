@@ -56,16 +56,8 @@ public class PreAuthorizeAspect
         // 注解鉴权
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         checkMethodAnnotation(signature.getMethod());
-        try
-        {
-            // 执行原有逻辑
-            Object obj = joinPoint.proceed();
-            return obj;
-        }
-        catch (Throwable e)
-        {
-            throw e;
-        }
+        // 执行原有逻辑
+        return joinPoint.proceed();
     }
 
     /**
