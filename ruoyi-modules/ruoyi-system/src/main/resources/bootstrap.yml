@@ -29,6 +29,9 @@ spring:
         # 共享配置
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+    sentinel:
+      transport:
+        dashboard: http://192.168.9.100:8858
   config:
     import:
       - optional:nacos:${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
