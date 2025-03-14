@@ -167,6 +167,9 @@ export function handleTree(data, id, parentId, children) {
   for (let d of data) {
     let id = d[config.id];
     childrenListMap[id] = d;
+    if (!d[config.childrenList]) {
+      d[config.childrenList] = [];
+    }
   }
 
   for (let d of data) {
