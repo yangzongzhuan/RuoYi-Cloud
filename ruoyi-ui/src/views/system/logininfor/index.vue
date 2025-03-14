@@ -153,7 +153,7 @@ export default {
       // 日期范围
       dateRange: [],
       // 默认排序
-      defaultSort: {prop: 'accessTime', order: 'descending'},
+      defaultSort: { prop: "accessTime", order: "descending" },
       // 查询参数
       queryParams: {
         pageNum: 1,
