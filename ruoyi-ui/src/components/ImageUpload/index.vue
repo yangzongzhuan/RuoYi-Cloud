@@ -6,6 +6,7 @@
       list-type="picture-card"
       :on-success="handleUploadSuccess"
       :before-upload="handleBeforeUpload"
+      :data="data"
       :limit="limit"
       :on-error="handleUploadError"
       :on-exceed="handleExceed"
@@ -48,6 +49,15 @@ import { getToken } from "@/utils/auth";
 export default {
   props: {
     value: [String, Object, Array],
+    // 上传接口地址
+    action: {
+      type: String,
+      default: "/file/upload"
+    },
+    // 上传携带的参数
+    data: {
+      type: Object
+    },
     // 图片数量限制
     limit: {
       type: Number,
@@ -76,7 +86,7 @@ export default {
       dialogImageUrl: "",
       dialogVisible: false,
       hideUpload: false,
-      uploadImgUrl: process.env.VUE_APP_BASE_API + "/file/upload", // 上传的图片服务器地址
+      uploadImgUrl: process.env.VUE_APP_BASE_API + this.action, // 上传的图片服务器地址
       headers: {
         Authorization: "Bearer " + getToken(),
       },
