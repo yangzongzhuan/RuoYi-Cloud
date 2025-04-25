@@ -972,7 +972,8 @@ public class ExcelUtil<T>
     /**
      * 添加单元格
      */
-    public Cell addCell(Excel attr, Row row, T vo, Field field, int column)
+    @SuppressWarnings("deprecation")
+	public Cell addCell(Excel attr, Row row, T vo, Field field, int column)
     {
         Cell cell = null;
         try
