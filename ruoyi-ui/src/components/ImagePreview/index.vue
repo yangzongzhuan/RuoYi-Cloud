@@ -31,30 +31,30 @@ export default {
   computed: {
     realSrc() {
       if (!this.src) {
-        return;
+        return
       }
-      let real_src = this.src.split(",")[0];
-      return real_src;
+      let real_src = this.src.split(",")[0]
+      return real_src
     },
     realSrcList() {
       if (!this.src) {
-        return;
+        return
       }
-      let real_src_list = this.src.split(",");
-      let srcList = [];
+      let real_src_list = this.src.split(",")
+      let srcList = []
       real_src_list.forEach(item => {
-        return srcList.push(item);
-      });
-      return srcList;
+        return srcList.push(item)
+      })
+      return srcList
     },
     realWidth() {
-      return typeof this.width == "string" ? this.width : `${this.width}px`;
+      return typeof this.width == "string" ? this.width : `${this.width}px`
     },
     realHeight() {
-      return typeof this.height == "string" ? this.height : `${this.height}px`;
+      return typeof this.height == "string" ? this.height : `${this.height}px`
     }
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
