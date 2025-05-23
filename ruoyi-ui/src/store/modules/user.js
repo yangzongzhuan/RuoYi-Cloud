@@ -1,3 +1,5 @@
+import router from '@/router'
+import { MessageBox, } from 'element-ui'
 import { login, logout, getInfo, refreshToken } from '@/api/login'
 import { getToken, setToken, setExpiresIn, removeToken } from '@/utils/auth'
 import { isEmpty } from "@/utils/validate"
@@ -27,7 +29,7 @@ const user = {
     SET_NAME: (state, name) => {
       state.name = name
     },
-    SET_NICK_NAME: (state, nickName) =>{
+    SET_NICK_NAME: (state, nickName) => {
       state.nickName = nickName
     },
     SET_AVATAR: (state, avatar) => {
@@ -78,6 +80,12 @@ const user = {
           commit('SET_NAME', user.userName)
           commit('SET_NICK_NAME', user.nickName)
           commit('SET_AVATAR', avatar)
+          /* 初始密码提示 */
+          if(res.isDefaultModifyPwd) {
+            MessageBox.confirm('您的密码还是初始密码，请修改密码！',  '安全提示', {  confirmButtonText: '确定',  cancelButtonText: '取消',  type: 'warning' }).then(() => {
+              router.push({ name: 'Profile', params: { activeTab: 'resetPwd' } })
+            }).catch(() => {})
+          }
           resolve(res)
         }).catch(error => {
           reject(error)
