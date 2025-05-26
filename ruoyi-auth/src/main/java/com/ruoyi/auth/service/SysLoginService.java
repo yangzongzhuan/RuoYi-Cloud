@@ -143,6 +143,7 @@ public class SysLoginService
         SysUser sysUser = new SysUser();
         sysUser.setUserName(username);
         sysUser.setNickName(username);
+        sysUser.setPwdUpdateDate(DateUtils.getNowDate());
         sysUser.setPassword(SecurityUtils.encryptPassword(password));
         R<?> registerResult = remoteUserService.registerUserInfo(sysUser, SecurityConstants.INNER);
 
