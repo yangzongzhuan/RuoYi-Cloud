@@ -114,20 +114,20 @@ public class FileUtils
     }
 
     /**
-     * 检查文件是否可下载
+     * 校验文件路径合法性（安全性与扩展名）
      * 
-     * @param resource 需要下载的文件
+     * @param fileUrl 待校验的文件地址
      * @return true 正常 false 非法
      */
-    public static boolean checkAllowDownload(String resource)
+    public static boolean validateFilePath(String fileUrl)
     {
         // 禁止目录上跳级别
-        if (StringUtils.contains(resource, ".."))
+        if (StringUtils.contains(fileUrl, ".."))
         {
             return false;
         }
         // 判断是否在允许下载的文件规则内
-        return ArrayUtils.contains(MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION, FileTypeUtils.getFileType(resource));
+        return ArrayUtils.contains(MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION, FileTypeUtils.getFileType(fileUrl));
     }
 
     /**
