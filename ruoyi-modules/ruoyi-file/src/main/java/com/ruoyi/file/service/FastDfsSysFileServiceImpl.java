@@ -1,11 +1,11 @@
 package com.ruoyi.file.service;
 
 import java.io.InputStream;
-import com.alibaba.nacos.common.utils.IoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import com.alibaba.nacos.common.utils.IoUtils;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.ruoyi.common.core.utils.file.FileTypeUtils;
@@ -51,6 +51,26 @@ public class FastDfsSysFileServiceImpl implements ISysFileService
         finally
         {
             IoUtils.closeQuietly(inputStream);
+        }
+    }
+
+    /**
+     * FastDFS文件删除接口
+     * 
+     * @param fileUrl 文件访问URL
+     * @throws Exception
+     */
+    @Override
+    public void deleteFile(String fileUrl) throws Exception
+    {
+        try
+        {
+            StorePath storePath = StorePath.parseFromUrl(fileUrl);
+            storageClient.deleteFile(storePath.getGroup(), storePath.getPath());
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException("FastDfs Failed to delete file: ", e);
         }
     }
 }
