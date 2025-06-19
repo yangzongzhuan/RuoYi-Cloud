@@ -73,6 +73,8 @@ public class ExcelUtil<T>
 {
     private static final Logger log = LoggerFactory.getLogger(ExcelUtil.class);
 
+    public static final String SEPARATOR = ",";
+
     public static final String FORMULA_REGEX_STR = "=|-|\\+|@";
 
     public static final String[] FORMULA_STR = { "=", "-", "+", "@" };
@@ -156,11 +158,6 @@ public class ExcelUtil<T>
      * 统计列表
      */
     private Map<Integer, Double> statistics = new HashMap<Integer, Double>();
-
-    /**
-     * 数字格式
-     */
-    private static final DecimalFormat DOUBLE_FORMAT = new DecimalFormat("######0.00");
 
     /**
      * 实体对象
@@ -724,6 +721,7 @@ public class ExcelUtil<T>
         style = wb.createCellStyle();
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
+        style.setDataFormat(dataFormat.getFormat("######0.00"));
         Font totalFont = wb.createFont();
         totalFont.setFontName("Arial");
         totalFont.setFontHeightInPoints((short) 10);
@@ -1130,7 +1128,7 @@ public class ExcelUtil<T>
     public static String convertByExp(String propertyValue, String converterExp, String separator)
     {
         StringBuilder propertyString = new StringBuilder();
-        String[] convertSource = converterExp.split(",");
+        String[] convertSource = converterExp.split(SEPARATOR);
         for (String item : convertSource)
         {
             String[] itemArray = item.split("=");
@@ -1167,7 +1165,7 @@ public class ExcelUtil<T>
     public static String reverseByExp(String propertyValue, String converterExp, String separator)
     {
         StringBuilder propertyString = new StringBuilder();
-        String[] convertSource = converterExp.split(",");
+        String[] convertSource = converterExp.split(SEPARATOR);
         for (String item : convertSource)
         {
             String[] itemArray = item.split("=");
@@ -1255,7 +1253,7 @@ public class ExcelUtil<T>
             {
                 cell = row.createCell(key);
                 cell.setCellStyle(styles.get("total"));
-                cell.setCellValue(DOUBLE_FORMAT.format(statistics.get(key)));
+                cell.setCellValue(statistics.get(key));
             }
             statistics.clear();
         }
