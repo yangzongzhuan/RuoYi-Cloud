@@ -355,6 +355,17 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
+     * 更新用户登录信息（IP和登录时间）
+     * 
+     * @param user 用户信息
+     * @return 结果
+     */
+    public boolean updateLoginInfo(SysUser user)
+    {
+        return userMapper.updateLoginInfo(user) > 0;
+    }
+
+    /**
      * 重置用户密码
      * 
      * @param user 用户信息

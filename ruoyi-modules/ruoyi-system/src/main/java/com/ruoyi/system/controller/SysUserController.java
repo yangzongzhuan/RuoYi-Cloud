@@ -163,7 +163,7 @@ public class SysUserController extends BaseController
     @PutMapping("/recordlogin")
     public R<Boolean> recordlogin(@RequestBody SysUser sysUser)
     {
-        return R.ok(userService.updateUserProfile(sysUser));
+        return R.ok(userService.updateLoginInfo(sysUser));
     }
 
     /**

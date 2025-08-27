@@ -77,6 +77,14 @@ public interface SysUserMapper
     public int updateUserAvatar(@Param("userId") Long userId, @Param("avatar") String avatar);
 
     /**
+     * 更新用户登录信息（IP和登录时间）
+     * 
+     * @param user 用户信息
+     * @return 结果
+     */
+    public int updateLoginInfo(SysUser user);
+
+    /**
      * 重置用户密码
      * 
      * @param userId 用户ID
