@@ -245,7 +245,6 @@ public class ExcelUtil<T>
         {
             Row subRow = sheet.createRow(rownum);
             int column = 0;
-            int subFieldSize = subFields != null ? subFields.size() : 0;
             for (Object[] objects : fields)
             {
                 Field field = (Field) objects[0];
