@@ -147,12 +147,12 @@ public class ExcelUtil<T>
     /**
      * 对象的子列表方法
      */
-    private Map<String, Method> subMethods = new HashMap<>();
+    private Map<String, Method> subMethods;
 
     /**
      * 对象的子列表属性
      */
-    private Map<String, List<Field>> subFieldsMap = new HashMap<>();
+    private Map<String, List<Field>> subFieldsMap;
 
     /**
      * 统计列表
@@ -225,7 +225,10 @@ public class ExcelUtil<T>
             int titleLastCol = this.fields.size() - 1;
             if (isSubList())
             {
-                titleLastCol = titleLastCol + subFieldsMap.values().size() - 1;
+                for (List<Field> currentSubFields : subFieldsMap.values())
+                {
+                    titleLastCol = titleLastCol + currentSubFields.size() - 1;
+                }
             }
             Row titleRow = sheet.createRow(rownum == 0 ? rownum++ : 0);
             titleRow.setHeightInPoints(30);
@@ -610,10 +613,10 @@ public class ExcelUtil<T>
                     try
                     {
                         Collection<?> subList = (Collection<?>) getTargetValue(vo, field, excel);
+                        List<Field> currentSubFields = subFieldsMap.get(field.getName());
                         if (subList != null && !subList.isEmpty())
                         {
                             int subIndex = 0;
-                            List<Field> currentSubFields = subFieldsMap.get(field.getName());
                             for (Object subVo : subList)
                             {
                                 Row subRow = sheet.getRow(currentRowNum + subIndex);
@@ -630,8 +633,8 @@ public class ExcelUtil<T>
                                 }
                                 subIndex++;
                             }
-                            column += currentSubFields.size();
                         }
+                        column += currentSubFields.size();
                     }
                     catch (Exception e)
                     {
@@ -1348,6 +1351,8 @@ public class ExcelUtil<T>
     {
         List<Object[]> fields = new ArrayList<Object[]>();
         List<Field> tempFields = new ArrayList<>();
+        subFieldsMap = new HashMap<>();
+        subMethods = new HashMap<>();
         tempFields.addAll(Arrays.asList(clazz.getSuperclass().getDeclaredFields()));
         tempFields.addAll(Arrays.asList(clazz.getDeclaredFields()));
         if (StringUtils.isNotEmpty(includeFields))
