@@ -88,6 +88,16 @@ public class Constants
     public static final String LOGIN_FAIL = "Error";
 
     /**
+     * 所有权限标识
+     */
+    public static final String ALL_PERMISSION = "*:*:*";
+
+    /**
+     * 管理员角色权限标识
+     */
+    public static final String SUPER_ADMIN = "admin";
+
+    /**
      * 当前记录起始索引
      */
     public static final String PAGE_NUM = "pageNum";
