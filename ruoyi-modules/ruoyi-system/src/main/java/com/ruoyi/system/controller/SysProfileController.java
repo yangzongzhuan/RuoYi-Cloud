@@ -101,7 +101,8 @@ public class SysProfileController extends BaseController
         String newPassword = params.get("newPassword");
         LoginUser loginUser = SecurityUtils.getLoginUser();
         Long userId = loginUser.getUserid();
-        String password = loginUser.getSysUser().getPassword();
+        SysUser user = userService.selectUserById(userId);
+        String password = user.getPassword();
         if (!SecurityUtils.matchesPassword(oldPassword, password))
         {
             return error("修改密码失败，旧密码错误");
