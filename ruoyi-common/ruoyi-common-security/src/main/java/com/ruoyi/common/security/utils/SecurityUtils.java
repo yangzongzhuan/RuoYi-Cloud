@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.constant.TokenConstants;
+import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.context.SecurityContextHolder;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -82,12 +83,22 @@ public class SecurityUtils
     /**
      * 是否为管理员
      * 
+     * @return 结果
+     */
+    public static boolean isAdmin()
+    {
+        return isAdmin(getUserId());
+    }
+
+    /**
+     * 是否为管理员
+     * 
      * @param userId 用户ID
      * @return 结果
      */
     public static boolean isAdmin(Long userId)
     {
-        return userId != null && 1L == userId;
+        return UserConstants.isAdmin(userId);
     }
 
     /**

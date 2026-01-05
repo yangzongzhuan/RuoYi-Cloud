@@ -115,11 +115,6 @@ public class SysUser extends BaseEntity
 
     public boolean isAdmin()
     {
-        return isAdmin(this.userId);
-    }
-
-    public static boolean isAdmin(Long userId)
-    {
         return UserConstants.isAdmin(userId);
     }
 
