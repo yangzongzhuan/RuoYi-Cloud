@@ -18,7 +18,7 @@
 * 注册中心、配置中心选型Nacos，权限认证使用Redis。
 * 流量控制框架选型Sentinel，分布式事务选型Seata。
 * 提供了技术栈（Vue3 Element Plus Vite）的 [RuoYi-Cloud-Vue3](https://gitcode.com/yangzongzhuan/RuoYi-Cloud-Vue3)版本，以及技术栈（TypeScript）的 [RuoYi-Cloud-Vue3-TypeScript](https://gitcode.com/yangzongzhuan/RuoYi-Cloud-Vue3/tree/typescript)版本，两者保持同步更新。
-* 提供了适配 Spring Boot 3 的版本分支 [RuoYi-Cloud-Vue (springboot3)](https://gitee.com/y_project/RuoYi-Cloud/tree/springboot3)，与 Oracle数据库版本 [RuoYi-Cloud-Oracle](https://gitcode.com/yangzongzhuan/RuoYi-Cloud-Oracle)，均保持同步更新。
+* 提供了适配 Spring Boot 3 的版本分支 [RuoYi-Cloud (springboot3)](https://gitee.com/y_project/RuoYi-Cloud/tree/springboot3)，与 Oracle数据库版本 [RuoYi-Cloud-Oracle](https://gitcode.com/yangzongzhuan/RuoYi-Cloud-Oracle)，均保持同步更新。
 * 阿里云优惠券：[点我进入](http://aly.ruoyi.vip)，腾讯云优惠券：[点我进入](http://txy.ruoyi.vip)&nbsp;&nbsp;
 
 ## 系统模块
