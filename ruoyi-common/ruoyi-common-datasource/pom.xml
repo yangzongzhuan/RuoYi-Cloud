@@ -17,19 +17,137 @@
 
     <dependencies>
 
-        <!-- Druid -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid.version}</version>
-        </dependency>
-
         <!-- Dynamic DataSource -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
             <version>${dynamic-ds.version}</version>
+            <exclusions>
+                 <exclusion>
+                   <artifactId>slf4j-api</artifactId>
+                   <groupId>org.slf4j</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-boot-autoconfigure</artifactId>
+                   <groupId>org.springframework.boot</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-core</artifactId>
+                   <groupId>org.springframework</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-boot</artifactId>
+                   <groupId>org.springframework.boot</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>aspectjweaver</artifactId>
+                   <groupId>org.aspectj</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-boot-starter</artifactId>
+                   <groupId>org.springframework.boot</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>jakarta.annotation-api</artifactId>
+                   <groupId>jakarta.annotation</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-jdbc</artifactId>
+                   <groupId>org.springframework</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-tx</artifactId>
+                   <groupId>org.springframework</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>snakeyaml</artifactId>
+                   <groupId>org.yaml</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-boot-starter-aop</artifactId>
+                   <groupId>org.springframework.boot</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>logback-core</artifactId>
+                   <groupId>ch.qos.logback</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-boot-starter-logging</artifactId>
+                   <groupId>org.springframework.boot</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-beans</artifactId>
+                   <groupId>org.springframework</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>log4j-api</artifactId>
+                   <groupId>org.apache.logging.log4j</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>logback-classic</artifactId>
+                   <groupId>ch.qos.logback</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-aop</artifactId>
+                   <groupId>org.springframework</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-boot-starter-jdbc</artifactId>
+                   <groupId>org.springframework.boot</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>log4j-to-slf4j</artifactId>
+                   <groupId>org.apache.logging.log4j</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>HikariCP</artifactId>
+                   <groupId>com.zaxxer</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>jul-to-slf4j</artifactId>
+                   <groupId>org.slf4j</groupId>
+                 </exclusion>
+            </exclusions>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+            <version>3.1.5</version>
+            <scope>provided</scope>
+            <exclusions>
+                 <exclusion>
+                   <artifactId>spring-cloud-starter</artifactId>
+                   <groupId>org.springframework.cloud</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>bcpkix-jdk15on</artifactId>
+                   <groupId>org.bouncycastle</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>bcprov-jdk15on</artifactId>
+                   <groupId>org.bouncycastle</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-cloud-context</artifactId>
+                   <groupId>org.springframework.cloud</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-security-rsa</artifactId>
+                   <groupId>org.springframework.security</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-cloud-commons</artifactId>
+                   <groupId>org.springframework.cloud</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>spring-security-crypto</artifactId>
+                   <groupId>org.springframework.security</groupId>
+                 </exclusion>
+                 <exclusion>
+                   <artifactId>bcutil-jdk15on</artifactId>
+                   <groupId>org.bouncycastle</groupId>
+                 </exclusion>
+             </exclusions>
+        </dependency>
     </dependencies>
 </project>
