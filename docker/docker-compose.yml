@@ -18,7 +18,6 @@ services:
       - ruoyi-mysql
   ruoyi-mysql:
     container_name: ruoyi-mysql
-    image: mysql:5.7
     build:
       context: ./mysql
     ports:
