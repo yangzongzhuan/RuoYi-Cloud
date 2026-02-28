@@ -20,7 +20,7 @@ public class BaseEntity implements Serializable
 
     /** 搜索值 */
     @JsonIgnore
-    private String searchValue;
+    private transient String searchValue;
 
     /** 创建者 */
     private String createBy;
