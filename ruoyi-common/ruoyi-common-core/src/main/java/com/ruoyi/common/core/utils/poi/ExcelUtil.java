@@ -1253,7 +1253,7 @@ public class ExcelUtil<T>
     {
         try
         {
-            Object instance = excel.handler().newInstance();
+            Object instance = excel.handler().getDeclaredConstructor().newInstance();
             Method formatMethod = excel.handler().getMethod("format", new Class[] { Object.class, String[].class, Cell.class, Workbook.class });
             value = formatMethod.invoke(instance, value, excel.args(), cell, this.wb);
         }
