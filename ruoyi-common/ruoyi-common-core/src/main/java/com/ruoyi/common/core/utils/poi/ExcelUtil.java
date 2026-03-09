@@ -80,6 +80,11 @@ public class ExcelUtil<T>
     public static final String[] FORMULA_STR = { "=", "-", "+", "@" };
 
     /**
+     * 单元格样式缓存
+     */
+    private Map<String, CellStyle> cellStyleCache = new HashMap<String, CellStyle>();
+
+    /**
      * Excel sheet最大行数，默认65536
      */
     public static final int sheetSize = 65536;
@@ -1042,9 +1047,16 @@ public class ExcelUtil<T>
      */
     private CellStyle createCellStyle(CellStyle cellStyle, String format)
     {
+        String key = cellStyle.getIndex() + "|" + format;
+        CellStyle cached = cellStyleCache.get(key);
+        if (cached != null)
+        {
+            return cached;
+        }
         CellStyle style = wb.createCellStyle();
         style.cloneStyleFrom(cellStyle);
         style.setDataFormat(wb.getCreationHelper().createDataFormat().getFormat(format));
+        cellStyleCache.put(key, style);
         return style;
     }
 
