@@ -53,7 +53,7 @@ public class SecurityContextHolder
 
     public static Long getUserId()
     {
-        return Convert.toLong(get(SecurityConstants.DETAILS_USER_ID), 0L);
+        return Convert.toLong(get(SecurityConstants.DETAILS_USER_ID), null);
     }
 
     public static void setUserId(String account)
