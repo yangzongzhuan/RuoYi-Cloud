@@ -1,11 +1,10 @@
 package com.ruoyi.common.redis.configure;
 
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -15,14 +14,15 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * 
  * @author ruoyi
  */
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableCaching
-@AutoConfigureBefore(RedisAutoConfiguration.class)
 public class RedisConfig extends CachingConfigurerSupport
 {
-    @Bean
+    @Bean(name = "ruoyiRedisTemplate")
+    @Primary
     @SuppressWarnings(value = { "unchecked", "rawtypes" })
-    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory connectionFactory)
+    public RedisTemplate<Object, Object> ruoyiRedisTemplate(RedisConnectionFactory connectionFactory)
     {
         RedisTemplate<Object, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);

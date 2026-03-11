@@ -2,8 +2,8 @@ package com.ruoyi.gateway.config;
 
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.springdoc.core.AbstractSwaggerUiConfigProperties;
-import org.springdoc.core.SwaggerUiConfigProperties;
+import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties;
+import org.springdoc.core.properties.SwaggerUiConfigProperties;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

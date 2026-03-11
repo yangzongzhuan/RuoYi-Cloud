@@ -18,11 +18,6 @@ spring:
       config:
         # 配置中心地址
         server-addr: 127.0.0.1:8848
-        # 配置文件格式
-        file-extension: yml
-        # 共享配置
-        shared-configs:
-          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
     sentinel:
       # 取消控制台懒加载
       eager: true
@@ -38,3 +33,9 @@ spring:
             groupId: DEFAULT_GROUP
             data-type: json
             rule-type: gw-flow
+  config:
+    # 配置文件格式
+    file-extension: yml
+    import:
+      - nacos:application-${spring.profiles.active}.${spring.config.file-extension}
+      - nacos:${spring.application.name}-${spring.profiles.active}.${spring.config.file-extension}

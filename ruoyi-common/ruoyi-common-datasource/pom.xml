@@ -20,15 +20,21 @@
         <!-- Druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
+            <artifactId>druid-spring-boot-4-starter</artifactId>
             <version>${druid.version}</version>
         </dependency>
 
         <!-- Dynamic DataSource -->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <artifactId>dynamic-datasource-spring-boot4-starter</artifactId>
             <version>${dynamic-ds.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>mybatis-spring</artifactId>
+                    <groupId>org.mybatis</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>

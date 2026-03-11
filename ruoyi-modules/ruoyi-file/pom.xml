@@ -44,13 +44,7 @@
         <!-- SpringBoot Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-		
-        <!-- FastDFS -->
-        <dependency>
-            <groupId>com.github.tobato</groupId>
-            <artifactId>fastdfs-client</artifactId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
         
         <!-- Minio -->

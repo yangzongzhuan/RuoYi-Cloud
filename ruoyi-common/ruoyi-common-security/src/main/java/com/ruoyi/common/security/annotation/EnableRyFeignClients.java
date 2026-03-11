@@ -1,6 +1,7 @@
 package com.ruoyi.common.security.annotation;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.core.annotation.AliasFor;
 import java.lang.annotation.*;
 
 /**
@@ -17,6 +18,7 @@ public @interface EnableRyFeignClients
 {
     String[] value() default {};
 
+    @AliasFor(annotation = EnableFeignClients.class, attribute = "basePackages")
     String[] basePackages() default { "com.ruoyi" };
 
     Class<?>[] basePackageClasses() default {};

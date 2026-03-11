@@ -1,7 +1,8 @@
 package com.ruoyi.common.security.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import java.util.TimeZone;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 
 /**
@@ -15,8 +16,11 @@ public class ApplicationConfig
      * 时区配置
      */
     @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jacksonObjectMapperCustomization()
+    public ObjectMapper objectMapper()
     {
-        return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder.timeZone(TimeZone.getDefault());
+        ObjectMapper objectMapper = JsonMapper.builder().build();
+        objectMapper.findAndRegisterModules();
+        objectMapper.setTimeZone(TimeZone.getDefault());
+        return objectMapper;
     }
 }

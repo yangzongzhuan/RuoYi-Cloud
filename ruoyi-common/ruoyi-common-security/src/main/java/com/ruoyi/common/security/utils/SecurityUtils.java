@@ -1,6 +1,5 @@
 package com.ruoyi.common.security.utils;
 
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.constant.TokenConstants;
@@ -9,6 +8,7 @@ import com.ruoyi.common.core.context.SecurityContextHolder;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.system.api.model.LoginUser;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 权限获取工具类

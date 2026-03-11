@@ -16,42 +16,29 @@
         <ruoyi.version>3.6.7</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-        <spring-boot.version>2.7.18</spring-boot.version>
-        <spring-cloud.version>2021.0.9</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.0.6.1</spring-cloud-alibaba.version>
-        <spring-boot-admin.version>2.7.16</spring-boot-admin.version>
-        <tobato.version>1.27.2</tobato.version>
+        <java.version>17</java.version>
+        <spring-boot.version>4.0.3</spring-boot.version>
+        <spring-cloud.version>2025.1.0</spring-cloud.version>
+        <spring-cloud-alibaba.version>2025.1.0.0</spring-cloud-alibaba.version>
+        <spring-boot-admin.version>4.0.2</spring-boot-admin.version>
+        <mybatis-spring-boot.version>4.0.1</mybatis-spring-boot.version>
         <kaptcha.version>2.3.3</kaptcha.version>
-        <pagehelper.boot.version>2.0.0</pagehelper.boot.version>
-        <druid.version>1.2.27</druid.version>
-        <dynamic-ds.version>4.3.1</dynamic-ds.version>
+        <pagehelper.boot.version>2.1.0</pagehelper.boot.version>
+        <druid.version>1.2.28</druid.version>
+        <dynamic-ds.version>4.5.0</dynamic-ds.version>
         <commons.io.version>2.21.0</commons.io.version>
         <velocity.version>2.3</velocity.version>
         <fastjson.version>2.0.61</fastjson.version>
         <jjwt.version>0.9.1</jjwt.version>
         <minio.version>8.2.2</minio.version>
         <poi.version>4.1.2</poi.version>
-        <springdoc.version>1.6.9</springdoc.version>
-        <transmittable-thread-local.version>2.14.4</transmittable-thread-local.version>
-        <!-- override dependency version -->
-        <tomcat.version>9.0.112</tomcat.version>
-        <logback.version>1.2.13</logback.version>
-        <spring-framework.version>5.3.39</spring-framework.version>
+        <springdoc.version>3.0.2</springdoc.version>
+        <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
     </properties>
 
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
-
-            <!-- 覆盖SpringFramework的依赖配置-->
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-framework-bom</artifactId>
-                <version>${spring-framework.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
 
             <!-- SpringCloud 微服务 -->
             <dependency>
@@ -80,49 +67,10 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- 覆盖logback的依赖配置-->
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback.version}</version>
-            </dependency>
-
-            <!-- 覆盖tomcat的依赖配置-->
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-core</artifactId>
-                <version>${tomcat.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-el</artifactId>
-                <version>${tomcat.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-websocket</artifactId>
-                <version>${tomcat.version}</version>
-            </dependency>
-
-            <!-- FastDFS 分布式文件系统 -->
-            <dependency>
-                <groupId>com.github.tobato</groupId>
-                <artifactId>fastdfs-client</artifactId>
-                <version>${tobato.version}</version>
-            </dependency>
-
             <!-- Springdoc webmvc 依赖配置 -->
             <dependency>
                 <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-ui</artifactId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                 <version>${springdoc.version}</version>
             </dependency>
 
@@ -138,6 +86,18 @@
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper.boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>mybatis-spring</artifactId>
+                        <groupId>org.mybatis</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot.version}</version>
             </dependency>
 
             <!-- io常用工具类 -->
@@ -278,7 +238,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
                 <configuration>
+                    <parameters>true</parameters>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
