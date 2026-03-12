@@ -70,8 +70,9 @@ public interface IGenTableService
      * 导入表结构
      * 
      * @param tableList 导入表列表
+     * @param tplWebType 前端类型
      */
-    public void importGenTable(List<GenTable> tableList);
+    public void importGenTable(List<GenTable> tableList, String tplWebType);
 
     /**
      * 预览代码
