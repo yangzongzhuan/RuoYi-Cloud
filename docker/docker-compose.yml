@@ -2,11 +2,14 @@ version : '3.8'
 services:
   ruoyi-nacos:
     container_name: ruoyi-nacos
-    image: nacos/nacos-server
+    image: nacos/nacos-server:v3.0.2
     build:
       context: ./nacos
     environment:
       - MODE=standalone
+      - NACOS_AUTH_TOKEN=your_auth_token
+      - NACOS_AUTH_IDENTITY_KEY=your_identity_key
+      - NACOS_AUTH_IDENTITY_VALUE=your_identity_value
     volumes:
       - ./nacos/logs/:/home/nacos/logs
       - ./nacos/conf/application.properties:/home/nacos/conf/application.properties
