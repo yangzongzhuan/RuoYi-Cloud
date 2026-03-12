@@ -157,7 +157,7 @@ public class GenTableServiceImpl implements IGenTableService
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void importGenTable(List<GenTable> tableList)
+    public void importGenTable(List<GenTable> tableList, String tplWebType)
     {
         String operName = SecurityUtils.getUsername();
         try
@@ -165,6 +165,7 @@ public class GenTableServiceImpl implements IGenTableService
             for (GenTable table : tableList)
             {
                 String tableName = table.getTableName();
+                table.setTplWebType(tplWebType);
                 GenUtils.initTable(table, operName);
                 int row = genTableMapper.insertGenTable(table);
                 if (row > 0)
