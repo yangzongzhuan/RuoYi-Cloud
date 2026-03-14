@@ -27,7 +27,7 @@ RuoYi-Cloud 后端项目提供 Spring Boot 2.x / 3.x / 4.x 多版本分支的并
 | :---------------- | :----------------------------------- | :-------------------------------------------------------- |
 | master 默认分支   | Spring Boot 4.x (JDK 17+、Nacos 3.x) | https://gitee.com/y_project/RuoYi-Cloud                   |
 | springboot3 分支  | Spring Boot 3.x (JDK 17+、Nacos 3.x) | https://gitee.com/y_project/RuoYi-Cloud/tree/springboot3  |
-| springboot2 分支  | Spring Boot 2.x (JDK 8+、 Nacos 2.x) | https://gitee.com/y_project/RuoYi-Cloud/tree/springboot2  |  
+| springboot2 分支  | Spring Boot 2.x (JDK 8+、 Nacos 2.x) | https://gitee.com/y_project/RuoYi-Cloud/tree/springboot2  |
 
 RuoYi-Cloud 前端项目提供 Vue 2.x / 3.x / JavaScript TypeScript 版本均可混用搭配
 
