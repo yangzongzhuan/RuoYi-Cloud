@@ -1,1 +1,1 @@
-���sqlĿ¼�µ����нű�������docker�Զ�ִ�С�
+存放sql目录下的所有脚本，用于docker自动执行。
