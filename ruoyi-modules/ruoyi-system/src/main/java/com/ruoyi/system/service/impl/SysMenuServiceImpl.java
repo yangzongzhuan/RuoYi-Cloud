@@ -12,8 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.UserConstants;
+import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysRole;
@@ -319,6 +322,32 @@ public class SysMenuServiceImpl implements ISysMenuService
     public int updateMenu(SysMenu menu)
     {
         return menuMapper.updateMenu(menu);
+    }
+
+    /**
+     * 保存菜单排序
+     * 
+     * @param menuIds 菜单ID
+     * @param orderNums 排序ID
+     */
+    @Override
+    @Transactional
+    public void updateMenuSort(String[] menuIds, String[] orderNums)
+    {
+        try
+        {
+            for (int i = 0; i < menuIds.length; i++)
+            {
+                SysMenu menu = new SysMenu();
+                menu.setMenuId(Convert.toLong(menuIds[i]));
+                menu.setOrderNum(Convert.toInt(orderNums[i]));
+                menuMapper.updateMenuSort(menu);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new ServiceException("保存排序异常，请联系管理员");
+        }
     }
 
     /**

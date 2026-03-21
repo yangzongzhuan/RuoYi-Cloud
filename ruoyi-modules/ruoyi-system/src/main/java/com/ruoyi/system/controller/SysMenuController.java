@@ -1,6 +1,7 @@
 package com.ruoyi.system.controller;
 
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -131,6 +132,20 @@ public class SysMenuController extends BaseController
         }
         menu.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(menuService.updateMenu(menu));
+    }
+
+    /**
+     * 保存菜单排序
+     */
+    @RequiresPermissions("system:menu:edit")
+    @Log(title = "保存菜单排序", businessType = BusinessType.UPDATE)
+    @PutMapping("/updateSort")
+    public AjaxResult updateSort(@RequestBody Map<String, String> params)
+    {
+        String[] menuIds = params.get("menuIds").split(",");
+        String[] orderNums = params.get("orderNums").split(",");
+        menuService.updateMenuSort(menuIds, orderNums);
+        return success();
     }
 
     /**
