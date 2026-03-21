@@ -113,9 +113,38 @@ public class SysLoginService
         remoteUserService.recordUserLogin(sysUser, SecurityConstants.INNER);
     }
 
+    /**
+     * 退出
+     */
     public void logout(String loginName)
     {
         recordLogService.recordLogininfor(loginName, Constants.LOGOUT, "退出成功");
+    }
+
+    /**
+     * 解锁
+     */
+    public void unlock(String password)
+    {
+        String username = SecurityUtils.getUsername();
+        // 或密码为空 错误
+        if (StringUtils.isEmpty(password))
+        {
+            throw new ServiceException("密码不能为空");
+        }
+        // 查询用户信息
+        R<LoginUser> userResult = remoteUserService.getUserInfo(username, SecurityConstants.INNER);
+
+        if (R.FAIL == userResult.getCode())
+        {
+            throw new ServiceException(userResult.getMsg());
+        }
+
+        SysUser user = userResult.getData().getSysUser();
+        if (!SecurityUtils.matchesPassword(password, user.getPassword()))
+        {
+            throw new ServiceException("密码错误，请重新输入");
+        }
     }
 
     /**
