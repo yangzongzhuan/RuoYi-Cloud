@@ -25,6 +25,15 @@ export function register(data) {
   })
 }
 
+// 解锁屏幕
+export function unlockScreen(password) {
+  return request({
+    url: '/auth/unlockscreen',
+    method: 'post',
+    data: { password }
+  })
+}
+
 // 刷新方法
 export function refreshToken() {
   return request({
