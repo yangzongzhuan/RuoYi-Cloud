@@ -1,3 +1,4 @@
+import store from '@/store'
 import router from '@/router'
 import { MessageBox, } from 'element-ui'
 import { login, logout, getInfo, refreshToken } from '@/api/login'
@@ -57,6 +58,7 @@ const user = {
           commit('SET_TOKEN', data.access_token)
           setExpiresIn(data.expires_in)
           commit('SET_EXPIRES_IN', data.expires_in)
+          store.dispatch('lock/unlockScreen')
           resolve()
         }).catch(error => {
           reject(error)

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.auth.form.LoginBody;
 import com.ruoyi.auth.form.RegisterBody;
+import com.ruoyi.auth.form.UnLockBody;
 import com.ruoyi.auth.service.SysLoginService;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.JwtUtils;
@@ -73,6 +74,16 @@ public class TokenController
     {
         // 用户注册
         sysLoginService.register(registerBody.getUsername(), registerBody.getPassword());
+        return R.ok();
+    }
+
+    /**
+     * 解锁屏幕
+     */
+    @PostMapping("/unlockscreen")
+    public R<?> unlockScreen(@RequestBody UnLockBody unLockBody)
+    {
+        sysLoginService.unlock(unLockBody.getPassword());
         return R.ok();
     }
 }
