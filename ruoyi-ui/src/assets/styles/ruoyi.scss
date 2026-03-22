@@ -81,6 +81,10 @@
   margin-top: 6vh !important;
 }
 
+.el-dialog__body {
+  padding: 8px 20px !important;
+}
+
 .el-dialog__wrapper.scrollbar .el-dialog .el-dialog__body {
   overflow: auto;
   overflow-x: hidden;
