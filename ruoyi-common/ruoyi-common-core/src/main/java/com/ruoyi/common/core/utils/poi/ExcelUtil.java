@@ -503,6 +503,82 @@ public class ExcelUtil<T>
     }
 
     /**
+     * 多 Sheet 导出 —— 将多个不同类型的数据集合写入同一 Excel，直接输出到 HttpServletResponse
+     *
+     * @param response HTTP 响应
+     * @param sheets   Sheet 描述列表
+     */
+    public static void exportMultiSheet(HttpServletResponse response, List<ExcelSheet<?>> sheets)
+    {
+        if (sheets == null || sheets.isEmpty())
+        {
+            return;
+        }
+        SXSSFWorkbook wb = buildWorkbook(sheets);
+        try
+        {
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setCharacterEncoding("utf-8");
+            wb.write(response.getOutputStream());
+        }
+        catch (Exception e)
+        {
+            log.error("多Sheet导出Excel异常{}", e.getMessage());
+        }
+        finally
+        {
+            IOUtils.closeQuietly(wb);
+        }
+    }
+
+    /**
+     * 构建多 Sheet Workbook —— 创建 SXSSFWorkbook 并将所有 Sheet 数据写入
+     *
+     * @param sheets Sheet 描述列表
+     * @return 已写入所有 Sheet 数据的 SXSSFWorkbook
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private static SXSSFWorkbook buildWorkbook(List<ExcelSheet<?>> sheets)
+    {
+        SXSSFWorkbook wb = new SXSSFWorkbook(500);
+        for (ExcelSheet<?> excelSheet : sheets)
+        {
+            ExcelUtil util = new ExcelUtil(excelSheet.getClazz());
+            util.initWithWorkbook(wb, excelSheet.getList(), excelSheet.getSheetName(), excelSheet.getTitle());
+            util.writeSheet();
+        }
+        return wb;
+    }
+
+    /**
+     * 使用外部传入的 Workbook 初始化（多 Sheet 导出专用）
+     * 与 init() 的区别：不新建 Workbook，而是在已有 wb 上追加新 Sheet
+     *
+     * @param wb        已有工作簿
+     * @param list      数据集合
+     * @param sheetName Sheet 名称
+     * @param title     大标题（可为空）
+     */
+    public void initWithWorkbook(SXSSFWorkbook wb, List<T> list, String sheetName, String title)
+    {
+        if (list == null)
+        {
+            list = new ArrayList<T>();
+        }
+        this.list      = list;
+        this.sheetName = sheetName;
+        this.title     = title != null ? title : "";
+        this.type      = Type.EXPORT;
+        this.rownum    = 0;
+        this.wb        = wb;
+        this.sheet     = wb.createSheet(sheetName);
+        createExcelField();
+        this.styles    = createStyles(wb);
+        createTitle();
+        createSubHead();
+    }
+
+    /**
      * 对list数据源将其里面的数据导入到excel表单
      *
      * @param sheetName 工作表的名称
