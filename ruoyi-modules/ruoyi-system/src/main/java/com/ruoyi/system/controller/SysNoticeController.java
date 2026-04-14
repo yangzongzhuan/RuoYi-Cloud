@@ -54,7 +54,6 @@ public class SysNoticeController extends BaseController
     /**
      * 根据通知公告编号获取详细信息
      */
-    @RequiresPermissions("system:notice:query")
     @GetMapping(value = "/{noticeId}")
     public AjaxResult getInfo(@PathVariable Long noticeId)
     {
@@ -123,6 +122,19 @@ public class SysNoticeController extends BaseController
         Long[] noticeIds = Convert.toLongArray(ids);
         noticeReadService.markReadBatch(userId, noticeIds);
         return success();
+    }
+
+    /**
+     * 已读用户列表数据
+     */
+    @RequiresPermissions("system:notice:list")
+    @GetMapping("/readUsers/list")
+    @ResponseBody
+    public TableDataInfo readUsersList(Long noticeId, String searchValue)
+    {
+        startPage();
+        List<?> list = noticeReadService.selectReadUsersByNoticeId(noticeId, searchValue);
+        return getDataTable(list);
     }
 
     /**
