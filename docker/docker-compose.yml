@@ -51,7 +51,9 @@ services:
     volumes:
       - ./redis/conf/redis.conf:/home/ruoyi/redis/redis.conf
       - ./redis/data:/data
-    command: redis-server /home/ruoyi/redis/redis.conf
+    command: redis-server /home/ruoyi/redis/redis.conf --requirepass jingneng2023.
+    environment:
+      - REDIS_PASSWORD=jingneng2023.
   ruoyi-nginx:
     container_name: ruoyi-nginx
     image: nginx
