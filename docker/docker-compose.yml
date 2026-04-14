@@ -2,7 +2,7 @@ version : '3.8'
 services:
   ruoyi-nacos:
     container_name: ruoyi-nacos
-    image: nacos/nacos-server:v3.0.3
+    image: nacos/nacos-server:v3.0.2
     build:
       context: ./nacos
     environment:
@@ -40,7 +40,7 @@ services:
         ]
     environment:
       MYSQL_DATABASE: 'ry-cloud'
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: password
   ruoyi-redis:
     container_name: ruoyi-redis
     image: redis
