@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.application.mapper.CustomerCarMapper">
+
+    <resultMap type="CustomerCar" id="CustomerCarResult">
+        <id     property="id"              column="id"              />
+        <result property="customerId"      column="customer_id"     />
+        <result property="carNum"          column="car_num"         />
+        <result property="brandName"       column="brand_name"      />
+        <result property="modelName"       column="model_name"      />
+        <result property="yearName"        column="year_name"       />
+        <result property="styleName"       column="style_name"      />
+        <result property="color"           column="color"           />
+        <result property="vin"             column="vin"             />
+        <result property="engineNum"       column="engine_num"      />
+        <result property="drivingImg"      column="driving_img"     />
+        <result property="driveRegDate"    column="drive_reg_date"  />
+        <result property="driveIssueDate"  column="drive_issue_date"/>
+        <result property="createTime"      column="create_time"     />
+        <result property="createUser"      column="create_user"     />
+        <result property="updateTime"      column="update_time"     />
+        <result property="updateUser"      column="update_user"     />
+        <result property="remark"          column="remarks"         />
+        <result property="delFlag"         column="del_flag"        />
+    </resultMap>
+
+    <sql id="selectCustomerCarVo">
+        select id, customer_id, car_num, brand_name, model_name, year_name, style_name, color, 
+               vin, engine_num, driving_img, drive_reg_date, drive_issue_date, create_time, 
+               create_user, update_time, update_user, remarks, del_flag
+        from customer_car
+    </sql>
+
+    <select id="selectCustomerCarList" parameterType="CustomerCar" resultMap="CustomerCarResult">
+        <include refid="selectCustomerCarVo"/>
+        where del_flag = '0'
+        <if test="customerId != null">
+            AND customer_id = #{customerId}
+        </if>
+        <if test="carNum != null and carNum != ''">
+            AND car_num like concat('%', #{carNum}, '%')
+        </if>
+        <if test="brandName != null and brandName != ''">
+            AND brand_name like concat('%', #{brandName}, '%')
+        </if>
+        <if test="vin != null and vin != ''">
+            AND vin like concat('%', #{vin}, '%')
+        </if>
+        order by create_time desc
+    </select>
+
+    <select id="selectCustomerCarByCustomerId" parameterType="Long" resultMap="CustomerCarResult">
+        <include refid="selectCustomerCarVo"/>
+        where customer_id = #{customerId} and del_flag = '0'
+        order by create_time desc
+    </select>
+
+    <select id="selectCustomerCarById" parameterType="Long" resultMap="CustomerCarResult">
+        <include refid="selectCustomerCarVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertCustomerCar" parameterType="CustomerCar" useGeneratedKeys="true" keyProperty="id">
+        insert into customer_car
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">customer_id,</if>
+            <if test="carNum != null and carNum != ''">car_num,</if>
+            <if test="brandName != null and brandName != ''">brand_name,</if>
+            <if test="modelName != null and modelName != ''">model_name,</if>
+            <if test="yearName != null and yearName != ''">year_name,</if>
+            <if test="styleName != null and styleName != ''">style_name,</if>
+            <if test="color != null">color,</if>
+            <if test="vin != null and vin != ''">vin,</if>
+            <if test="engineNum != null and engineNum != ''">engine_num,</if>
+            <if test="drivingImg != null">driving_img,</if>
+            <if test="driveRegDate != null">drive_reg_date,</if>
+            <if test="driveIssueDate != null">drive_issue_date,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="remark != null">remarks,</if>
+            create_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">#{customerId},</if>
+            <if test="carNum != null and carNum != ''">#{carNum},</if>
+            <if test="brandName != null and brandName != ''">#{brandName},</if>
+            <if test="modelName != null and modelName != ''">#{modelName},</if>
+            <if test="yearName != null and yearName != ''">#{yearName},</if>
+            <if test="styleName != null and styleName != ''">#{styleName},</if>
+            <if test="color != null">#{color},</if>
+            <if test="vin != null and vin != ''">#{vin},</if>
+            <if test="engineNum != null and engineNum != ''">#{engineNum},</if>
+            <if test="drivingImg != null">#{drivingImg},</if>
+            <if test="driveRegDate != null">#{driveRegDate},</if>
+            <if test="driveIssueDate != null">#{driveIssueDate},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="remark != null">#{remark},</if>
+            sysdate(),
+        </trim>
+    </insert>
+
+    <update id="updateCustomerCar" parameterType="CustomerCar">
+        update customer_car
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="carNum != null and carNum != ''">car_num = #{carNum},</if>
+            <if test="brandName != null and brandName != ''">brand_name = #{brandName},</if>
+            <if test="modelName != null and modelName != ''">model_name = #{modelName},</if>
+            <if test="yearName != null and yearName != ''">year_name = #{yearName},</if>
+            <if test="styleName != null and styleName != ''">style_name = #{styleName},</if>
+            <if test="color != null">color = #{color},</if>
+            <if test="vin != null and vin != ''">vin = #{vin},</if>
+            <if test="engineNum != null and engineNum != ''">engine_num = #{engineNum},</if>
+            <if test="drivingImg != null">driving_img = #{drivingImg},</if>
+            <if test="driveRegDate != null">drive_reg_date = #{driveRegDate},</if>
+            <if test="driveIssueDate != null">drive_issue_date = #{driveIssueDate},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+            <if test="remark != null">remarks = #{remark},</if>
+            update_time = sysdate(),
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteCustomerCarById" parameterType="Long">
+        update customer_car set del_flag = '2' where id = #{id}
+    </update>
+
+    <update id="deleteCustomerCarByIds" parameterType="String">
+        update customer_car set del_flag = '2' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="deleteCustomerCarByCustomerId" parameterType="Long">
+        update customer_car set del_flag = '2' where customer_id = #{customerId}
+    </update>
+
+</mapper>

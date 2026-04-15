@@ -2,7 +2,7 @@ version : '3.8'
 services:
   ruoyi-nacos:
     container_name: ruoyi-nacos
-    image: nacos/nacos-server:v3.0.2
+    image: nacos/nacos-server:v3.0.3
     build:
       context: ./nacos
     environment:
@@ -40,7 +40,7 @@ services:
         ]
     environment:
       MYSQL_DATABASE: 'ry-cloud'
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
   ruoyi-redis:
     container_name: ruoyi-redis
     image: redis
@@ -51,7 +51,9 @@ services:
     volumes:
       - ./redis/conf/redis.conf:/home/ruoyi/redis/redis.conf
       - ./redis/data:/data
-    command: redis-server /home/ruoyi/redis/redis.conf
+    command: redis-server /home/ruoyi/redis/redis.conf --requirepass jingneng2023.
+    environment:
+      - REDIS_PASSWORD=jingneng2023.
   ruoyi-nginx:
     container_name: ruoyi-nginx
     image: nginx
@@ -74,7 +76,7 @@ services:
       context: ./ruoyi/gateway
       dockerfile: dockerfile
     ports:
-      - "8080:8080"
+      - "8081:8081"
     depends_on:
       - ruoyi-redis
     links:
