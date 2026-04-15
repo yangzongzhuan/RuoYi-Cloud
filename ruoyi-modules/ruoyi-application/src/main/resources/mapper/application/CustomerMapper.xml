@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.application.mapper.CustomerMapper">
+
+    <resultMap type="Customer" id="CustomerResult">
+        <id     property="id"          column="id"          />
+        <result property="name"        column="name"        />
+        <result property="mobile"      column="mobile"      />
+        <result property="address"     column="address"     />
+        <result property="sex"         column="sex"         />
+        <result property="bornDate"    column="born_date"   />
+        <result property="feature"     column="feature"     />
+        <result property="driverNum"   column="driver_num"  />
+        <result property="driverVdate" column="driver_vdate"/>
+        <result property="idcardNum"   column="idcard_num"  />
+        <result property="wechatName"  column="wechat_name" />
+        <result property="wechatAppid" column="wechat_appid"/>
+        <result property="wechatOpenid" column="wechat_openid"/>
+        <result property="publish"     column="publish"     />
+        <result property="createTime"  column="create_time" />
+        <result property="createUser"  column="create_user" />
+        <result property="updateTime"  column="update_time" />
+        <result property="updateUser"  column="update_user" />
+        <result property="remark"      column="remarks"     />
+        <result property="delFlag"     column="del_flag"    />
+        <collection property="cars"    javaType="java.util.List" resultMap="CarResult" />
+    </resultMap>
+
+    <resultMap id="CarResult" type="CustomerCar">
+        <id     property="id"              column="car_id"              />
+        <result property="customerId"      column="car_customer_id"     />
+        <result property="carNum"          column="car_num"             />
+        <result property="brandName"       column="car_brand_name"      />
+        <result property="modelName"       column="car_model_name"      />
+        <result property="yearName"        column="car_year_name"       />
+        <result property="styleName"       column="car_style_name"      />
+        <result property="color"           column="car_color"           />
+        <result property="vin"             column="car_vin"             />
+        <result property="engineNum"       column="car_engine_num"      />
+        <result property="drivingImg"      column="car_driving_img"     />
+        <result property="driveRegDate"    column="car_drive_reg_date"  />
+        <result property="driveIssueDate"  column="car_drive_issue_date"/>
+        <result property="createTime"      column="car_create_time"     />
+        <result property="createUser"      column="car_create_user"     />
+        <result property="updateTime"      column="car_update_time"     />
+        <result property="updateUser"      column="car_update_user"     />
+        <result property="remark"          column="car_remarks"         />
+        <result property="delFlag"         column="car_del_flag"        />
+    </resultMap>
+
+    <sql id="selectCustomerVo">
+        select id, name, mobile, address, sex, born_date, feature, driver_num, driver_vdate, 
+               idcard_num, wechat_name, wechat_appid, wechat_openid, publish, create_time, 
+               create_user, update_time, update_user, remarks, del_flag
+        from customer
+    </sql>
+
+    <select id="selectCustomerList" parameterType="Customer" resultMap="CustomerResult">
+        <include refid="selectCustomerVo"/>
+        where del_flag = '0'
+        <if test="name != null and name != ''">
+            AND name like concat('%', #{name}, '%')
+        </if>
+        <if test="mobile != null and mobile != ''">
+            AND mobile like concat('%', #{mobile}, '%')
+        </if>
+        <if test="sex != null">
+            AND sex = #{sex}
+        </if>
+        <if test="publish != null">
+            AND publish = #{publish}
+        </if>
+        <if test="params.beginTime != null and params.beginTime != ''">
+            AND date_format(create_time,'%Y%m%d') &gt;= date_format(#{params.beginTime},'%Y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''">
+            AND date_format(create_time,'%Y%m%d') &lt;= date_format(#{params.endTime},'%Y%m%d')
+        </if>
+        order by create_time desc
+    </select>
+
+    <select id="selectCustomerById" parameterType="Long" resultMap="CustomerResult">
+        select c.id, c.name, c.mobile, c.address, c.sex, c.born_date, c.feature, c.driver_num, 
+               c.driver_vdate, c.idcard_num, c.wechat_name, c.wechat_appid, c.wechat_openid, 
+               c.publish, c.create_time, c.create_user, c.update_time, c.update_user, c.remarks, c.del_flag,
+               cc.id as car_id, cc.customer_id as car_customer_id, cc.car_num as car_num, 
+               cc.brand_name as car_brand_name, cc.model_name as car_model_name, cc.year_name as car_year_name,
+               cc.style_name as car_style_name, cc.color as car_color, cc.vin as car_vin, 
+               cc.engine_num as car_engine_num, cc.driving_img as car_driving_img, 
+               cc.drive_reg_date as car_drive_reg_date, cc.drive_issue_date as car_drive_issue_date,
+               cc.create_time as car_create_time, cc.create_user as car_create_user, 
+               cc.update_time as car_update_time, cc.update_user as car_update_user, 
+               cc.remarks as car_remarks, cc.del_flag as car_del_flag
+        from customer c
+        left join customer_car cc on c.id = cc.customer_id and cc.del_flag = '0'
+        where c.id = #{id} and c.del_flag = '0'
+    </select>
+
+    <insert id="insertCustomer" parameterType="Customer" useGeneratedKeys="true" keyProperty="id">
+        insert into customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="mobile != null and mobile != ''">mobile,</if>
+            <if test="address != null">address,</if>
+            <if test="sex != null">sex,</if>
+            <if test="bornDate != null">born_date,</if>
+            <if test="feature != null">feature,</if>
+            <if test="driverNum != null">driver_num,</if>
+            <if test="driverVdate != null">driver_vdate,</if>
+            <if test="idcardNum != null">idcard_num,</if>
+            <if test="wechatName != null">wechat_name,</if>
+            <if test="wechatAppid != null">wechat_appid,</if>
+            <if test="wechatOpenid != null">wechat_openid,</if>
+            <if test="publish != null">publish,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="remark != null">remarks,</if>
+            create_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="mobile != null and mobile != ''">#{mobile},</if>
+            <if test="address != null">#{address},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="bornDate != null">#{bornDate},</if>
+            <if test="feature != null">#{feature},</if>
+            <if test="driverNum != null">#{driverNum},</if>
+            <if test="driverVdate != null">#{driverVdate},</if>
+            <if test="idcardNum != null">#{idcardNum},</if>
+            <if test="wechatName != null">#{wechatName},</if>
+            <if test="wechatAppid != null">#{wechatAppid},</if>
+            <if test="wechatOpenid != null">#{wechatOpenid},</if>
+            <if test="publish != null">#{publish},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="remark != null">#{remark},</if>
+            sysdate(),
+        </trim>
+    </insert>
+
+    <update id="updateCustomer" parameterType="Customer">
+        update customer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="mobile != null and mobile != ''">mobile = #{mobile},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="bornDate != null">born_date = #{bornDate},</if>
+            <if test="feature != null">feature = #{feature},</if>
+            <if test="driverNum != null">driver_num = #{driverNum},</if>
+            <if test="driverVdate != null">driver_vdate = #{driverVdate},</if>
+            <if test="idcardNum != null">idcard_num = #{idcardNum},</if>
+            <if test="wechatName != null">wechat_name = #{wechatName},</if>
+            <if test="wechatAppid != null">wechat_appid = #{wechatAppid},</if>
+            <if test="wechatOpenid != null">wechat_openid = #{wechatOpenid},</if>
+            <if test="publish != null">publish = #{publish},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+            <if test="remark != null">remarks = #{remark},</if>
+            update_time = sysdate(),
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteCustomerById" parameterType="Long">
+        update customer set del_flag = '2' where id = #{id}
+    </update>
+
+    <update id="deleteCustomerByIds" parameterType="String">
+        update customer set del_flag = '2' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+</mapper>
