@@ -160,7 +160,7 @@ public class SysMenuController extends BaseController
         {
             return warn("存在子菜单,不允许删除");
         }
-        if (menuService.checkMenuExistRole(menuId))
+        if   (menuService.checkMenuExistRole(menuId))
         {
             return warn("菜单已分配,不允许删除");
         }
