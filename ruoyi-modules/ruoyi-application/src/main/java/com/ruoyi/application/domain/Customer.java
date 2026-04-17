@@ -21,7 +21,7 @@ public class Customer extends BaseEntity
     @Excel(name = "客户地址")
     private String address;
 
-    @Excel(name = "性别", readConverterExp = "0=男,1=女,2=未知")
+    @Excel(name = "性别", readConverterExp = "0=未知,1=男,2=女")
     private Integer sex;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
