@@ -21,9 +21,9 @@
       </el-form-item>
       <el-form-item label="性别" prop="sex">
         <el-select v-model="queryParams.sex" placeholder="请选择性别" clearable style="width: 240px">
-          <el-option label="未知" :value="0" />
-          <el-option label="男" :value="1" />
-          <el-option label="女" :value="2" />
+          <el-option label="男" :value="0" />
+          <el-option label="女" :value="1" />
+          <el-option label="未知" :value="2" />
         </el-select>
       </el-form-item>
       <el-form-item label="创建时间">
@@ -76,6 +76,16 @@
           v-hasPermi="['app:customer:del']"
         >删除</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['app:customer:export']"
+        >导出</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
     </el-row>
 
@@ -86,10 +96,7 @@
       <el-table-column label="手机号" align="center" prop="mobile" v-if="columns.mobile.visible" />
       <el-table-column label="性别" align="center" prop="sex" v-if="columns.sex.visible">
         <template slot-scope="scope">
-          <span v-if="scope.row.sex === 0">未知</span>
-          <span v-else-if="scope.row.sex === 1">男</span>
-          <span v-else-if="scope.row.sex === 2">女</span>
-          <span v-else>-</span>
+          <dict-tag :options="dict.type.sys_user_sex" :value="scope.row.sex"/>
         </template>
       </el-table-column>
       <el-table-column label="客户特征" align="center" prop="feature" v-if="columns.feature.visible">
@@ -115,15 +122,8 @@
           <span>{{ parseTime(scope.row.createTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="240">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="180">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-view"
-            @click="handleView(scope.row)"
-            v-hasPermi="['app:customer:query']"
-          >查看</el-button>
           <el-button
             size="mini"
             type="text"
@@ -157,22 +157,22 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="客户姓名" prop="name">
-                  <el-input v-model="form.name" placeholder="请输入客户姓名" maxlength="100" :disabled="isView" />
+                  <el-input v-model="form.name" placeholder="请输入客户姓名" maxlength="100" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="手机号" prop="mobile">
-                  <el-input v-model="form.mobile" placeholder="请输入手机号" maxlength="100" :disabled="isView" />
+                  <el-input v-model="form.mobile" placeholder="请输入手机号" maxlength="100" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="性别" prop="sex">
-                  <el-select v-model="form.sex" placeholder="请选择性别" style="width: 100%" :disabled="isView">
-                    <el-option label="未知" :value="0" />
-                    <el-option label="男" :value="1" />
-                    <el-option label="女" :value="2" />
+                  <el-select v-model="form.sex" placeholder="请选择性别" style="width: 100%">
+                    <el-option label="男" :value="0" />
+                    <el-option label="女" :value="1" />
+                    <el-option label="未知" :value="2" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -184,7 +184,6 @@
                     placeholder="选择日期"
                     value-format="yyyy-MM-dd"
                     style="width: 100%"
-                    :disabled="isView"
                   ></el-date-picker>
                 </el-form-item>
               </el-col>
@@ -192,7 +191,7 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="客户特征" prop="feature">
-                  <el-select v-model="form.feature" placeholder="请选择客户特征" style="width: 100%" :disabled="isView">
+                  <el-select v-model="form.feature" placeholder="请选择客户特征" style="width: 100%">
                     <el-option label="好沟通" :value="1" />
                     <el-option label="不好沟通" :value="2" />
                     <el-option label="爱投诉" :value="3" />
@@ -201,7 +200,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="是否可用" prop="publish">
-                  <el-radio-group v-model="form.publish" :disabled="isView">
+                  <el-radio-group v-model="form.publish">
                     <el-radio :value="1">可用</el-radio>
                     <el-radio :value="0">禁用</el-radio>
                   </el-radio-group>
@@ -211,7 +210,7 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="驾驶证号" prop="driverNum">
-                  <el-input v-model="form.driverNum" placeholder="请输入驾驶证号" maxlength="100" :disabled="isView" />
+                  <el-input v-model="form.driverNum" placeholder="请输入驾驶证号" maxlength="100" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -222,7 +221,6 @@
                     placeholder="选择日期"
                     value-format="yyyy-MM-dd"
                     style="width: 100%"
-                    :disabled="isView"
                   ></el-date-picker>
                 </el-form-item>
               </el-col>
@@ -230,44 +228,44 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="身份证号" prop="idcardNum">
-                  <el-input v-model="form.idcardNum" placeholder="请输入身份证号" maxlength="100" :disabled="isView" />
+                  <el-input v-model="form.idcardNum" placeholder="请输入身份证号" maxlength="100" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="客户地址" prop="address">
-                  <el-input v-model="form.address" placeholder="请输入客户地址" maxlength="100" :disabled="isView" />
+                  <el-input v-model="form.address" placeholder="请输入客户地址" maxlength="100" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="微信昵称" prop="wechatName">
-                  <el-input v-model="form.wechatName" placeholder="请输入微信昵称" maxlength="100" :disabled="isView" />
+                  <el-input v-model="form.wechatName" placeholder="请输入微信昵称" maxlength="100" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="微信appid" prop="wechatAppid">
-                  <el-input v-model="form.wechatAppid" placeholder="请输入微信appid" maxlength="50" :disabled="isView" />
+                  <el-input v-model="form.wechatAppid" placeholder="请输入微信appid" maxlength="50" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="24">
                 <el-form-item label="微信openid" prop="wechatOpenid">
-                  <el-input v-model="form.wechatOpenid" placeholder="请输入微信openid" maxlength="50" :disabled="isView" />
+                  <el-input v-model="form.wechatOpenid" placeholder="请输入微信openid" maxlength="50" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="24">
                 <el-form-item label="备注" prop="remark">
-                  <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" :disabled="isView"></el-input>
+                  <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
           </el-tab-pane>
           <el-tab-pane label="车辆信息" name="car">
-            <el-row :gutter="10" class="mb8" v-if="!isView">
+            <el-row :gutter="10" class="mb8">
               <el-col :span="1.5">
                 <el-button
                   type="primary"
@@ -286,7 +284,7 @@
               <el-table-column label="年款" align="center" prop="yearName" />
               <el-table-column label="vin码" align="center" prop="vin" />
               <el-table-column label="发动机号" align="center" prop="engineNum" />
-              <el-table-column label="操作" align="center" width="150" v-if="!isView">
+              <el-table-column label="操作" align="center" width="150">
                 <template slot-scope="scope">
                   <el-button
                     size="mini"
@@ -309,8 +307,8 @@
         </el-tabs>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm" v-if="!isView">确 定</el-button>
-        <el-button @click="cancel">关 闭</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
 
@@ -469,8 +467,7 @@ export default {
         modelName: [
           { required: true, message: "车系名称不能为空", trigger: "blur" }
         ]
-      },
-      isView: false
+      }
     }
   },
   created() {
@@ -510,7 +507,6 @@ export default {
       }
       this.resetForm("form")
       this.activeTab = "basic"
-      this.isView = false
     },
     handleQuery() {
       this.queryParams.pageNum = 1
@@ -530,20 +526,6 @@ export default {
       this.reset()
       this.open = true
       this.title = "添加客户"
-      this.isView = false
-    },
-    handleView(row) {
-      this.reset()
-      const id = row.id || this.ids
-      getCustomer(id).then(response => {
-        this.form = response.data
-        if (!this.form.cars) {
-          this.form.cars = []
-        }
-        this.open = true
-        this.title = "查看客户"
-        this.isView = true
-      })
     },
     handleUpdate(row) {
       this.reset()
@@ -555,7 +537,6 @@ export default {
         }
         this.open = true
         this.title = "修改客户"
-        this.isView = false
       })
     },
     submitForm() {
@@ -585,6 +566,11 @@ export default {
         this.getList()
         this.$modal.msgSuccess("删除成功")
       }).catch(() => {})
+    },
+    handleExport() {
+      this.download('customer/export', {
+        ...this.queryParams
+      }, `customer_${new Date().getTime()}.xlsx`)
     },
     handleCarAdd() {
       this.carForm = {
