@@ -1,1 +1,1 @@
-��ż�����Ĵ���õ�jar�ļ�������docker����Ӧ�á�
+存放监控中心打包好的jar文件，用于docker启动应用。
