@@ -1,8 +1,11 @@
 package com.ruoyi.common.core.utils;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.springframework.util.AntPathMatcher;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.text.StrFormatter;
@@ -364,6 +367,69 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
     public static boolean ishttp(String link)
     {
         return StringUtils.startsWithAny(link, Constants.HTTP, Constants.HTTPS);
+    }
+
+    /**
+     * 字符串转set
+     * 
+     * @param str 字符串
+     * @param sep 分隔符
+     * @return set集合
+     */
+    public static final Set<String> str2Set(String str, String sep)
+    {
+        return new HashSet<String>(str2List(str, sep, true, false));
+    }
+
+    /**
+     * 字符串转list
+     * 
+     * @param str 字符串
+     * @param sep 分隔符
+     * @return list集合
+     */
+    public static final List<String> str2List(String str, String sep)
+    {
+        return str2List(str, sep, true, false);
+    }
+
+    /**
+     * 字符串转list
+     * 
+     * @param str 字符串
+     * @param sep 分隔符
+     * @param filterBlank 过滤纯空白
+     * @param trim 去掉首尾空白
+     * @return list集合
+     */
+    public static final List<String> str2List(String str, String sep, boolean filterBlank, boolean trim)
+    {
+        List<String> list = new ArrayList<String>();
+        if (StringUtils.isEmpty(str))
+        {
+            return list;
+        }
+
+        // 过滤空白字符串
+        if (filterBlank && StringUtils.isBlank(str))
+        {
+            return list;
+        }
+        String[] split = str.split(sep);
+        for (String string : split)
+        {
+            if (filterBlank && StringUtils.isBlank(string))
+            {
+                continue;
+            }
+            if (trim)
+            {
+                string = string.trim();
+            }
+            list.add(string);
+        }
+
+        return list;
     }
 
     /**

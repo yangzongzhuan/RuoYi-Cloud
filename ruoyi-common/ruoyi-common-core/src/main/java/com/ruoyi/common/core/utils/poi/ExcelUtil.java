@@ -23,6 +23,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
+import org.apache.poi.hssf.usermodel.HSSFPicture;
+import org.apache.poi.hssf.usermodel.HSSFPictureData;
+import org.apache.poi.hssf.usermodel.HSSFShape;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ooxml.POIXMLDocumentPart;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -39,6 +46,7 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Name;
+import org.apache.poi.ss.usermodel.PictureData;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
@@ -50,6 +58,12 @@ import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFDataValidation;
+import org.apache.poi.xssf.usermodel.XSSFDrawing;
+import org.apache.poi.xssf.usermodel.XSSFPicture;
+import org.apache.poi.xssf.usermodel.XSSFShape;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openxmlformats.schemas.drawingml.x2006.spreadsheetDrawing.CTMarker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.ruoyi.common.core.annotation.Excel;
@@ -59,6 +73,7 @@ import com.ruoyi.common.core.annotation.Excels;
 import com.ruoyi.common.core.exception.UtilException;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.core.utils.DateUtils;
+import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.file.FileTypeUtils;
 import com.ruoyi.common.core.utils.file.ImageUtils;
@@ -179,9 +194,34 @@ public class ExcelUtil<T>
      */
     public String[] excludeFields;
 
+    /**
+     * 图片导入处理器（用于把Excel内嵌图片上传到文件服务，返回访问地址）
+     */
+    private ExcelImageHandler imageHandler;
+
     public ExcelUtil(Class<T> clazz)
     {
         this.clazz = clazz;
+    }
+
+    /**
+     * 获取图片导入处理器
+     *
+     * @return 图片导入处理器
+     */
+    private ExcelImageHandler getImageHandler()
+    {
+        if (imageHandler == null)
+        {
+            try
+            {
+                imageHandler = SpringUtils.getBean(ExcelImageHandler.class);
+            }
+            catch (Exception e)
+            {
+            }
+        }
+        return imageHandler;
     }
 
     /**
@@ -339,6 +379,17 @@ public class ExcelUtil<T>
             throw new IOException("文件sheet不存在");
         }
 
+        boolean isXSSFWorkbook = !(wb instanceof HSSFWorkbook);
+        Map<String, List<PictureData>> pictures = null;
+        if (isXSSFWorkbook)
+        {
+            pictures = getSheetPictures07((XSSFSheet) sheet, (XSSFWorkbook) wb);
+        }
+        else
+        {
+            pictures = getSheetPictures03((HSSFSheet) sheet, (HSSFWorkbook) wb);
+        }
+
         // 获取最后一个非空行的行下标，比如总行数为n，则返回的为n-1
         int rows = sheet.getLastRowNum();
         if (rows > 0)
@@ -463,6 +514,10 @@ public class ExcelUtil<T>
                         {
                             val = dataFormatHandlerAdapter(val, attr, null);
                         }
+                        else if (ColumnType.IMAGE == attr.cellType())
+                        {
+                            val = getImportImageValue(row, entry.getKey(), pictures, val);
+                        }
                         ReflectUtils.invokeSetter(entity, propertyName, val);
                     }
                 }
@@ -487,7 +542,7 @@ public class ExcelUtil<T>
 
     /**
      * 对list数据源将其里面的数据导入到excel表单
-     *
+     * 
      * @param response 返回数据
      * @param list 导出数据集合
      * @param sheetName 工作表的名称
@@ -591,7 +646,7 @@ public class ExcelUtil<T>
 
     /**
      * 对list数据源将其里面的数据导入到excel表单
-     *
+     * 
      * @param sheetName 工作表的名称
      * @param title 标题
      * @return 结果
@@ -985,12 +1040,15 @@ public class ExcelUtil<T>
         else if (ColumnType.IMAGE == attr.cellType())
         {
             ClientAnchor anchor = new XSSFClientAnchor(0, 0, 0, 0, (short) cell.getColumnIndex(), cell.getRow().getRowNum(), (short) (cell.getColumnIndex() + 1), cell.getRow().getRowNum() + 1);
-            String imagePath = Convert.toStr(value);
-            if (StringUtils.isNotEmpty(imagePath))
+            String propertyValue = Convert.toStr(value);
+            if (StringUtils.isNotEmpty(propertyValue))
             {
-                byte[] data = ImageUtils.getImage(imagePath);
-                getDrawingPatriarch(cell.getSheet()).createPicture(anchor,
-                        cell.getSheet().getWorkbook().addPicture(data, getImageType(data)));
+                List<String> imagePaths = StringUtils.str2List(propertyValue, SEPARATOR);
+                for (String imagePath : imagePaths)
+                {
+                    byte[] data = ImageUtils.getImage(imagePath);
+                    getDrawingPatriarch(cell.getSheet()).createPicture(anchor, cell.getSheet().getWorkbook().addPicture(data, getImageType(data)));
+                }
             }
         }
     }
@@ -1022,6 +1080,91 @@ public class ExcelUtil<T>
             return Workbook.PICTURE_TYPE_PNG;
         }
         return Workbook.PICTURE_TYPE_JPEG;
+    }
+
+    /**
+     * 获取导入单元格中的内嵌图片
+     *
+     * @param row 当前行
+     * @param column 当前列号
+     * @param pictures 工作表图片映射（key: 行号_列号）
+     * @param defaultVal 单元格原有值
+     * @return 图片访问地址或单元格原值
+     */
+    private Object getImportImageValue(Row row, int column, Map<String, List<PictureData>> pictures, Object defaultVal)
+    {
+        List<PictureData> images = pictures == null ? null : pictures.get(row.getRowNum() + "_" + column);
+        if (images == null || images.isEmpty())
+        {
+            return defaultVal;
+        }
+        ExcelImageHandler imageHandler = getImageHandler();
+        StringBuilder propertyString = new StringBuilder();
+        for (PictureData picture : images)
+        {
+            byte[] data = picture.getData();
+            String extension = FileTypeUtils.getFileExtendName(data).toLowerCase();
+            propertyString.append(imageHandler.upload(data, extension)).append(SEPARATOR);
+        }
+        return StringUtils.stripEnd(propertyString.toString(), SEPARATOR);
+    }
+
+    /**
+     * 获取Excel2003图片
+     *
+     * @param sheet 当前sheet对象
+     * @param workbook 工作簿对象
+     * @return Map key:图片单元格索引（1_1）String，value:图片流PictureData
+     */
+    public static Map<String, List<PictureData>> getSheetPictures03(HSSFSheet sheet, HSSFWorkbook workbook)
+    {
+        Map<String, List<PictureData>> sheetIndexPicMap = new HashMap<>();
+        List<HSSFPictureData> pictures = workbook.getAllPictures();
+        if (!pictures.isEmpty() && sheet.getDrawingPatriarch() != null)
+        {
+            for (HSSFShape shape : sheet.getDrawingPatriarch().getChildren())
+            {
+                if (shape instanceof HSSFPicture)
+                {
+                    HSSFPicture pic = (HSSFPicture) shape;
+                    HSSFClientAnchor anchor = (HSSFClientAnchor) pic.getAnchor();
+                    String picIndex = anchor.getRow1() + "_" + anchor.getCol1();
+                    sheetIndexPicMap.computeIfAbsent(picIndex, k -> new ArrayList<>()).add(pic.getPictureData());
+                }
+            }
+        }
+        return sheetIndexPicMap;
+    }
+
+    /**
+     * 获取Excel2007图片
+     *
+     * @param sheet 当前sheet对象
+     * @param workbook 工作簿对象
+     * @return Map key:图片单元格索引（1_1）String，value:图片流PictureData
+     */
+    public static Map<String, List<PictureData>> getSheetPictures07(XSSFSheet sheet, XSSFWorkbook workbook)
+    {
+        Map<String, List<PictureData>> sheetIndexPicMap = new HashMap<>();
+        for (POIXMLDocumentPart dr : sheet.getRelations())
+        {
+            if (dr instanceof XSSFDrawing)
+            {
+                XSSFDrawing drawing = (XSSFDrawing) dr;
+                for (XSSFShape shape : drawing.getShapes())
+                {
+                    if (shape instanceof XSSFPicture)
+                    {
+                        XSSFPicture pic = (XSSFPicture) shape;
+                        XSSFClientAnchor anchor = pic.getPreferredSize();
+                        CTMarker ctMarker = anchor.getFrom();
+                        String picIndex = ctMarker.getRow() + "_" + ctMarker.getCol();
+                        sheetIndexPicMap.computeIfAbsent(picIndex, k -> new ArrayList<>()).add(pic.getPictureData());
+                    }
+                }
+            }
+        }
+        return sheetIndexPicMap;
     }
 
     /**
@@ -1419,7 +1562,7 @@ public class ExcelUtil<T>
 
     /**
      * 以类的属性的get方法方法形式获取值
-     *
+     * 
      * @param o
      * @param name
      * @return value
