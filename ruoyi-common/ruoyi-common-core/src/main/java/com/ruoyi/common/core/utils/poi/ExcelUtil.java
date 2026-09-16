@@ -95,6 +95,11 @@ public class ExcelUtil<T>
     public static final String[] FORMULA_STR = { "=", "-", "+", "@" };
 
     /**
+     * 用于dictType属性数据存储，避免重复查缓存
+     */
+    public Map<String, String> sysDictMap = new HashMap<String, String>();
+
+    /**
      * 单元格样式缓存
      */
     private Map<String, CellStyle> cellStyleCache = new HashMap<String, CellStyle>();
@@ -199,6 +204,11 @@ public class ExcelUtil<T>
      */
     private ExcelImageHandler imageHandler;
 
+    /**
+     * 字典数据转换器
+     */
+    private ExcelDictDataConverter​ dictDataConverter;
+
     public ExcelUtil(Class<T> clazz)
     {
         this.clazz = clazz;
@@ -222,6 +232,26 @@ public class ExcelUtil<T>
             }
         }
         return imageHandler;
+    }
+
+    /**
+     * 获取字典数据转换器
+     *
+     * @return 字典数据转换器
+     */
+    private ExcelDictDataConverter​ getDictDataConverter()
+    {
+        if (dictDataConverter == null)
+        {
+            try
+            {
+                dictDataConverter = SpringUtils.getBean(ExcelDictDataConverter​.class);
+            }
+            catch (Exception e)
+            {
+            }
+        }
+        return dictDataConverter;
     }
 
     /**
@@ -509,6 +539,15 @@ public class ExcelUtil<T>
                         if (StringUtils.isNotEmpty(attr.readConverterExp()))
                         {
                             val = reverseByExp(Convert.toStr(val), attr.readConverterExp(), attr.separator());
+                        }
+                        else if (StringUtils.isNotEmpty(attr.dictType()))
+                        {
+                            if (!sysDictMap.containsKey(attr.dictType() + val))
+                            {
+                                String dictValue = reverseDictByExp(Convert.toStr(val), attr.dictType(), attr.separator());
+                                sysDictMap.put(attr.dictType() + val, dictValue);
+                            }
+                            val = sysDictMap.get(attr.dictType() + val);
                         }
                         else if (!attr.handler().equals(ExcelHandlerAdapter.class))
                         {
@@ -1098,13 +1137,12 @@ public class ExcelUtil<T>
         {
             return defaultVal;
         }
-        ExcelImageHandler imageHandler = getImageHandler();
         StringBuilder propertyString = new StringBuilder();
         for (PictureData picture : images)
         {
             byte[] data = picture.getData();
             String extension = FileTypeUtils.getFileExtendName(data).toLowerCase();
-            propertyString.append(imageHandler.upload(data, extension)).append(SEPARATOR);
+            propertyString.append(getImageHandler().upload(data, extension)).append(SEPARATOR);
         }
         return StringUtils.stripEnd(propertyString.toString(), SEPARATOR);
     }
@@ -1181,17 +1219,28 @@ public class ExcelUtil<T>
             // 设置列宽
             sheet.setColumnWidth(column, (int) ((attr.width() + 0.72) * 256));
         }
-        if (StringUtils.isNotEmpty(attr.prompt()) || attr.combo().length > 0)
+        if (StringUtils.isNotEmpty(attr.prompt()) || attr.combo().length > 0 || attr.comboReadDict())
         {
-            if (attr.combo().length > 15 || StringUtils.join(attr.combo()).length() > 255)
+            String[] comboArray = attr.combo();
+            if (attr.comboReadDict())
+            {
+                if (!sysDictMap.containsKey("combo_" + attr.dictType()))
+                {
+                    String labels = getDictDataConverter().getDictLabels(attr.dictType());
+                    sysDictMap.put("combo_" + attr.dictType(), labels);
+                }
+                String val = sysDictMap.get("combo_" + attr.dictType());
+                comboArray = StringUtils.split(val, SEPARATOR);
+            }
+            if (comboArray.length > 15 || StringUtils.join(comboArray).length() > 255)
             {
                 // 如果下拉数大于15或字符串长度大于255，则使用一个新sheet存储，避免生成的模板下拉值获取不到
-                setXSSFValidationWithHidden(sheet, attr.combo(), attr.prompt(), 1, 100, column, column);
+                setXSSFValidationWithHidden(sheet, comboArray, attr.prompt(), 1, 100, column, column);
             }
             else
             {
                 // 提示信息或只能选择不能输入的列内容.
-                setPromptOrValidation(sheet, attr.combo(), attr.prompt(), 1, 100, column, column);
+                setPromptOrValidation(sheet, comboArray, attr.prompt(), 1, 100, column, column);
             }
         }
     }
@@ -1226,6 +1275,7 @@ public class ExcelUtil<T>
                 String dateFormat = attr.dateFormat();
                 String readConverterExp = attr.readConverterExp();
                 String separator = attr.separator();
+                String dictType = attr.dictType();
                 if (StringUtils.isNotEmpty(dateFormat) && StringUtils.isNotNull(value))
                 {
                     cell.setCellStyle(createCellStyle(cell.getCellStyle(), dateFormat));
@@ -1234,6 +1284,15 @@ public class ExcelUtil<T>
                 else if (StringUtils.isNotEmpty(readConverterExp) && StringUtils.isNotNull(value))
                 {
                     cell.setCellValue(convertByExp(Convert.toStr(value), readConverterExp, separator));
+                }
+                else if (StringUtils.isNotEmpty(dictType) && StringUtils.isNotNull(value))
+                {
+                    if (!sysDictMap.containsKey(dictType + value))
+                    {
+                        String lable = convertDictByExp(Convert.toStr(value), dictType, separator);
+                        sysDictMap.put(dictType + value, lable);
+                    }
+                    cell.setCellValue(sysDictMap.get(dictType + value));
                 }
                 else if (value instanceof BigDecimal && -1 != attr.scale())
                 {
@@ -1459,6 +1518,32 @@ public class ExcelUtil<T>
             }
         }
         return StringUtils.stripEnd(propertyString.toString(), separator);
+    }
+
+    /**
+     * 解析字典值
+     * 
+     * @param dictValue 字典值
+     * @param dictType 字典类型
+     * @param separator 分隔符
+     * @return 字典标签
+     */
+    public String convertDictByExp(String dictValue, String dictType, String separator)
+    {
+        return getDictDataConverter().getDictLabel(dictType, dictValue, separator);
+    }
+
+    /**
+     * 反向解析值字典值
+     * 
+     * @param dictLabel 字典标签
+     * @param dictType 字典类型
+     * @param separator 分隔符
+     * @return 字典值
+     */
+    public String reverseDictByExp(String dictLabel, String dictType, String separator)
+    {
+        return getDictDataConverter().getDictValue(dictType, dictLabel, separator);
     }
 
     /**

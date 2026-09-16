@@ -34,6 +34,11 @@ public @interface Excel
     public String dateFormat() default "";
 
     /**
+     * 如果是字典类型，请设置字典的type值 (如: sys_user_sex)
+     */
+    public String dictType() default "";
+
+    /**
      * 读取内容转表达式 (如: 0=男,1=女,2=未知)
      */
     public String readConverterExp() default "";
@@ -88,6 +93,11 @@ public @interface Excel
      * 设置只能选择不能输入的列内容.
      */
     public String[] combo() default {};
+
+    /**
+     * 是否从字典读数据到combo,默认不读取,如读取需要设置dictType注解.
+     */
+    public boolean comboReadDict() default false;
 
     /**
      * 是否需要纵向合并单元格,应对需求:含有list集合单元格)
