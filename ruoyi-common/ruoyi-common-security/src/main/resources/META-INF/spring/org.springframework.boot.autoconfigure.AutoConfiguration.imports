@@ -3,3 +3,4 @@ com.ruoyi.common.security.service.TokenService
 com.ruoyi.common.security.aspect.PreAuthorizeAspect
 com.ruoyi.common.security.aspect.InnerAuthAspect
 com.ruoyi.common.security.handler.GlobalExceptionHandler
+com.ruoyi.common.security.utils.poi.DictDataConverter

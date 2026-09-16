@@ -1,7 +1,9 @@
 package com.ruoyi.common.security.utils;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import com.alibaba.fastjson2.JSONArray;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.utils.SpringUtils;
@@ -16,6 +18,68 @@ import com.ruoyi.system.api.domain.SysDictData;
  */
 public class DictUtils
 {
+    /**
+     * 根据字典类型和字典值获取字典标签
+     * 
+     * @param dictType 字典类型
+     * @param dictValue 字典值
+     * @param separator 分隔符
+     * @return 字典标签
+     */
+    public static String getDictLabel(String dictType, String dictValue, String separator)
+    {
+        List<SysDictData> datas = DictUtils.getDictCache(dictType);
+        if (StringUtils.isNull(datas) || StringUtils.isEmpty(dictValue))
+        {
+            return StringUtils.EMPTY;
+        }
+        Map<String, String> dictMap = datas.stream().collect(HashMap::new, (map, dict) -> map.put(dict.getDictValue(), dict.getDictLabel()), Map::putAll);
+        if (!StringUtils.contains(dictValue, separator))
+        {
+            return dictMap.getOrDefault(dictValue, StringUtils.EMPTY);
+        }
+        StringBuilder labelBuilder = new StringBuilder();
+        for (String seperatedValue : dictValue.split(separator))
+        {
+            if (dictMap.containsKey(seperatedValue))
+            {
+                labelBuilder.append(dictMap.get(seperatedValue)).append(separator);
+            }
+        }
+        return StringUtils.removeEnd(labelBuilder.toString(), separator);
+    }
+
+    /**
+     * 根据字典类型和字典标签获取字典值
+     * 
+     * @param dictType 字典类型
+     * @param dictLabel 字典标签
+     * @param separator 分隔符
+     * @return 字典值
+     */
+    public static String getDictValue(String dictType, String dictLabel, String separator)
+    {
+        List<SysDictData> datas = DictUtils.getDictCache(dictType);
+        if (StringUtils.isNull(datas) || StringUtils.isEmpty(dictLabel))
+        {
+            return StringUtils.EMPTY;
+        }
+        Map<String, String> dictMap = datas.stream().collect(HashMap::new, (map, dict) -> map.put(dict.getDictLabel(), dict.getDictValue()), Map::putAll);
+        if (!StringUtils.contains(dictLabel, separator))
+        {
+            return dictMap.getOrDefault(dictLabel, StringUtils.EMPTY);
+        }
+        StringBuilder valueBuilder = new StringBuilder();
+        for (String seperatedValue : dictLabel.split(separator))
+        {
+            if (dictMap.containsKey(seperatedValue))
+            {
+                valueBuilder.append(dictMap.get(seperatedValue)).append(separator);
+            }
+        }
+        return StringUtils.removeEnd(valueBuilder.toString(), separator);
+    }
+
     /**
      * 设置字典缓存
      * 
