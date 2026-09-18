@@ -5,7 +5,7 @@ package com.ruoyi.common.core.utils.poi;
  *
  * @author ruoyi
  */
-public interface ExcelDictDataConverter​
+public interface ExcelDictDataConverter
 {
     /**
      * 根据字典类型和字典键值获取字典标签
