@@ -3,7 +3,7 @@ package com.ruoyi.common.security.utils.poi;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.utils.poi.ExcelDictDataConverter​;
+import com.ruoyi.common.core.utils.poi.ExcelDictDataConverter;
 import com.ruoyi.common.security.utils.DictUtils;
 import com.ruoyi.system.api.domain.SysDictData;
 
@@ -13,7 +13,7 @@ import com.ruoyi.system.api.domain.SysDictData;
  * @author ruoyi
  */
 @Component
-public class DictDataConverter implements ExcelDictDataConverter​
+public class DictDataConverter implements ExcelDictDataConverter
 {
     /**
      * 分隔符

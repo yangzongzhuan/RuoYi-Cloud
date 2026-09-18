@@ -207,7 +207,7 @@ public class ExcelUtil<T>
     /**
      * 字典数据转换器
      */
-    private ExcelDictDataConverter​ dictDataConverter;
+    private ExcelDictDataConverter dictDataConverter;
 
     public ExcelUtil(Class<T> clazz)
     {
@@ -239,13 +239,13 @@ public class ExcelUtil<T>
      *
      * @return 字典数据转换器
      */
-    private ExcelDictDataConverter​ getDictDataConverter()
+    private ExcelDictDataConverter getDictDataConverter()
     {
         if (dictDataConverter == null)
         {
             try
             {
-                dictDataConverter = SpringUtils.getBean(ExcelDictDataConverter​.class);
+                dictDataConverter = SpringUtils.getBean(ExcelDictDataConverter.class);
             }
             catch (Exception e)
             {
