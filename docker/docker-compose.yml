@@ -17,6 +17,7 @@ services:
       - "8848:8848"
       - "9848:9848"
       - "9849:9849"
+      - "8849:8080"
     depends_on:
       - ruoyi-mysql
   ruoyi-mysql:
