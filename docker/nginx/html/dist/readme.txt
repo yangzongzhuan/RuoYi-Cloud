@@ -1,1 +1,1 @@
-´æ·ÅÇ°¶Ëruoyi-ui¹¹½¨ºÃµÄ¾²Ì¬ÎÄ¼þ£¬ÓÃÓÚnginxÇëÇó·ÃÎÊ¡£
+å­˜æ”¾å‰ç«¯ruoyi-uiæž„å»ºå¥½çš„é™æ€æ–‡ä»¶ï¼Œç”¨äºŽnginxè¯·æ±‚è®¿é—®ã€‚
