@@ -44,7 +44,7 @@ public class MinioSysFileServiceImpl implements ISysFileService
             PutObjectArgs args = PutObjectArgs.builder()
                     .bucket(minioConfig.getBucketName())
                     .object(fileName)
-                    .stream(inputStream, file.getSize(), -1)
+                    .stream(inputStream, file.getSize(), -1L)
                     .contentType(file.getContentType())
                     .build();
             client.putObject(args);
