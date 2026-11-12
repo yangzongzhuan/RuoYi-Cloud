@@ -7,9 +7,9 @@ services:
       dockerfile: dockerfile
     environment:
       - MODE=standalone
-      - NACOS_AUTH_TOKEN=your_auth_token
-      - NACOS_AUTH_IDENTITY_KEY=your_identity_key
-      - NACOS_AUTH_IDENTITY_VALUE=your_identity_value
+      - NACOS_AUTH_TOKEN=${NACOS_AUTH_TOKEN}
+      - NACOS_AUTH_IDENTITY_KEY=${NACOS_AUTH_IDENTITY_KEY}
+      - NACOS_AUTH_IDENTITY_VALUE=${NACOS_AUTH_IDENTITY_VALUE}
     volumes:
       - ./nacos/logs/:/home/nacos/logs
       - ./nacos/conf/application.properties:/home/nacos/conf/application.properties
