@@ -28,8 +28,8 @@
         <dynamic-ds.version>4.3.1</dynamic-ds.version>
         <commons.io.version>2.22.0</commons.io.version>
         <velocity.version>2.3</velocity.version>
-        <fastjson.version>2.0.64</fastjson.version>
-        <jjwt.version>0.9.1</jjwt.version>
+        <fastjson.version>2.0.66</fastjson.version>
+        <jjwt.version>0.13.0</jjwt.version>
         <minio.version>8.2.2</minio.version>
         <poi.version>4.1.2</poi.version>
         <springdoc.version>1.6.9</springdoc.version>

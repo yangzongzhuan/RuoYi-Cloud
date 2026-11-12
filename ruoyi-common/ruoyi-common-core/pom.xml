@@ -77,12 +77,6 @@
             <artifactId>jjwt</artifactId>
         </dependency>
 
-        <!-- Jaxb -->
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-        </dependency>
-
         <!-- Apache Lang3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
