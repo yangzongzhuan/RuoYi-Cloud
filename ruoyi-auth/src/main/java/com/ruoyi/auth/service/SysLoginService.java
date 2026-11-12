@@ -152,6 +152,11 @@ public class SysLoginService
      */
     public void register(String username, String password)
     {
+        String registerEnabled = Convert.toStr(redisService.getCacheObject(CacheConstants.SYS_ACCOUNT_REGISTER_USER));
+        if (!"true".equals(registerEnabled))
+        {
+            throw new ServiceException("当前系统没有开启注册功能");
+        }
         // 用户名或密码为空 错误
         if (StringUtils.isAnyBlank(username, password))
         {
