@@ -1,12 +1,15 @@
 package com.ruoyi.common.core.utils;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.Map;
+import javax.crypto.SecretKey;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.constant.TokenConstants;
 import com.ruoyi.common.core.text.Convert;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 /**
  * Jwt工具类
@@ -17,6 +20,23 @@ public class JwtUtils
 {
     public static String secret = TokenConstants.SECRET;
 
+    private static final SecretKey KEY = Keys.hmacShaKeyFor(digest(secret));
+
+    /**
+     * 从配置的秘钥派生签名密钥
+     */
+    private static byte[] digest(String value)
+    {
+        try
+        {
+            return MessageDigest.getInstance("SHA-512").digest(value.getBytes(StandardCharsets.UTF_8));
+        }
+        catch (Exception e)
+        {
+            throw new IllegalStateException("SHA-512 not available", e);
+        }
+    }
+
     /**
      * 从数据声明生成令牌
      *
@@ -25,7 +45,7 @@ public class JwtUtils
      */
     public static String createToken(Map<String, Object> claims)
     {
-        String token = Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS512, secret).compact();
+        String token = Jwts.builder().claims(claims).signWith(KEY, Jwts.SIG.HS512).compact();
         return token;
     }
 
@@ -37,7 +57,7 @@ public class JwtUtils
      */
     public static Claims parseToken(String token)
     {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parser().verifyWith(KEY).build().parseSignedClaims(token).getPayload();
     }
 
     /**
