@@ -2,28 +2,30 @@ version : '3.8'
 services:
   ruoyi-nacos:
     container_name: ruoyi-nacos
-    image: nacos/nacos-server:v3.0.2
     build:
       context: ./nacos
+      dockerfile: dockerfile
     environment:
       - MODE=standalone
-      - NACOS_AUTH_TOKEN=your_auth_token
-      - NACOS_AUTH_IDENTITY_KEY=your_identity_key
-      - NACOS_AUTH_IDENTITY_VALUE=your_identity_value
+      - NACOS_AUTH_TOKEN=${NACOS_AUTH_TOKEN}
+      - NACOS_AUTH_IDENTITY_KEY=${NACOS_AUTH_IDENTITY_KEY}
+      - NACOS_AUTH_IDENTITY_VALUE=${NACOS_AUTH_IDENTITY_VALUE}
     volumes:
       - ./nacos/logs/:/home/nacos/logs
       - ./nacos/conf/application.properties:/home/nacos/conf/application.properties
     ports:
+      - "8081:8080"
       - "8848:8848"
       - "9848:9848"
       - "9849:9849"
     depends_on:
-      - ruoyi-mysql
+      ruoyi-mysql:
+        condition: service_healthy
   ruoyi-mysql:
     container_name: ruoyi-mysql
-    image: mysql:5.7
     build:
       context: ./mysql
+      dockerfile: dockerfile
     ports:
       - "3306:3306"
     volumes:
@@ -41,6 +43,13 @@ services:
     environment:
       MYSQL_DATABASE: 'ry-cloud'
       MYSQL_ROOT_PASSWORD: password
+    healthcheck:
+      # 使用 TCP 检查 Nacos 表，确保 MySQL 服务已启动并且初始化脚本已执行完成
+      test: 'MYSQL_PWD="$${MYSQL_ROOT_PASSWORD}" mysql -h127.0.0.1 -uroot ry-config -e "SELECT 1 FROM config_info LIMIT 0"'
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
   ruoyi-redis:
     container_name: ruoyi-redis
     image: redis
