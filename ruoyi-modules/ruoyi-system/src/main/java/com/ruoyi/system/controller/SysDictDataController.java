@@ -92,6 +92,10 @@ public class SysDictDataController extends BaseController
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysDictData dict)
     {
+        if (!dictDataService.checkDictDataUnique(dict))
+        {
+            return error("新增字典数据'" + dict.getDictValue() + "'失败，字典值在该字典类型内已存在");
+        }
         dict.setCreateBy(SecurityUtils.getUsername());
         return toAjax(dictDataService.insertDictData(dict));
     }
@@ -104,6 +108,10 @@ public class SysDictDataController extends BaseController
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysDictData dict)
     {
+        if (!dictDataService.checkDictDataUnique(dict))
+        {
+            return error("修改字典数据'" + dict.getDictValue() + "'失败，字典值在该字典类型内已存在");
+        }
         dict.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(dictDataService.updateDictData(dict));
     }
