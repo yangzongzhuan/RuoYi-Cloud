@@ -56,7 +56,7 @@ public class SysMenu extends BaseEntity
 
     /** 显示状态（0显示 1隐藏） */
     private String visible;
-    
+
     /** 菜单状态（0正常 1停用） */
     private String status;
 
@@ -154,6 +154,7 @@ public class SysMenu extends BaseEntity
         this.query = query;
     }
 
+    @Size(min = 0, max = 50, message = "路由名称长度不能超过50个字符")
     public String getRouteName()
     {
         return routeName;
