@@ -15,6 +15,7 @@ import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.file.FileTypeUtils;
+import com.ruoyi.common.core.utils.file.FileUtils;
 import com.ruoyi.common.core.utils.file.MimeTypeUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
@@ -146,7 +147,7 @@ public class SysProfileController extends BaseController
             if (userService.updateUserAvatar(loginUser.getUserid(), url))
             {
                 String oldAvatarUrl = loginUser.getSysUser().getAvatar();
-                if (StringUtils.isNotEmpty(oldAvatarUrl))
+                if (StringUtils.isNotEmpty(oldAvatarUrl) && FileUtils.validateFilePath(oldAvatarUrl))
                 {
                     remoteFileService.delete(oldAvatarUrl);
                 }
