@@ -1,1 +1,1 @@
-��Ŷ�ʱ�������õ�jar�ļ�������docker����Ӧ�á�
+存放定时任务打包好的jar文件，用于docker启动应用。
